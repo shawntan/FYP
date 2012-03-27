@@ -1,0 +1,45 @@
+\begin{thebibliography}{1}
+
+\bibitem{Brian2000}
+{\sc Brewington, B.~E., and Cybenko, G.}
+\newblock {Keeping up with the changing web}.
+\newblock {\em Computer\/} (2000), 52--58.
+
+\bibitem{Cho1999}
+{\sc Cho, J.}
+\newblock {The evolution of the web and implications for an incremental
+  crawler}.
+\newblock {\em Science\/} (1999), 1--18.
+
+\bibitem{Cho2003}
+{\sc Cho, J., and Garcia-Molina, H.}
+\newblock {Effective page refresh policies for Web crawlers}.
+\newblock {\em ACM Transactions on Database Systems 28}, 4 (Dec. 2003),
+  390--426.
+
+\bibitem{Garcia-molina2003}
+{\sc Cho, J., and Garcia-molina, H.}
+\newblock {Estimating Frequency of Change}.
+
+\bibitem{Coffman1997}
+{\sc Coffman, E., and Liu, Z.}
+\newblock {Optimal robot scheduling for web search engines}.
+\newblock {\em Sophia\/} (1997).
+
+\bibitem{Tan2007}
+{\sc Tan, Q., Zhuang, Z., and Mitra, P.}
+\newblock {Designing efficient sampling techniques to detect webpage updates}.
+\newblock {\em Proceedings of the 16th 1}, 3 (2007).
+
+\bibitem{Wolf2002}
+{\sc Wolf, J., Squillante, M., and Yu, P.}
+\newblock {Optimal crawling strategies for web search engines}.
+\newblock {\em on World Wide Web\/} (2002).
+
+\bibitem{Yang2009}
+{\sc Yang, J., Cai, R., Wang, C., and Huang, H.}
+\newblock {Incorporating site-level knowledge for incremental crawling of web
+  forums: A list-wise strategy}.
+\newblock {\em on Knowledge\/} (2009), 1375--1383.
+
+\end{thebibliography}

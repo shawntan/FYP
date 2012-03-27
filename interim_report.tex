@@ -1,0 +1,32 @@
+\documentclass{article}
+\usepackage{amsmath}
+	\addtolength{\oddsidemargin}{-.75in}
+	\addtolength{\evensidemargin}{-.75in}
+	\addtolength{\textwidth}{1.25in}
+	\addtolength{\topmargin}{-1in}
+	\addtolength{\textheight}{1.75in}
+\title{Final Year Project Interim Report\\ Content-based Prediction of Web 2.0 Page Updates}
+\author{U096883L Shawn Tan}
+\date{}
+\begin{document}
+\maketitle
+\section{Introduction}
+With the increasing number of Web 2.0 sites, sites with forums, or similar thread-based discussion features are extremely common. Data found on discussions like these provide useful feedback for content providers. As more users are involved with the content-generation process of these sites, maintaining an updated database of crawled content becomes increasingly difficult.
+
+Web crawlers which maintain the `freshness' of a database of crawled content are knwon as incremental crawlers. Two tradeoffs these crawlers face cited by Yang et. al. 2009 \cite{Yang2009} are \emph{completeness} and \emph{timeliness}. \emph{Completeness} refers to the extent which the crawler fetches all the pages, without missing any pages. \emph{Timeliness} refers to the efficiency with which the crawler discovers and downloads newly created content.
+
+Let us define all such thread-based discussion styled sites as forums. Ideally, an incremental crawler of such user-generated content should be able to maintain a fresh and complete database of content of the forum that it is monitoring. A naive way to approach this would be to aggressively download these pages at a frequent rate. This, however, would (1) incur excessive costs when downloading un-updated pages, and (2) raise the possibility of the web master blocking the requester's IP address.
+
+Thus, we need a strategy of revisiting pages that will reduce the cost of downloading unchanged pages, while at the same time downloading them as soon as possible after it's update.
+
+\section{Related work}
+In order to devise such a strategy, we need to predict how often any user may update the a page. Some work has been done to try to predict how often page content is updated by the page owner.
+
+Many such works have used the Poisson distribution to model page updates. Coffman et. al. \cite{Coffman1997} analysed the theoretical aspects of doing this, while Cho and Garcia-Molina trace the change history of 720,000 web pages collected over 4 months, and compared the result against what the Poisson process model predicts \cite{Cho1999}, and then proposed different revisiting or refresh policies \cite{Cho2003,Garcia-molina2003} that attempt to maintain the `freshness' of the database. The Poisson distribution were also used in Tan et. al. \cite{Tan2007} and Wolf et. al. \cite{Wolf2002}. However, the Poisson distribution is memoryless, and in experimental results due to Brewington and Cybenko \cite{Brian2000}, the behaviour of site updates are not.
+
+asdfasdf
+
+
+\bibliographystyle{acm}
+\bibliography{report}
+\end{document}
