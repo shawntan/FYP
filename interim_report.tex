@@ -1,5 +1,6 @@
 \documentclass{article}
 \usepackage{amsmath}
+\usepackage{url}
 	\addtolength{\oddsidemargin}{-.75in}
 	\addtolength{\evensidemargin}{-.75in}
 	\addtolength{\textwidth}{1.25in}
@@ -12,8 +13,20 @@
 \maketitle
 \section{Introduction}
 With the increasing number of Web 2.0 sites, sites with forums, or similar thread-based discussion features are extremely common. Data found on discussions like these provide useful feedback for content providers. As more users are involved with the content-generation process of these sites, maintaining an updated database of crawled content becomes increasingly difficult.
+\begin{table}
+	\begin{center}
+	{\footnotesize
+	\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|}
+		\hline
+			\input{web20}
+		\hline
+	\end{tabular}
+	}
+\end{center}
+\caption{Features of popular Web 2.0 sites}
+\end{table}
 
-Web crawlers which maintain the `freshness' of a database of crawled content are knwon as incremental crawlers. Two tradeoffs these crawlers face cited by Yang et. al. 2009 \cite{Yang2009} are \emph{completeness} and \emph{timeliness}. \emph{Completeness} refers to the extent which the crawler fetches all the pages, without missing any pages. \emph{Timeliness} refers to the efficiency with which the crawler discovers and downloads newly created content.
+Web crawlers which maintain the `freshness' of a database of crawled content are known as incremental crawlers. Two tradeoffs these crawlers face cited by Yang et. al. 2009 \cite{Yang2009} are \emph{completeness} and \emph{timeliness}. \emph{Completeness} refers to the extent which the crawler fetches all the pages, without missing any pages. \emph{Timeliness} refers to the efficiency with which the crawler discovers and downloads newly created content.
 
 Let us define all such thread-based discussion styled sites as forums. Ideally, an incremental crawler of such user-generated content should be able to maintain a fresh and complete database of content of the forum that it is monitoring. A naive way to approach this would be to aggressively download these pages at a frequent rate. This, however, would (1) incur excessive costs when downloading un-updated pages, and (2) raise the possibility of the web master blocking the requester's IP address.
 
@@ -22,10 +35,26 @@ Thus, we need a strategy of revisiting pages that will reduce the cost of downlo
 \section{Related work}
 In order to devise such a strategy, we need to predict how often any user may update the a page. Some work has been done to try to predict how often page content is updated by the page owner.
 
-Many such works have used the Poisson distribution to model page updates. Coffman et. al. \cite{Coffman1997} analysed the theoretical aspects of doing this, while Cho and Garcia-Molina trace the change history of 720,000 web pages collected over 4 months, and compared the result against what the Poisson process model predicts \cite{Cho1999}, and then proposed different revisiting or refresh policies \cite{Cho2003,Garcia-molina2003} that attempt to maintain the `freshness' of the database. The Poisson distribution were also used in Tan et. al. \cite{Tan2007} and Wolf et. al. \cite{Wolf2002}. However, the Poisson distribution is memoryless, and in experimental results due to Brewington and Cybenko \cite{Brian2000}, the behaviour of site updates are not.
+Many such works have used the Poisson distribution to model page updates. Coffman et. al. \cite{Coffman1997} analysed the theoretical aspects of doing this, while Cho and Garcia-Molina trace the change history of 720,000 web pages collected over 4 months, and compared the result against what the Poisson process model predicts \cite{Cho1999}, and then proposed different revisiting or refresh policies \cite{Cho2003,Garcia-molina2003} that attempt to maintain the `freshness' of the database. The Poisson distribution were also used in Tan et. al. \cite{Tan2007} and Wolf et. al. \cite{Wolf2002}. %elaborate!!!!
+However, the Poisson distribution is memoryless, and in experimental results due to Brewington and Cybenko \cite{Brian2000}, the behaviour of site updates are not.
 
-asdfasdf
+Yang et. al. \cite{Yang2009}, attempted to resolve this by using the list structure of forum sites to infer a sitemap. With this, they reconstruct the full thread, and then use a linear-regression model to predict when the next update to the thread will arrive. %elaborate!!!
 
+These methods of estimating page updates either rely on previously gathered information about the page updates through repeated polling of the page, or through timestamps gathered from the individual posts. They have two shortfalls:
+
+\begin{description}
+	\item[Lack/Improperly formatted Timestamp Information] While most comment threads or forum sites tend to have timestamps, they often try to optimise readability. For example, timestamps of comments that were posted 8 months ago may be displayed as ``more than 4 months ago''. 
+	\item[Requires previous time series data]
+		If the individual threads are treated independently of each other, a new thread (1 or 2 posts) would not have sufficient data to fit a Poisson model. Yang et. al. \cite{Yang2009} accounts for this by factoring into their regression model other threads with a similar recent history
+\end{description}
+The lack of these pieces of information may result in a poorer estimate, or no estimate at all. We argue, that the content within the posts of the thread should be important in predicting the thread updates. While there is little existing work using content to predict page updates, we will review some existing work related to analysing thread-based pages which we think will aid us in our efforts to do content-based prediction.
+
+
+
+\section{Possible Approaches}
+
+\subsection{Hidden Markov Models}
+\subsection{Lexical Chaining}
 
 \bibliographystyle{acm}
 \bibliography{report}
