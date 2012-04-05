@@ -15,7 +15,7 @@
 %	\addtolength{\textwidth}{0.75in}
 %	\addtolength{\topmargin}{-1in}
 %	\addtolength{\textheight}{1.75in}
-\title{Final Year Project Interim Report\\ Predicting of Web 2.0 Thread Updates}
+\title{Final Year Project Interim Report\\ Predicting Web 2.0 Thread Updates}
 \author{U096883L Shawn Tan}
 \date{}
 \begin{document}
@@ -67,7 +67,7 @@ In this report, we will discuss the \emph{timeliness} of our crawler to maintain
 
 Let us define all such thread-based discussion styled sites as forums. Ideally, an incremental crawler of such user-generated content should be able to maintain a fresh and complete database of content of the forum that it is monitoring. However, doing so with the previously mentioned naive method would (1) incur excessive costs when downloading un-updated pages, and (2) raise the possibility of the web master blocking the requester's IP address.
 
-Thus, we need a strategy of revisiting pages that will reduce the cost of downloading unchanged pages, while at the same time downloading them as soon as possible after it's update. This year-long project proposes to use content-based features of a given thread to predict its next update time. We argue, that the content within the posts of the thread should be important in predicting the thread updates, and propose a Hidden Markov Model (HMM)
+Thus, we need a strategy of revisiting pages that will reduce the cost of downloading unchanged pages, while at the same time downloading them as soon as possible after it's update. This year-long project proposes to use content-based features of a given thread to predict its next update time. We argue, that the content within the posts of the thread should be important in predicting the thread updates, and propose our approach to solving the problem.
 
 \section{Related work}
 
@@ -80,7 +80,7 @@ Cho and Garcia-Molina trace the change history of 720,000 web pages collected ov
 
 
 The Poisson distribution were also used in Tan et. al. \cite{Tan2007} and Wolf et. al. \cite{Wolf2002}. %elaborate!!!!
-However, the Poisson distribution is memoryless, and in experimental results due to Brewington and Cybenko \cite{Brian2000}, the behaviour of site updates are not. Moreover, these studies were not performed exclusively on online threads, where the behaviour of page updates may be very different from that of static pages.
+However, the Poisson distribution is memoryless, and in experimental results due to Brewington and Cybenko \cite{Brian2000}, the behaviour of site updates are not. Moreover, these studies were not performed specifically on online threads, where the behaviour of page updates may be very different from that of static pages.
 
 Yang et. al. \cite{Yang2009}, attempted to resolve this by using the list structure of forum sites to infer a sitemap. With this, they reconstruct the full thread, and then use a linear-regression model to predict when the next update to the thread will arrive. %elaborate!!!
 
@@ -131,7 +131,7 @@ We have been scraping the Hardwarezone forums daily in order to build a database
 We intend to implement the algorithm used in Yang et. al. \cite{Yang2009}, as a baseline to evaluate our system. However, since the algorithm uses the overall sitemap as additional information, only the linear regression model used to predict future incoming posts will be used. We will also use an SVM, trained using discretised time intervals and the extracted feature vectors.
 
 \subsection{Modeling of threads}
-Modelling the problem as an HMM problem requires us to define a set of possible states that emmit the observable features on the thread. This requires more in-depth understanding of how users behave on a forum. Once this is done, a sets of training data would have to be annotated as produced by the different states. We also need to train the transitions between the states.
+Modelling the problem as an HMM problem requires us to define a set of possible states that emit the observable features on the thread. This requires more in-depth understanding of how users behave on a forum. Once this is done, a sets of training data would have to be annotated as produced by the different states. We also need to train the transitions between the states.
 
 The feature vector to be extracted from the current thread would also need to be defined. More study must be done to see the most effective way to weigh the features extracted per post to make the more recent posts more `important' in the extracted feature vector.
 
