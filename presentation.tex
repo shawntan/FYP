@@ -43,6 +43,17 @@
 
 	However, forum sites are too large, with too many threads, incurring high bandwidth costs.
 \end{frame}
+
+\begin{frame}
+Ideally, an incremental crawler of such user-generated content should be able to maintain fresh content.
+
+However using naive method:
+	\begin{enumerate}
+		\item incur excessive costs when downloading un-updated pages
+		\item raise the possibility of the web master blocking the requester's IP address.
+	\end{enumerate}
+\end{frame}
+
 \begin{frame}{Crawling forums: Estimating Future posts}
 	Attempt to estimate future posts by learning from intervals between past posts.
 	
@@ -63,15 +74,6 @@
 %as rate increase, timeliness become more important
 % talk about consequences of naive method
 
-\begin{frame}
-Ideally, an incremental crawler of such user-generated content should be able to maintain a fresh content. 
-
-However this
-	\begin{enumerate}
-		\item incur excessive costs when downloading un-updated pages
-		\item raise the possibility of the web master blocking the requester's IP address.
-	\end{enumerate}
-\end{frame}
 
 %Thus, we need a strategy of revisiting pages that will reduce the cost of downloading unchanged pages, while at the same time downloading them as soon as possible after it's update. 
 %This year-long project proposes to use content-based features of a given thread to predict its next update time. We argue, that the content within the posts of the thread should be important in predicting the thread updates, and propose our approach to solving the problem.
