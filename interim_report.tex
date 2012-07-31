@@ -62,7 +62,7 @@ In some cases, news may travel more quickly through such online community discus
 A naive way of getting timely updates is to aggressively hit the pages repeatedly downloading the pages at a very frequent rate. However, the number of pages in a forum site are far too large to perform this efficiently on every forum. One way to minimise this cost would be to look at the time differences between previous posts to estimate the arrival of the next one. We believe that the content of the thread has information that can give a better estimate of the time interval between the last post and a new one.
 
 
-For example, a thread in a technical forum about a Linux distribution may start out as a question. Subsequent questions that attempt to either clarify or expand on the original question may then be posted, resulting in a quick flurry of messages. Eventually, a more technically savvy user of the forum may come up with a solution, and the thread may eventually slow down after a series of messages thanking the problem solver. Suppose 10 days later, someone with a slight variation of the same problem posts on the thread again. A crawler solely on the age of the thread to determine its download rate of the thread may not update itself with the thread.
+For example, a thread in a technical forum about a Linux distribution may start out as a question. Subsequent questions that attempt to either clarify or expand on the original question may then be posted, resulting in a quick flurry of messages. Eventually, a more technically savvy user of the forum may come up with a solution, and the thread may eventually slow down after a series of messages thanking the problem solver. Suppose 10 days later, someone with a slight variation of the same problem posts on the thread again. A crawler that estimate's update rates solely on the age of the thread to determine its download rate of the thread may not update itself with the thread.
 %TODO:Bring to beginning and shorten to 1 or 2 sentences after the problem statement.
 %as rate increase, timeliness become more important
 % talk about consequences of naive method
@@ -166,7 +166,8 @@ We intend to implement the algorithm used in Yang et. al. \cite{Yang2009}, as a 
 In particular, we will be evaluating the \emph{timeliness} of our algorithm. Yang et. al. \cite{Yang2009} has a metric for measuring this. Taking $\Delta t_i$ as the time difference between a post $i$ and it's download time, the timeliness of the algorithm is given by
 \[T = \frac{1}{N} \sum^{N}_{i=1}\Delta t_i\]
 
-A good algorithm would give a low $T$ value.
+A good algorithm would give a low $T$ value. However, a crawler that hits the site repeatedly performs well according to this metric. The authors account for this by setting a bandwidth (fixed number of pages per day) for each iteration of their testing. This will contribute to the $T$ value when such a naive crawler uses up its daily bandwidth and can only resume its downloading the next day.
+
 \subsection{Modeling of threads}
 Modelling the problem as an HMM problem requires us to define a set of possible states that emit the observable features on the thread. This requires more in-depth understanding of how users behave on a forum. Once this is done, a sets of training data would have to be annotated as produced by the different states. We also need to train the transitions between the states.
 
@@ -224,22 +225,47 @@ The intuition behind this is the fact that active threads can transition to an i
 The graphical representation of this automata is seen in Figure \ref{spaceship}.
 
 
-Our initial collection of data to identify changes in state for active threads to inactive threads do not show any observable patterns (See Figure \ref{nothing}). More data has to be collected and analysed before conclusions can be made. Statistics of textual content, along with data for a more complete set of threads may provide some insight to their behaviour.
+Our initial collection of data to identify changes in state for active threads to inactive threads do not show any observable patterns. More data has to be collected and analysed before conclusions can be made. Statistics of textual content, along with data for a more complete set of threads may provide some insight to their behaviour.
 
 \section{Work to be done}
-While much work has already been done, there still remains a substantial amount of implementation and evaluation to be completed. Table \ref{schedule} lays out the schedule for the work left to be done over the holidays.
-\begin{table}\label{schedule}
-\singlespacing
-\begin{tabular}{| l | l | c |}
-	\hline
-	Start date & End Date & Activity \\
-	\hline
-	\input{schedule}
-	\hline
-\end{tabular}
-\caption{Schedule for the holidays}
-\end{table}
+While much work has already been done, there still remains a substantial amount of implementation and evaluation to be completed. The following lays out the schedule for the work left to be done over the holidays.
+
+\subsection{Week 1 - Week 2}
+	\begin{enumerate}
+		\item Implement feature extraction from threads.
+		\begin{enumerate}
+			\item Extract tuples of data
+			\item Break text down into tokens
+			\item Take into account a few recent posts, instead of just 1
+			\item Attempt to predict discrete bins of $\Delta t$
+		\end{enumerate}
+		\item Extract data from more forums.
+	\end{enumerate}
+
+\subsection{Week 3 - Week 4}
+	Implementation of baselines
+	\begin{itemize}
+		\item SVM classifier
+		\item Yang et. al. 2009 linear regression
+	\end{itemize}
+
+
+\subsection{Week 5 - Week 9}
+	Implementation of our HMM approach
+	\begin{itemize}
+		\item Fully formalising problem as a HMM
+		\item Reading more in-depth
+		\item Implementing the model.
+	\end{itemize}
+\subsection{Week 10 (Optimistic) - 13}
+The final four weeks of the summer holidays will be spent on evaluating the model. This also gives myself some buffer time just in case the previous phase does not go according to plan.
+
+\section{Conclusion}
+Our preliminary experiments have shown that there is a relationship between the content of the forum posts and the update intervals. The naive bayes classifier can serve as a good baseline. During the holidays, more work will be done to see what other types of content-based features can be factored into the classification. We will also formulate the problem as an HMM problem and perform an evaluation of that method.
+
 % use weka, do x-fold validation
+
+
 
 %\begin{figure}
 %	\includegraphics[scale=0.5]{view-comment.png}
