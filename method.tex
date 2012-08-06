@@ -17,6 +17,13 @@
 	\addtolength{\topmargin}{-1in}
 	\addtolength{\textheight}{1.75in}
 \begin{document}
+
+\newcommand{\vocab}{\mathbf{v}}
+\newcommand{\dtvec}{\mathbf{t}_\Delta}
+\newcommand{\ctxvec}{\mathbf{t}_\text{ctx}}
+\newcommand{\dt}{\Delta_t}
+
+
 \section{Method}
 
 Extract data collected from forums Timestamp, Author, Text Content. Using sliding window training method, group consecutive $w$ posts together and perform regression on $\Delta_t$. More formally, we are trying to learn a function $f$ such that $f(\mathbf{x}_{t-w},\hdots, \mathbf{x}_{t-1}) \approx \Delta_{t}$, where $\mathbf{x}_t$ is a post made at time $t$, and $\Delta_t$ is the time between the $t$-th post and the $(t-1)$-th post. The following are the features used:
@@ -31,7 +38,7 @@ Extract data collected from forums Timestamp, Author, Text Content. Using slidin
 \subsection{Evaluation metrics}
 We use \emph{Mean Absolute Percentage Error} (MAPE), to measure the performance of the learnt model. This value does not reflect how well the model will do in a real-time setting, but gives an idea of how far off the model is given a window. This value is given by
 \[
-	\sum^N_{i=1}\left|\frac{A_i-F_i}{A_i}\right|
+	\frac{1}{N}\sum^N_{i=1}\left|\frac{A_i-F_i}{A_i}\right|
 \]
 
 The \emph{$T$-score} metric measures the performance on a thread. This is the average time taken between a post being made and a visit made to retrieve that post. Limitations are that the value $T$-score does not factor in the number of times the page is hit. Keep track of the number of visits made as well. (Include explanation of $T$-score)
