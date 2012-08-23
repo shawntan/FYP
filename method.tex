@@ -23,10 +23,12 @@
 \newcommand{\ctxvec}{\mathbf{t}_\text{ctx}}
 \newcommand{\dt}{\Delta_t}
 \newcommand{\prerror}{Pr_{error}}
+\newcommand{\fvec}{\mathbf{x}}
 
 \section{Method}
 
-Extract data collected from forums Timestamp, Author, Text Content. Using sliding window training method, group consecutive $w$ posts together and perform regression on $\dt$. More formally, we are trying to learn a function $f$ such that $f(\mathbf{x}_{t-w},\hdots, \mathbf{x}_{t-1}) \approx \Delta_{t}$, where $\mathbf{x}_t$ is the feature vector of a post made at time $t$, and $\dt$ is the time between the $t$-th post and the $(t-1)$-th post. The following are the features used:
+Extract data collected from forums Timestamp, Author, Text Content. Using sliding window training method, group consecutive $w$ posts together and perform regression on $\dt$. More formally, we are trying to learn a function $f$ such that $f(\fvec_{t-w},\hdots, \fvec_{t-1}) \approx \Delta_{t}$, where $\fvec_t$ is the feature vector of a post made at time $t$, and $\dt$ is the time between the $t$-th post and the $(t-1)$-th post. The following are the features used:
+
 \begin{description}
 	\item[Previous time differences] All the time differences between posts made in the window. ($\dtvec$)
 	\item[Time-based features] Day of week, Hour of day. Provides contextual information about when the post was made. ($\ctxvec$)
@@ -49,6 +51,8 @@ Extract data collected from forums Timestamp, Author, Text Content. Using slidin
 	\label{vocab_exp}
 \end{centering}
 \end{table}
+
+
 
 
 
@@ -124,6 +128,44 @@ High values for $Pr_{miss}$ and low for $Pr_{fa}$, are due to $Pr_{miss}$ being 
 	\label{exp_f_size}
 \end{centering}
 \end{table}
+
+\begin{table}
+	\footnotesize
+	\begin{centering}
+	\begin{tabular}{|l|c|c|c|c|c|c|c|c|}
+	\hline
+	\input{f_size_ebackoff}
+	\hline
+	\end{tabular}
+	\caption{Experiment results: Using exponential increase}
+	\label{exp_exp}
+\end{centering}
+\end{table}
+
+\subsection{Discounted sum of previous instances}
+
+The current method uses only information on the current $w$ posts. However, posts made further in the history of the thread may have an effect on when the latest posts arrive. The magnitude of this effect, however, may diminish over time.
+
+Following this intuition we attempt to use a discounted sum over previous posts' word frequency vector:
+\[
+	\fvec_t = \vocab_t + \alpha \fvec_{t-1}
+\]
+where $\fvec_t$ is the feature vector at post $t$, and $\vocab$ is the word frequency vector. $\alpha$ is the \emph{discount factor} and satisfies $0 \leq \alpha < 1$.
+
+
+\begin{table}
+	\footnotesize
+	\begin{centering}
+	\begin{tabular}{|l|c|c|c|c|c|c|c|c|}
+	\hline
+	\input{decay_w15}
+	\hline
+	\end{tabular}
+	\caption{Experiment results: Window size of 15, using discounted sum feature vector at $t-1$.}
+	\label{exp_decay}
+\end{centering}
+\end{table}
+
 
 
 \bibliographystyle{acm}
