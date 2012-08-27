@@ -16,6 +16,9 @@
 	\addtolength{\textwidth}{0.75in}
 	\addtolength{\topmargin}{-1in}
 	\addtolength{\textheight}{1.75in}
+
+
+\doublespacing
 \begin{document}
 
 \newcommand{\vocab}{\mathbf{v}}
@@ -52,8 +55,12 @@ Extract data collected from forums Timestamp, Author, Text Content. Using slidin
 \end{centering}
 \end{table}
 
+\subsection{Potential errors}
+To be thorough, let us also enumerate the types of errors that a model making predictions could encounter.
 
+The model can potentially make a prediction such that the next visit comes before the arrival of the next post. The predictions being made are the $\dt$ between the posts, rather than the visitation times, hence, it is possible for the model to make a prediciton that occurs before the current time. An erroneous prediction can also cause the crawler to come in before the next post (two, or more, visits, but nothing new fetched). Errors of this type waste bandwidth, since the crawler will make a unneccessary visit to the page.
 
+Another type of error would have the prediction causing the next visit to come some time after a post. Since most predictions are almost never fully accurete, there will be some time between the post is made and hte page is fetched. These errors are still relatively acceptable, but the time difference between the post arriving and the visit should be minimised. The visit could also come more than one post later. Errors of this kind incur a penalty on the freshness of the data, more so than the after one post, especially if the multiple posts are far apart time-wise.
 
 
 In the following experiments, the threads chosen from our extracted dataset are those with a 100 to 1000 posts. This amounted to 97 threads. The first 75\% of the thread was used as training data, while the remaining 75\% was used as test data. We used Support Vector machines for this regression task, employing a Radial Basis Function kernel as our learning algorithm. 
