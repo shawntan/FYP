@@ -1,5 +1,5 @@
 \documentclass[12 pt]{article}
-\usepackage{amsmath}
+\usepackage{amsmath,amsfonts,amssymb}
 \usepackage{url}
 \usepackage{graphicx}
 \usepackage{setspace}
@@ -27,10 +27,11 @@
 \newcommand{\dt}{\Delta_t}
 \newcommand{\prerror}{Pr_{error}}
 \newcommand{\fvec}{\mathbf{x}}
-
+\newcommand{\weights}{\mathbf{w}}
+\newcommand{\X}{\mathbf{X}}
 \section{Method}
 
-Extract data collected from forums Timestamp, Author, Text Content. Using sliding window training method, group consecutive $w$ posts together and perform regression on $\dt$. More formally, we are trying to learn a function $f$ such that $f(\fvec_{t-w},\hdots, \fvec_{t-1}) \approx \Delta_{t}$, where $\fvec_t$ is the feature vector of a post made at time $t$, and $\dt$ is the time between the $t$-th post and the $(t-1)$-th post. The following are the features used:
+We extracted the timestamp, author and text content for each post in each thread from the forums. Using a sliding window training method, we grouped consecutive $w$ posts together for each thread, and performed regression on $\dt$. More formally, we are trying to approximate a function $f$ such that $f(\fvec_{t-w},\hdots, \fvec_{t-1}) \approx \Delta_{t}$, where $\fvec_t$ is the feature vector of a post made at time $t$, and $\dt$ is the time between the $t$-th post and the $(t-1)$-th post. The following are the features used:
 
 \begin{description}
 	\item[Previous time differences] All the time differences between posts made in the window. ($\dtvec$)
@@ -58,12 +59,12 @@ Extract data collected from forums Timestamp, Author, Text Content. Using slidin
 \subsection{Potential errors}
 To be thorough, let us also enumerate the types of errors that a model making predictions could encounter.
 
-The model can potentially make a prediction such that the next visit comes before the arrival of the next post. The predictions being made are the $\dt$ between the posts, rather than the visitation times, hence, it is possible for the model to make a prediciton that occurs before the current time. An erroneous prediction can also cause the crawler to come in before the next post (two, or more, visits, but nothing new fetched). Errors of this type waste bandwidth, since the crawler will make a unneccessary visit to the page.
+The model can potentially make a prediction such that the next visit comes before the arrival of the next post. The predictions being made are the $\dt$ between the posts, rather than the visitation times, hence, it is possible for the model to make a prediciton that occurs before the current time. An erroneous prediction can also cause the crawler to come in before the next post (two, or more, visits, but nothing new fetched). Errors of this type waste bandwidth, since the crawler will make an unneccessary visit to the page.
 
-Another type of error would have the prediction causing the next visit to come some time after a post. Since most predictions are almost never fully accurete, there will be some time between the post is made and hte page is fetched. These errors are still relatively acceptable, but the time difference between the post arriving and the visit should be minimised. The visit could also come more than one post later. Errors of this kind incur a penalty on the freshness of the data, more so than the after one post, especially if the multiple posts are far apart time-wise.
+Another type of error would have the prediction causing the next visit to come some time after a post. Since most predictions are almost never fully accurate, there will be some time between the post is made and hte page is fetched. These errors are still relatively acceptable, but the time difference between the post arriving and the visit should be minimised. The visit could also come more than one post later. Errors of this kind incur a penalty on the freshness of the data, more so than the after one post, especially if the multiple posts are far apart time-wise.
 
 
-In the following experiments, the threads chosen from our extracted dataset are those with a 100 to 1000 posts. This amounted to 97 threads. The first 75\% of the thread was used as training data, while the remaining 75\% was used as test data. We used Support Vector machines for this regression task, employing a Radial Basis Function kernel as our learning algorithm. 
+In the following experiments, the threads chosen from our extracted dataset are those with a 100 to 1000 posts. This amounted to 97 threads. The first 75\% of the thread was used as training data, while the remaining 25\% was used as test data. We used Support Vector machines for this regression task, employing a Radial Basis Function kernel as our learning algorithm. 
 
 The SVR module from the Python library scikit-learn was used in the implementation of this experiment.
 
@@ -173,8 +174,23 @@ where $\fvec_t$ is the feature vector at post $t$, and $\vocab$ is the word freq
 \end{centering}
 \end{table}
 
+\subsection{Stochastic Gradient Descent}
 
+We attempt to use stochastic gradient descent to estimate the function $f$. However, during runtime, instead of using a static function, we continue to allow $f$ to vary whenever new posts and their update times are observed.
+Since $f(\fvec_{t-w},\hdots,\fvec_{t-1}) > 0$, we used a scaled sigmoid function,
+\[
+	f(\X) = \frac{\lambda}{1 + e^{\weights \cdot \X}}
+\]
+where $\lambda$ is the scaling factor. This results in $f: \mathbb{R}^{|\X|}  \rightarrow (0,\lambda)$. Bounding the estimation function between $0$ and $\lambda$ allows us to restrict the prediction from becoming negative, or, becoming exceedingly huge. For our purposes, we set $\lambda = Q_3 + 2.5(Q_{3} - Q_{1})$, where $Q_n$ is the value at the $n$-th quartile. 
 
+The resulting update rule for $\weights$ is then given by,
+\[
+	\Delta \weights_i = \eta
+				\underbrace{\left(\widehat{\dt} - \dt \right)}_{\text{error term}}
+				\underbrace{\left( f(\X)(1-f(\X)) \right)}_{\text{gradient}}
+						\X_i
+\]
+which is similar to the delta update rule found in artificial neural networks. We omit the scaling factor in the gradient as it is a constant and then experiment with various values of $\eta$, the learning rate.
 \bibliographystyle{acm}
 \bibliography{report}
 \end{document}
