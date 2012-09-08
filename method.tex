@@ -179,9 +179,9 @@ where $\fvec_t$ is the feature vector at post $t$, and $\vocab$ is the word freq
 We attempt to use stochastic gradient descent to estimate the function $f$. However, during runtime, instead of using a static function, we continue to allow $f$ to vary whenever new posts and their update times are observed.
 Since $f(\fvec_{t-w},\hdots,\fvec_{t-1}) > 0$, we used a scaled sigmoid function,
 \[
-	f(\X) = \frac{\lambda}{1 + e^{\weights \cdot \X}}
+	f(\X) = \frac{\Lambda-\lambda}{1 + e^{\weights \cdot \X}} + \lambda
 \]
-where $\lambda$ is the scaling factor. This results in $f: \mathbb{R}^{|\X|}  \rightarrow (0,\lambda)$. Bounding the estimation function between $0$ and $\lambda$ allows us to restrict the prediction from becoming negative, or, becoming exceedingly huge. For our purposes, we set $\lambda = Q_3 + 2.5(Q_{3} - Q_{1})$, where $Q_n$ is the value at the $n$-th quartile. 
+where $\Lambda$ and $\lambda$ are the scaling factors. This results in $f: \mathbb{R}^{|\X|}  \rightarrow (\lambda,\Lambda)$. Bounding the estimation function between $\lambda$ and $\Lambda$ allows us to restrict the prediction from becoming negative, or, becoming exceedingly huge. For our purposes, we set $\lambda = Q_3 + 2.5(Q_{3} - Q_{1})$, where $Q_n$ is the value at the $n$-th quartile. 
 
 The resulting update rule for $\weights$ is then given by,
 \[
@@ -190,7 +190,20 @@ The resulting update rule for $\weights$ is then given by,
 				\underbrace{\left( f(\X)(1-f(\X)) \right)}_{\text{gradient}}
 						\X_i
 \]
-which is similar to the delta update rule found in artificial neural networks. We omit the scaling factor in the gradient as it is a constant and then experiment with various values of $\eta$, the learning rate.
+which is similar to the delta update rule found in artificial neural networks. We omit the scaling factor in the gradient as it is a constant and then experiment with various values of $\eta$, the learning rate. The results are seen in Table \ref{sig_grad_desc}
+\begin{table}
+	\footnotesize
+	\begin{centering}
+	\begin{tabular}{|l|c|c|c|c|c|c|c|c|}
+	\hline
+	\input{sig_grad_desc}
+	\hline
+	\end{tabular}
+	\caption{Experiment results: Using stochastic gradient descent, with $\lambda = 0$}
+	\label{sig_grad_desc}
+\end{centering}
+\end{table}
+
 \bibliographystyle{acm}
 \bibliography{report}
 \end{document}
