@@ -1,0 +1,59 @@
+\tikzstyle{state}=[circle,
+	thick,
+	minimum size=1.2cm,
+	draw=blue!80,
+	fill=blue!20]
+% The measurement vector is represented by an orange circle.
+\tikzstyle{measurement}=[circle,
+	thick,
+	minimum size=1.2cm,
+	draw=orange!80,
+	fill=orange!25]
+
+\tikzstyle{background}=[rectangle,
+	fill=gray!10,
+	inner sep=0.2cm,
+	rounded corners=5mm]
+
+\begin{tikzpicture}[>=latex,text height=1.5ex,text depth=0.25ex]
+    % "text height" and "text depth" are required to vertically
+    % align the labels with and without indices.
+  
+  % The various elements are conveniently placed using a matrix:
+  \matrix[row sep=2cm,column sep=0.3cm] {
+    % First line: Control input
+    	&
+		\node (prev_state)					{$\cdots$};&
+		&
+        &
+        \node (curr_state)	[state]			{$q_t$}; &
+        &
+		&
+		\node (next_state)					{$\cdots$};&
+		&
+        \\
+		&
+		&
+		\node (obs_text)	[measurement]	{$\Delta_t$};&
+		&
+		&
+		&
+		\node (obs_time)	[measurement]	{$\mathbf{v}$};&
+		&
+        \\
+	};
+    
+    % The diagram elements are now connected through arrows:
+
+	\path[->]
+		(prev_state) edge[thick]	(curr_state)
+		(curr_state) edge[thick]	(next_state)
+		(curr_state) edge			(obs_text)
+		(curr_state) edge			(obs_time)
+	;
+ 	  \begin{pgfonlayer}{background}
+        \node [background,
+					fit=\onslide<1>{(prev_state) (next_state)},
+                    label=left:Hidden states:] {};
+    \end{pgfonlayer}
+\end{tikzpicture}

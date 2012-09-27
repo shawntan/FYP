@@ -1,0 +1,24 @@
+\tikzstyle{state}=[circle,
+	thick,
+	minimum size=1.2cm,
+	draw=blue!80,
+	fill=blue!20]
+
+
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3.5cm,
+                    semithick]
+
+  \node[initial,state] (q0)                    {$q_0$};
+%  \node[state]         (IN) [below of=q0] {$q_I$};
+  \node[state]         (AD) [below of=q0, left of=q0] {$q_{AD}$};
+  \node[state]         (AN) [below of=q0, right of=q0] {$q_{AN}$};
+
+  \path (q0) edge              node {} (AD)
+ 			 edge 			   node {} (AN)
+		(AD) edge [loop above] node {}(AD)
+			 edge [bend left]  node {}(AN)
+		(AN) edge [bend left]  node {}(AD)
+			 edge [loop above] node {}(AN);
+\end{tikzpicture}
+
+

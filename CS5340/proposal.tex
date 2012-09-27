@@ -2,83 +2,133 @@
 \usepackage{multirow}
 \usepackage{graphicx}
 \usepackage{tikz}
+\usepackage{amsmath}	% math fonts
+\usepackage{amsthm}
+\usepackage{amsfonts}
+
 \usetikzlibrary{arrows,automata}
+\usetikzlibrary{decorations.pathmorphing} % noisy shapes
+\usetikzlibrary{fit}					% fitting shapes to coordinates
+\usetikzlibrary{backgrounds}	% drawing the background after the foreground
 
 \begin{document}
 \header{CS5340}{Project Proposal}{Shawn Tan \& Davin Choo}
 
-This is super duper uber draft, I basically just copied shit from my interim report into this.
 \section{Introduction}
-With the advent of Web 2.0, sites with forums, or similar thread-based discussion features are increasingly common.
-In this project,our goal is to predict updates in such threads.
+With more user-generated content appearing online, it is useful to be able to
+extract data from sites with user-created content in a timely manner. A naive
+way of getting timely updates is to aggressively fetch the pages repeatedly,
+downloading the pages at a frequent rate. However, the number of pages in a
+forum site are far too large to perform this efficiently on every forum. One
+way to minimise this cost would be to look at the time differences between
+previous posts to estimate the arrival of the next one. A possible improvement
+would be to see if we can use the content of the posts to make a guess as to
+when the next post will arrive. In this project, our goal is to predict updates
+in forum threads, based on the content of previous posts.
 
-Many of the popular Web 2.0 sites have comment features. This suggests that content on the web is increasingly being created by users alongside content providers. While mining structured, curated content from sites like Amazon, for data like prices is easy and effective, data that can be obtained from user-generated content are of a different nature. One may be able to infer public sentiment about a given product that would not be readily available from an e-commerce site.
-%we are predicting web 2.0 updates
-In some cases, news may travel more quickly through such online community discussion than through traditional media. Users also typicaly discuss purchased products bought online via these forums, and companies that want to get timely feedback about their product should turn to data mined from such sites.
+We plan to use Hidden Markov Models (HMM) to model the thread update behaviour, 
+using it and observations made from the content of the previous posts to then 
+predict what the expected time of the next post arrival will be. For our dataset 
+we extracted the timestamp, author and text content for each post in each thread 
+from the forums.  Our dataset was obtained from \url{http://www.avsforum.com}.  
+This forum was chosen due to the better standard of English used, allowing for 
+methods of natural language to be applied such as stemming.
 
-A naive way of getting timely updates is to aggressively hit the pages repeatedly downloading the pages at a very frequent rate. However, the number of pages in a forum site are far too large to perform this efficiently on every forum. One way to minimise this cost would be to look at the time differences between previous posts to estimate the arrival of the next one. We believe that the content of the thread has information that can give a better estimate of the time interval between the last post and a new one.
+In Section \ref{prop_method} we provide a detailed description of the model we 
+use for our project, along with how we will obtain the various parameters to 
+create the HMM. We then provide a proposed timeline in Section \ref{prop_plan}, 
+which will provide a rough schedule of when various milestones of the project 
+will be achieved.
 
+\section{Proposed Method}\label{prop_method}
 
-For example, a thread in a technical forum about a Linux distribution may start out as a question. Subsequent questions that attempt to either clarify or expand on the original question may then be posted, resulting in a quick flurry of messages. Eventually, a more technically savvy user of the forum may come up with a solution, and the thread may eventually slow down after a series of messages thanking the problem solver. Suppose 10 days later, someone with a slight variation of the same problem posts on the thread again. A crawler that estimate's update rates solely on the age of the thread to determine its download rate of the thread may not update itself with the thread.
-%TODO:Bring to beginning and shorten to 1 or 2 sentences after the problem statement.
-%as rate increase, timeliness become more important
-% talk about consequences of naive method
+We use a windowing method to obtain instances from our dataset. A window of size 
+$w$ will be considered at each time step, and observations, namely the word 
+frequencies and the time differences within the window will be considered.
 
-Let us define all such thread-based discussion styled sites as forums. Ideally, an incremental crawler of such user-generated content should be able to maintain a fresh and complete database of content of the forum that it is monitoring. However, doing so with the previously mentioned naive method would (1) incur excessive costs when downloading un-updated pages, and (2) raise the possibility of the web master blocking the requester's IP address.
+\begin{figure}[h]
+	\begin{center}
+		\input{diagram}
+	\end{center}
+	\caption{Observations and transitions per state.}\label{per_state}
+\end{figure}
 
-%Thus, we need a strategy of revisiting pages that will reduce the cost of downloading unchanged pages, while at the same time downloading them as soon as possible after it's update. 
-This year-long project proposes to use content-based features of a given thread to predict its next update time. We argue, that the content within the posts of the thread should be important in predicting the thread updates, and propose our approach to solving the problem.
+Figure \ref{per_state} illustrates the Hidden Markov Model we plan to model the 
+behaviour of replies on forum threads with. Each state emits different 
+frequencies of words, which are represented with $\mathbf{v}$, and have 
+different distributions of time intervals, represented with $\Delta_t$.
 
+The intuition behind the modelling of the system in this manner is that there is 
+some state governing the behaviour of the thread posts. Active threads can 
+transition to an inactive state, but the presence of a new post is able to spark 
+off a new discussion within the thread, causing it to be an active thread again.
+It remains now to determine what these states are, and what the probabilities of 
+the state transitions are.
 
-\section{Proposed Method}
+A simplistic model of how this model could work would be a two-state HMM. In 
+this case, the states, say $q_1$ and $q_2$, could represent an `active' thread, 
+and an `less active' thread, with the mean $\Delta_t$ (time intervals between 
+posts) being, say, 6 minutes and 240 minutes respectively.
 
-From our initial analysis of the extracted data from the Hardwarezone forums, we have made the following observations about non-sticky threads in the forum:
-\begin{enumerate}
-	\item There are threads that are very short-lived, and some that are long lived. This is largely dependent on the thread content. For example, a user looking to buy/sell a product that no one has an interest in. %TODO cite paper that shows the lifetime of threads
-	\item The long-lived threads typically have a pattern to the frequency of postings. A high frequency of posts are seen around lunch time (12-3 PM) and another spike is seen during the night at 9 PM. (Figure \ref{sleepcycle}). It is yet to be determined if this type of cycle is site-wide or thread-specific.
-\end{enumerate}
-Our initial model aims to incorporate these observations. A new thread (represented by $q_0$ which only has one post, may transition to either an active or active but `sleeping' thread, or an inactive thread.
-%This is to account for the fact that a thread may be active, but the thread has a lack of activity, due to the fact that its' users are sleeping or working.
-
+Using a simple Naive Bayes classifier, we could obtain 
+$\P{q_i}{\Delta_t,\mathbf{v}}$, and the state transitions $\P{q_t}{q_{t-1}}$	
+could be learnt from the dataset by counting. With these in place, we can then 
+observe the posts in sequence, and then update the distribution of which state 
+we are currently in appropriately. We would also need to attach an average time 
+for next post per state. This would then allow us to calculate the expected time 
+for the arrival of the next post. Figure \ref{spaceship} illustrates this simple 
+example.
 
 \begin{figure}
 	\begin{center}
-\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3.5cm,
-                    semithick]
-  \tikzstyle{every state}=[fill=blue,draw=none,text=white]
-
-  \node[initial,state] (q0)                    {$q_0$};
-  \node[state]         (IN) [below of=q0] {$q_I$};
-  \node[state]         (AD) [left of=IN] {$q_{AD}$};
-  \node[state]         (AN) [right of=IN] {$q_{AN}$};
-
-  \path (q0) edge              node {} (AD)
- 			 edge 			   node {} (AN)
-			 edge 			   node {} (IN)
-		(AD) edge [loop above] node {}(AD)
-			 edge [bend left]  node {}(AN)
-			 edge [bend left]  node {}(IN)
-		(AN) edge [bend left]  node {}(AD)
-			 edge [loop above] node {}(AN)
-			 edge [bend left]  node {}(IN)
-		(IN) edge [bend left]  node {}(AD)
-			 edge [bend left]  node {}(AN)
-			 edge [loop below] node {}(IN);
-\end{tikzpicture}
-
-\end{center}
-	\caption{Preliminary modelling of a thread as a probabilistic automaton}\label{spaceship}
+		\input{simple_diag.tex}
+	\end{center}
+	\caption{Preliminary modelling of a thread as a probabilistic 
+	automaton}\label{spaceship}
 \end{figure}
-We define active here as threads with a high post frequency, and inactive threads and as posts with low post frequency. Since our observations show that threads have different levels of post frequencies due to usage patterns consistent with user's sleep cycles and work commitment, we use 3 states in total to represent the state of a thread with more than 2 posts. A `day' state (represented by $q_{AD}$) and a `night' state (represented by $q_{ND}$). The inactive threads are represented by the state $q_I$
-%Our initial model aims to incorporate these observations. A new thread (represented by $q_0$) which only has one post, may transition into either an active or inactive state (represented by $q_A$ respectively). We define active here as threads with high post frequency, and inactive threads as posts with low post frequency. Since our observations show that threads have different levels of post frequencies due to usage patterns consistent with user's sleep cycles, we use four states in total to represent the state of a thread with more than 2 posts, a `day' state and a `night' state (represented by $q_D,q_N$). These four states form a clique. Each of these states produce a set of observations that we can use to identify the state that a thread is in.
-
-The intuition behind this is the fact that active threads can transition to an inactive state, but the presence of a new post is able to spark off a new discussion within the thread, causing it to be an active thread again.
-
-The graphical representation of this automata is seen in Figure \ref{spaceship}.
 
 
-Our initial collection of data to identify changes in state for active threads to inactive threads do not show any observable patterns. More data has to be collected and analysed before conclusions can be made. Statistics of textual content, along with data for a more complete set of threads may provide some insight to their behaviour.
+\section{Proposed Plan}\label{prop_plan}
 
+\begin{description}
+	\item[Extracting Data, Preliminary Work]
+Some work has already been done prior to the submission of this proposal.  
+Statistics for the state transitions and the word frequencies produced in each 
+state have been collected.  A plot of the probability density can be seen in 
+Figure \ref{dplot}.  The plot shows a sample of the transition probabilities if 
+the time intervals were binned into 20 minute blocks, and each of these bins 
+were used as a state.  Here, we show only up to bin 100, but we can still see 
+that forum posts rarely go from a short time interval to a long time interval.  
+Posts which have a long time interval, however, tend to go back to having short 
+time intervals.
 
-\section{Proposed Plan}
+\begin{figure}
+	\begin{center}
+		\includegraphics[scale=0.7]{figure_1.png}
+	\end{center}
+	\caption{Probability density matrix plot for 
+	$\P{q_{t+1}}{q_t}$}\label{dplot}
+\end{figure}
+	\item[Learning the Parameters]
+A probability distribution function of the time intervals has to be estimated, 
+using the same distribution found in Kleinberg's model \cite{Kleinberg2003}
+using HMMs for classifying emails into a hierarchical structure.
+One possibility we could be exploring would also be to cluster the posts 
+according to some topics using Latent Dirichlet Allocation, and then taking the 
+average time intervals for each of the topics. The topics could then be 
+represented as states, and the transitions between these states learnt from the 
+data.
+	\item[Possible Improvements]
+Considering a crawler that uses this prediction method to revisit pages, one 
+would find that mistakes may be made: The crawler visits too early, and wastes a 
+page download. The crawler could also visit the page after two posts, which 
+takes a toll on the freshness of the database it is maintaining. One possible 
+improvement we could make would be to update the state distribution when we make 
+a visit and do not get anything new. We could also update the transition 
+probabilities whenever we observe new posts, making the system adaptive to 
+changes in the posting behaviour of the site.
+
+\end{description}
+\bibliographystyle{acm}
+\bibliography{proposal}
 \end{document}

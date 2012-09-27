@@ -5,6 +5,7 @@
 \usepackage{setspace}
 \usepackage{pgf}
 \usepackage{tikz}
+\usepackage{longtable}
 \usetikzlibrary{arrows,automata}
 \usepackage[latin1]{inputenc}
 \usepackage{verbatim}
@@ -30,9 +31,8 @@
 \newcommand{\weights}{\mathbf{w}}
 \newcommand{\X}{\mathbf{X}}
 \section{Method}
-
-We extracted the timestamp, author and text content for each post in each thread from the forums. Using a sliding window training method, we grouped consecutive $w$ posts together for each thread, and performed regression on $\dt$. More formally, we are trying to approximate a function $f$ such that $f(\fvec_{t-w},\hdots, \fvec_{t-1}) \approx \Delta_{t}$, where $\fvec_t$ is the feature vector of a post made at time $t$, and $\dt$ is the time between the $t$-th post and the $(t-1)$-th post. The following are the features used:
-
+We extracted the timestamp, author and text content for each post in each thread
+from the forums. Our dataset was obtained from from \url{avsforums.com}.
 \begin{description}
 	\item[Previous time differences] All the time differences between posts made in the window. ($\dtvec$)
 	\item[Time-based features] Day of week, Hour of day. Provides contextual information about when the post was made. ($\ctxvec$)
@@ -160,7 +160,7 @@ The results for experiments done with different combinations of the above specif
 \begin{table}
 	\footnotesize
 	\begin{centering}
-	\begin{tabular}{|l|c|c|c|c|c|c|c|c|}
+	\begin{tabular}{|l|c|c|c|c|c|c|c|}
 	\hline
 	\input{init_res}
 	\hline
@@ -169,6 +169,15 @@ The results for experiments done with different combinations of the above specif
 	\label{expt1}
 \end{centering}
 \end{table}
+\begin{centering}
+\tiny
+	\begin{longtable}{|l|c|c|c|c|c|c|}
+	\caption{Experiment results}
+	\input{usernameresults}
+	\end{longtable}
+	\label{username}
+\end{centering}
+
 
 Overall average and window average perform significantly worst than the learnt models, as reflected in both the MAPE and the $T$-score. There is also a slight improvement in the  $\prerror$ in the learnt models.
 

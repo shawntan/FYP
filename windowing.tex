@@ -1,0 +1,58 @@
+\tikzstyle{background}=[rectangle,
+	fill=gray!10,
+	inner sep=0.2cm,
+	rounded corners=5mm]
+
+
+\tikzstyle{post}=[circle,
+	thick,
+	minimum size=0.75cm,
+	draw=blue!80,
+	fill=blue!20]
+% The measurement vector is represented by an orange circle.
+\tikzstyle{visit}=[circle,
+	thick,
+	minimum size=0.75cm,
+	draw=orange!80,
+	fill=orange!25]
+
+\begin{tikzpicture}[>=latex,text height=1.5ex,text depth=0.25ex]
+    % "text height" and "text depth" are required to vertically
+    % align the labels with and without indices.
+  
+  % The various elements are conveniently placed using a matrix:
+  \matrix[column sep=0.3cm] {
+    % First line: Control input
+    	&
+		\node (e0)				{$\cdots$};&
+		\node (e1)	[post]			{$\rho_1$}; &
+		\node (e2)	[visit]			{$\rho_2$}; &
+		&&
+		\node (e3)	[post]			{$\rho_3$}; &
+		\node (e4)	[post]			{$\rho_4$}; &
+		&&
+		\node (e5)	[visit]			{$\rho_5$}; &
+		\node (e6)	[post]			{$\rho_6$}; &
+		\node (e7)	[visit]			{$\rho_7$}; &
+		\node (e)				{$\cdots$};&
+		&
+        \\
+	};
+    
+    % The diagram elements are now connected through arrows:
+
+	\path[-]
+		(e0) edge[thick]	(e1)
+		\foreach \e in {1,2,3,4,5,6}{
+			let \n1={int(\e+1)} in (e\e) edge[thick] (e\n1)
+		}
+		(e7) edge[thick]	(e)
+	;
+	\begin{pgfonlayer}{background}
+		\only<1>{\node [background,fit=(e1) (e3)] {};}
+		\only<2>{\node [background,fit=(e3) (e4)] {};}
+		\only<3>{\node [background,fit=(e4) (e6)] {};}
+    \end{pgfonlayer}
+
+
+\end{tikzpicture}
