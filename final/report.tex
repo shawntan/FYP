@@ -1,0 +1,65 @@
+\documentclass[hyp]{socreport}
+
+\usepackage{fullpage}
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{pgf}
+\usepackage{tikz}
+\usepackage[latin1]{inputenc}
+\usepackage{verbatim}
+
+
+\begin{document}
+\pagenumbering{roman}
+\title{Predicting Web 2.0 Thread Updates}
+\author{Shawn Tan}
+\projyear{2012}
+\projnumber{H079830}
+\advisor{A/P Kan Min-Yen}
+\deliverables{
+	\item Report: 1 Volume
+}
+\maketitle
+\begin{abstract}
+In this report, we study a problem and design an efficient algorithm
+to solve the problem.  We implemented the algorithm and evaluated
+its performance againts previous proposed algorithms that solves the
+same problem.  Our results show that our algorithm runs faster.
+
+%TODO
+\begin{descriptors}
+    \item C5 Computer System Implementation
+	\item G2.2 Graph Algorithms
+\end{descriptors}
+\begin{keywords}
+	Problem, algorithm, implementation
+\end{keywords}
+\begin{implement}
+	python, bash
+\end{implement}
+\end{abstract}
+
+\begin{acknowledgement}
+\end{acknowledgement}
+
+\listoffigures 
+\listoftables
+\tableofcontents 
+
+\chapter{Introduction}
+	\input{introduction}
+\chapter{Related Work}
+	\input{related}
+\chapter{Method}
+	\input{method}
+\chapter{Conclusion}
+\section{Future Work}
+
+\bibliographystyle{socreport}
+\bibliography{report}
+
+\appendix
+\chapter{Code}
+\end{document}

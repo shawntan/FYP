@@ -1,0 +1,83 @@
+With the advent of Web 2.0, sites with forums, or similar thread-based 
+discussion features are increasingly common.
+In this project,our goal is to predict updates in such threads.
+%Just recently, Google+ has just
+\begin{table}\label{table:web20}
+	\makebox[\textwidth][c]{
+	{\footnotesize
+	\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|}
+		\hline
+			\input{tables/web20}
+		\hline
+	\end{tabular}
+	~\\
+	}
+	}
+	{\footnotesize
+\caption{Features of popular Web 2.0 sites}
+	\begin{tabular}{l l}
+		T &= Twitter mentions\\
+	 FB L &= Facebook Likes \\
+		FB S &= Facebook Shares\\
+	G +1 &= Google +1\\
+		   L&= Likes (Local) \\
+   		DL &= Dislikes (Local) \\
+			C &= Comments \\
+		PV &= Page Views \\
+   Follows &= Site-local feature for keeping track of user's activities
+	\end{tabular}
+}
+\end{table}
+
+Table \ref{table:web20} shows us that many of the popular Web 2.0 sites have 
+comment features. This suggests that content on the web is increasingly being 
+created by users alongside content providers. While mining structured, curated 
+content from sites like Amazon, for data like prices is easy and effective, data 
+that can be obtained from user-generated content are of a different nature. One 
+may be able to infer public sentiment about a given product that would not be 
+readily available from an e-commerce site.
+%we are predicting web 2.0 updates
+ In some cases, news may travel more quickly through such online community 
+discussion than through traditional media. Users also typically discuss 
+purchased products bought online via these forums, and companies that want to 
+get timely feedback about their product should turn to data mined from such 
+sites.
+
+ A naive way of getting timely updates is to aggressively hit the pages 
+repeatedly downloading the pages at a very frequent rate. However, the number of 
+pages in a forum site are far too large to perform this efficiently on every 
+forum. One way to minimise this cost would be to look at the time differences 
+between previous posts to estimate the arrival of the next one. We believe that 
+the content of the thread has information that can give a better estimate of the 
+time interval between the last post and a new one.
+
+
+ For example, a thread in a technical forum about a Linux distribution may start 
+out as a question. Subsequent questions that attempt to either clarify or expand 
+on the original question may then be posted, resulting in a quick flurry of 
+messages. Eventually, a more technically savvy user of the forum may come up 
+with a solution, and the thread may eventually slow down after a series of 
+messages thanking the problem solver. Suppose 10 days later, someone with a 
+slight variation of the same problem posts on the thread again. A crawler that 
+estimates update rates solely on the age of the thread to determine its download 
+rate of the thread may not update itself with the thread.
+%TODO:Bring to beginning and shorten to 1 or 2 sentences after the problem 
+%statement.
+%as rate increase, timeliness become more important
+% talk about consequences of naive method
+
+ Let us define all such thread-based discussion styled sites as forums. Ideally, 
+an incremental crawler of such user-generated content should be able to maintain 
+a fresh and complete database of content of the forum that it is monitoring.  
+However, doing so with the previously mentioned naive method would (1) incur 
+excessive costs when downloading un-updated pages, and (2) raise the possibility 
+of the web master blocking the requester's IP address.
+
+ %Thus, we need a strategy of revisiting pages that will reduce the cost of 
+ %downloading unchanged pages, while at the same time downloading them as soon 
+ %as possible after it's update. 
+ This year-long project proposes to use content-based features of a given thread 
+to predict its next update time. We argue, that the content within the posts of 
+the thread should be important in predicting the thread updates, and propose our 
+approach to solving the problem.
+

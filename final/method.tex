@@ -1,27 +1,3 @@
-\documentclass[12 pt]{article}
-\usepackage{amsmath,amsfonts,amssymb}
-\usepackage{url}
-\usepackage{graphicx}
-\usepackage{setspace}
-\usepackage{pgf}
-\usepackage{tikz}
-\usepackage{longtable}
-\usetikzlibrary{arrows,automata}
-\usepackage[latin1]{inputenc}
-\usepackage{verbatim}
-\usepackage{lscape}
-%\usepackage[margin=1.2in]{geometry}
-
-	\addtolength{\oddsidemargin}{-.5in}
-	\addtolength{\evensidemargin}{-.5in}
-	\addtolength{\textwidth}{0.75in}
-	\addtolength{\topmargin}{-1in}
-	\addtolength{\textheight}{1.75in}
-
-
-\doublespacing
-\begin{document}
-
 \newcommand{\vocab}{\mathbf{v}}
 \newcommand{\dtvec}{\mathbf{t}_\Delta}
 \newcommand{\ctxvec}{\mathbf{t}_\text{ctx}}
@@ -30,7 +6,6 @@
 \newcommand{\fvec}{\mathbf{x}}
 \newcommand{\weights}{\mathbf{w}}
 \newcommand{\X}{\mathbf{X}}
-\section{Method}
 We extracted the timestamp, author and text content for each post in each thread
 from the forums. Our dataset was obtained from from \url{avsforums.com}.
 \begin{description}
@@ -48,7 +23,7 @@ from the forums. Our dataset was obtained from from \url{avsforums.com}.
 	\begin{centering}
 	\begin{tabular}{|l|c|c|c|c|c|c|c|c|}
 	\hline
-	\input{vocab_exp}
+	\input{tables/vocab_exp}
 	\hline
 	\end{tabular}
 	\caption{Experiment results: Varying vocabulary size}
@@ -56,7 +31,7 @@ from the forums. Our dataset was obtained from from \url{avsforums.com}.
 \end{centering}
 \end{table}
 
-\subsection{Potential errors}
+\section{Potential errors}
 To be thorough, let us also enumerate the types of errors that a model making predictions could encounter.
 
 The model can potentially make a prediction such that the next visit comes before the arrival of the next post. The predictions being made are the $\dt$ between the posts, rather than the visitation times, hence, it is possible for the model to make a prediciton that occurs before the current time. An erroneous prediction can also cause the crawler to come in before the next post (two, or more, visits, but nothing new fetched). Errors of this type waste bandwidth, since the crawler will make an unneccessary visit to the page.
@@ -71,7 +46,7 @@ The SVR module from the Python library scikit-learn was used in the implementati
 
 %include diagrams
 
-\subsection{Evaluation metrics}
+\section{Evaluation metrics}
 We use \emph{Mean Absolute Percentage Error} (MAPE), to measure the performance of the learnt model. This value is given by
 \[
 	\frac{1}{N}\sum^N_{i=1}\left|\frac{A_i-F_i}{A_i}\right|
@@ -155,7 +130,7 @@ Increase between post and post		increase
 \end{figure}
 
 
-\subsection{Normalising the $T$-score and Visit/Post ratio}
+\section{Normalising the $T$-score and Visit/Post ratio}
 We normalise the $T$-score to get a comparable metric across all the threads. In 
 order to do this, we consider again the thread posts and visits as a sequence of 
 events. We then define the \emph{lifetime}, denoted as $l$, of the thread as the 
@@ -184,73 +159,7 @@ This gives us
 \]
 where $l$ is in units of our specified discrete time frame.
 
-\section{Results}
-
-The results for experiments done with different combinations of the above specified features are shown in Table \ref{expt1}.
-\begin{table}
-	\footnotesize
-	\begin{centering}
-	\begin{tabular}{|l|c|c|c|c|c|c|c|}
-	\hline
-	\input{init_res}
-	\hline
-	\end{tabular}
-	\caption{Experiment results}
-	\label{expt1}
-\end{centering}
-\end{table}
-\begin{centering}
-\tiny
-	\begin{longtable}{|l|c|c|c|c|c|c|}
-	\caption{Experiment results}
-	\input{usernameresults}
-	\end{longtable}
-	\label{username}
-\end{centering}
-
-
-Overall average and window average perform significantly worst than the learnt models, as reflected in both the MAPE and the $T$-score. There is also a slight improvement in the  $\prerror$ in the learnt models.
-
-
-Taking into account the $T$-score and the number of visits together, would seem that $\dtvec$, features representing the previous time intervals, are important features when determining the next time interval. In the absence of these features, we observe that the $T$-score increases by about 1\%. In this experiment, we use purely word frequency features. This gives only a slight improvent over not using them.
-
-High values for $Pr_{miss}$ and low for $Pr_{fa}$, are due to $Pr_{miss}$ being conditioned on there being a post within the window. Since the posts come in bursts, visits are fairly periodic, and intervals between visits are larger than post bursts. When there are more posts than visits in windows with posts, we have higher $Pr_{miss}$
-
-\begin{landscape}
-\begin{figure}
-	\centering
-	\includegraphics[scale=0.5]{example_seq.png}
-	\caption{Visitation chart for a model using the $w=5, \mathbf{t}_\Delta, \mathbf{t}_{\text{ctx}},\mathbf{w}$ feature set. Invalid Predictions = 0.758, $Pr_{error} =  0.485$, $T$-score = 119.612, Posts = 41, Visits = 62}
-\end{figure}
-\end{landscape}
-
-\begin{table}
-	\footnotesize
-	\begin{centering}
-	\begin{tabular}{|l|c|c|c|c|c|c|c|c|}
-	\hline
-	\input{f_size}
-	\hline
-	\end{tabular}
-	\caption{Experiment results: Varying feature sizes}
-	\label{exp_f_size}
-\end{centering}
-\end{table}
-
-\begin{table}
-	\footnotesize
-	\begin{centering}
-	\begin{tabular}{|l|c|c|c|c|c|c|c|c|}
-	\hline
-	\input{f_size_ebackoff}
-	\hline
-	\end{tabular}
-	\caption{Experiment results: Using exponential increase}
-	\label{exp_exp}
-\end{centering}
-\end{table}
-
-\subsection{Discounted sum of previous instances}
+\section{Discounted sum of previous instances}
 
 The current method uses only information on the current $w$ posts. However, posts made further in the history of the thread may have an effect on when the latest posts arrive. The magnitude of this effect, however, may diminish over time.
 
@@ -260,21 +169,7 @@ Following this intuition we attempt to use a discounted sum over previous posts'
 \]
 where $\fvec_t$ is the feature vector at post $t$, and $\vocab$ is the word frequency vector. $\alpha$ is the \emph{discount factor} and satisfies $0 \leq \alpha < 1$.
 
-
-\begin{table}
-	\footnotesize
-	\begin{centering}
-	\begin{tabular}{|l|c|c|c|c|c|c|c|c|}
-	\hline
-	\input{decay_w15}
-	\hline
-	\end{tabular}
-	\caption{Experiment results: Window size of 15, using discounted sum feature vector at $t-1$.}
-	\label{exp_decay}
-\end{centering}
-\end{table}
-
-\subsection{Stochastic Gradient Descent}
+\section{Stochastic Gradient Descent}
 
 We attempt to use stochastic gradient descent to estimate the function $f$. However, during runtime, instead of using a static function, we continue to allow $f$ to vary whenever new posts and their update times are observed.
 Since $f(\fvec_{t-w},\hdots,\fvec_{t-1}) > 0$, we used a scaled sigmoid function,
@@ -290,20 +185,5 @@ The resulting update rule for $\weights$ is then given by,
 				\underbrace{\left( f(\X)(1-f(\X)) \right)}_{\text{gradient}}
 						\X_i
 \]
-which is similar to the delta update rule found in artificial neural networks. We omit the scaling factor in the gradient as it is a constant and then experiment with various values of $\eta$, the learning rate. The results are seen in Table \ref{sig_grad_desc}
-\begin{table}
-	\footnotesize
-	\begin{centering}
-	\begin{tabular}{|l|c|c|c|c|c|c|c|c|}
-	\hline
-	\input{sig_grad_desc}
-	\hline
-	\end{tabular}
-	\caption{Experiment results: Using stochastic gradient descent, with $\lambda = 0$}
-	\label{sig_grad_desc}
-\end{centering}
-\end{table}
+which is similar to the delta update rule found in artificial neural networks. We omit the scaling factor in the gradient as it is a constant and then experiment with various values of $\eta$, the learning rate. 
 
-\bibliographystyle{acm}
-\bibliography{report}
-\end{document}

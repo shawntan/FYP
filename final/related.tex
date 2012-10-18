@@ -1,0 +1,81 @@
+\section{Refresh policies for incremental crawlers}
+In order to devise such a strategy, we need to predict how often any user may 
+update a page. Some work has been done to try to predict how often page content 
+is updated, with the aim of scheduling download times in order to keep a local 
+database fresh.
+
+
+We will discuss the \emph{timeliness} of our crawler to maintain the freshness 
+of the local database, which refers to how new the extracted information is. Web 
+crawlers can be used to crawl sites for user comments and threads for 
+postprocessing later. Web crawlers which maintain the freshness of a database of 
+crawled content are known as incremental crawlers. Two trade-offs these crawlers 
+face cited by Yang et. al. 2009 \cite{Yang2009} are \emph{completeness} and 
+\emph{timeliness}. \emph{Completeness} refers to the extent which the crawler 
+fetches all the pages, without missing any pages. \emph{Timeliness} refers to 
+the efficiency with which the crawler discovers and downloads newly created 
+content. We focus mainly on timeliness in this project, as we believe that 
+timely updates of active threads are more important than complete archival of 
+all threads in the forum site.
+
+Many such works have used the Poisson distribution to model page updates.  
+Coffman et. al. \cite{Coffman1997} analysed the theoretical aspects of doing 
+this, showing that if the page change process is governed by a Poisson process 
+$\lambda e^{-\lambda \mu}$, then accessing the page at intervals proportional to 
+$\mu$ is optimal.
+
+Cho and Garcia-Molina trace the change history of 720,000 web pages collected 
+over 4 months, and showed empirically that the Poisson process model closely 
+matches the update processes found in web pages\cite{Cho1999}. They then 
+proposed different revisiting or refresh policies 
+\cite{Cho2003,Garcia-molina2003} that attempt to maintain the freshness of the 
+database.
+
+The Poisson distribution were also used in Tan et. al. \cite{Tan2007} and Wolf 
+et. al. \cite{Wolf2002}. %elaborate!!!!
+However, the Poisson distribution is memoryless, and in experimental results due 
+to Brewington and Cybenko \cite{Brian2000}, the behaviour of site updates are 
+not. Moreover, these studies were not performed specifically on online threads, 
+where the behaviour of page updates may be very different from that of static 
+pages.
+
+Yang et. al. \cite{Yang2009}, attempted to resolve this by using the list 
+structure of forum sites to infer a sitemap. With this, they reconstruct the 
+full thread, and then use a linear-regression model to predict when the next 
+update to the thread will arrive. %elaborate!!!
+
+Online forums and bulletins have a logical, hierarchical structure in their 
+layout, which typically alerts the user to thread updates by putting threads 
+with new replies at the very top of the thread index. Yang's work exploits this 
+as well as their linear model to achieve a predicton of when to retrieve the 
+pages.
+However, this is not so for comments found on blog sites or discussion threads 
+in an e-commerce site about a certain product and the lack of these pieces of 
+information may result in a poorer estimate, or no estimate at all.
+
+
+Our perspective is that the available content on the thread at the time of the 
+retrieval should also be factored into the model used to predict the page 
+updates. Next, we look at some of the related work pertaining to thread content.
+
+\section{Thread content analysis}
+While there is little existing work using content to predict page updates, we 
+will review some existing work related to analysing thread-based pages which we 
+think will aid us in our efforts to do content-based prediction.
+
+Wang et. al \cite{Wang2011} did work in finding out linkages between forum posts 
+using lexical chaining. They proposed a method to link posts using the tokens in 
+the posts called $Chainer_{SV}$. While they do analyse the content of the 
+individual posts, the paper does not make any prediction with regards to newer 
+posts. The methods used to produce a numeric similarities between posts may be 
+used as a feature to describe a thread in its current state, but incorporating 
+this into our model is non-trivial.
+
+%Kleinberg used Hidden Markov Models to predict ``bursts" in message arrival times \cite{Kleinberg2003}. In his running example, he used email messages, and used time between messages to estimate the states that produced the sequence. While the model may be able to predict what the state is for the next time interval, it does so using the history of message arrival times, and does not take into account the content within the messages themselves.
+
+
+%One also cannot ignore the fact that social factors play a role when users interact in an online discussion. Granovetter's threshold model for social behaviour may also be useful in describing how the users behave as a whole.
+
+With these related work in mind, we next propose our modelling of a thread as a 
+Markov chain, and our approach to solving the problem.
+
