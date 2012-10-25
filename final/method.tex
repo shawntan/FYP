@@ -3,20 +3,61 @@
 \newcommand{\ctxvec}{\mathbf{t}_\text{ctx}}
 \newcommand{\dt}{\Delta_t}
 \newcommand{\prerror}{Pr_{error}}
-\newcommand{\fvec}{\mathbf{x}}
 \newcommand{\weights}{\mathbf{w}}
 \newcommand{\X}{\mathbf{X}}
+\newcommand{\post}{\rho}
+\renewcommand{\t}{t}
+\newcommand{\w}{w}
+Our project aims to predict the amount of time between the arrival of the next 
+post and the time the last post in the thread was made. The information 
+available to us are the previously made posts that we observe when first 
+visiting the thread. The assumption made here is that the thread is not 
+paginated in any way, and a single visit to the thread gives us the latest posts 
+without having to traverse through the links to the latest page.
+
+More formally, what we are trying to do is to estimate a function $f$ such that 
+given a feature vector $\X$ representative of a window $\post_{t - w + 
+1},\post_{t - w + 2},\cdots ,\post_t$, we can approximate $\dt$ with $f(\X)$. In 
+the following sections, we will discuss various methods for estimating $f$.  
+Various notations will be used, a quick reference is provided in Table 
+\ref{table:notations}.
+
+\begin{table}
+	\begin{center}
+	\begin{tabular}{l l}
+	\hline
+Notation	&	Description\\
+	\hline
+$\post$		&	A post\\
+$\t$		&	Index of a post in a thread\\
+$\w$		&	Number of posts in a window\\
+$\post_\t$	&	The $t$-th post in the thread\\
+$\vocab_\t$	&	The frequency count vector of the posts used in the $t$-th 
+	post\\
+$\dt$		&	Time difference between a post at position $\t$ and a post at 
+	position $\t+1$ \\
+$\dtvec$	&	Vector of $\dt$s in a given window\\
+$\ctxvec$	&	Bit vector representing the day of week, and the hour of day\\
+$\X$		&	Feature vector extracted from a window\\
+	\hline
+	\end{tabular}
+\end{center}
+\caption{Notation reference} \label{table:notations}
+\end{table}
+
+
 We extracted the timestamp, author and text content for each post in each thread
 from the forums. Our dataset was obtained from from \url{avsforums.com}.
 \begin{description}
-	\item[Previous time differences] All the time differences between posts made in the window. ($\dtvec$)
-	\item[Time-based features] Day of week, Hour of day. Provides contextual information about when the post was made. ($\ctxvec$)
-	
-	\item[Content features (text)]
-		Word frequency counts are used for this set of experiments. Using regression, we find the top $K$ variables that the actual $\dt$ depends on. Table \ref{vocab_exp} reflect the results of the experiments done with varying values of $K$.
-
+	\item[Previous time differences] All the time differences between posts made 
+		in the window. ($\dtvec$)
+	\item[Time-based features] Day of week, Hour of day. Provides contextual 
+		information about when the post was made. ($\ctxvec$)
+	\item[Content features (text)] Word frequency counts are used for this set 
+		of experiments. Using regression, we find the top $K$ variables that the 
+		actual $\dt$ depends on.  Table \ref{vocab_exp} reflect the results of 
+		the experiments done with varying values of $K$.
 \end{description}
-
 
 \begin{table}
 	\footnotesize
@@ -31,152 +72,81 @@ from the forums. Our dataset was obtained from from \url{avsforums.com}.
 \end{centering}
 \end{table}
 
-\section{Potential errors}
-To be thorough, let us also enumerate the types of errors that a model making predictions could encounter.
-
-The model can potentially make a prediction such that the next visit comes before the arrival of the next post. The predictions being made are the $\dt$ between the posts, rather than the visitation times, hence, it is possible for the model to make a prediciton that occurs before the current time. An erroneous prediction can also cause the crawler to come in before the next post (two, or more, visits, but nothing new fetched). Errors of this type waste bandwidth, since the crawler will make an unneccessary visit to the page.
-
-Another type of error would have the prediction causing the next visit to come some time after a post. Since most predictions are almost never fully accurate, there will be some time between the post is made and hte page is fetched. These errors are still relatively acceptable, but the time difference between the post arriving and the visit should be minimised. The visit could also come more than one post later. Errors of this kind incur a penalty on the freshness of the data, more so than the after one post, especially if the multiple posts are far apart time-wise.
 
 
-In the following experiments, the threads chosen from our extracted dataset are those with a 100 to 1000 posts. This amounted to 97 threads. The first 75\% of the thread was used as training data, while the remaining 25\% was used as test data. We used Support Vector machines for this regression task, employing a Radial Basis Function kernel as our learning algorithm. 
+\section{Baselines}
+A simple way of estimating the revisit rate would be to use the average time 
+differences given the observed posts, or a training set. In previous work, we 
+have seen that if page updates follow a Poisson distribution, then revisiting at 
+the Poisson mean would be an optimal revisit policy. %cite paper.
 
-The SVR module from the Python library scikit-learn was used in the implementation of this experiment.
+There are some details that need to be considered. One revisit policy would be 
+to do so at a constant, fixed rate, independent of the posts being made to the 
+thread. For our baseline revisit policy, we took into account the last made post 
+whenever we revisit, and calculate our next revisit time based on the last post.
 
+Another way of predicting using average post interval timings would be to use a 
+sliding window. Averaging out the time differences between the posts would 
+intuitively work, because it captures the context of the situation: A series of 
+posts with short intervals should mean that the next post would come at around 
+the same interval as the few that came before.
 
-%include diagrams
+\section{Performing regression on windows}
+Previous work has used linear regression on a number of different features 
+extracted from forums \cite{Yang2009}. In their paper, the regressed function 
+was used as a scoring function rather than a predictive function. In site of 
+this, we attempted to implement the same model, but this resulted in evaluations 
+worse than that of the baseline.
 
-\section{Evaluation metrics}
-We use \emph{Mean Absolute Percentage Error} (MAPE), to measure the performance of the learnt model. This value is given by
-\[
-	\frac{1}{N}\sum^N_{i=1}\left|\frac{A_i-F_i}{A_i}\right|
-\]
-where $A_i$ is the actual value, and $F_i$ is the forecasted value for the instance $i$. Realistically, the model would not be able to come into contact with every possible window, since chances are it will make an error that causes %explain error in a new section (before this one) ?
-it to visit a thread late, causing it to miss two posts or more. This value does not reflect how well the model will do in a real-time setting, but gives an idea of how far off the model is given a window. 
+We did use some of the features mentioned in the paper: Window posts time 
+differences and time context features (bit-vector representations of the day of 
+the week and hour of the day). However, this time in stead of linear regression, 
+we used a regression method known as Support Vector Regression (SVR). This 
+method allows the using of different kernels, allowing for better estimation of 
+the target function.
 
-We also want to know the \emph{timeliness} of the model's visits. Yang et. al. \cite{Yang2009} has a metric for measuring this. Taking $\Delta t_i$ as the time difference between a post $i$ and it's download time, the timeliness of the algorithm is given by
-\[T = \frac{1}{N} \sum^{N}_{i=1}\Delta t_i\]
-A good algorithm would give a low $T$-score. However, a crawler that hits the site repeatedly performs well according to this metric. The authors account for this by setting a bandwidth (fixed number of pages per day) for each iteration of their testing. In our experimental results, we also take into account the number of page requests made in comparison to the number of posts. %ratio?
+The main focus of study in this report was to see if content helps with 
+predicting thread updates would produce an improvement. Some of the ways that 
+content data were extracted into feature vectors are the following: Word 
+frequency, the tf-idf of these words, and Part-of-Speech tags.
 
-\begin{align*}
-	\begin{array}{l@{\mskip\thickmuskip}l}
-	Pr_{miss} &=  \dfrac{%
-		\sum^{N-k}_{i=1} \left[\Theta_{ref\_hyp} (i,k)\right]%
-	}{%
-		\sum^{N-k}_{i=1} \left[\Delta_{ref} (i,k)\right]%
-	}\\
-	 & \\
-	Pr_{fa} &= \dfrac{%
-		\sum^{N-k}_{i=1} \left[\Psi_{ref\_hyp} (i,k)\right]%
-	}{N-k}
-	\end{array}
-	\begin{array}{l@{\mskip\thickmuskip}l}
-		\Delta_{ref}(i,k) &= \left\{ \begin{array}{l l}
-				1, & \text{if }r(i,k) > 0 \\
-				0, & \text{otherwise} 
-		\end{array} \right.\\
-		\Theta_{ref\_hyp}(i,k) &= \left\{ \begin{array}{l l}
-				1, & \text{if ends with post} \\
-				0, & \text{otherwise} 
-		\end{array} \right.\\
-		\Psi_{ref\_hyp}(i,k) &= \left\{ \begin{array}{l l}
-				1, & \text{if ends with visit}\\
-				0, & \text{otherwise} 
-		\end{array} \right.\\
-	\end{array}
-\end{align*}
-Split the $Pr_{error}$ measure into 3 parts:
+We perform the standard preprocessing steps like removing stopwords and tokens 
+of length less than three. We also use Porter's stemming algorithm as another 
+preprocessing step, before performing a word frequency count.
 
-Probability of having visits before the first post in the window.
-Probability of having more visits than posts after the first post.
-Probability of having more posts than visits after the first post.
-
-
-
-Viewing the posts made during the thread's lifetime as segmentations of the thread, and the visits made as hypotheses of where the segmentations are, we use the $\prerror$ metric from Georgescul et. al., 2006 as a measure of how close the predictions are to the actual posts. An example can be seen in Figure \ref{prerror}.
-
-
-
-Function that gives me:
-
-Increase in visit to post ratio		increase
-Increase in interval				increase
-
-Increase between post and visit		increase
-(0,$\infty$ or 1)
-
-Increase between visit and visit	decrease
-($\infty$ or 1,0)
-Increase between post and post		increase
-(0,$\infty$ or 1)
-
-\[
-	\begin{array}{l l}
-	T = \dfrac{%
-		\sum_{e=1}^{|E|-1} \Psi(e_t,e_{t+1}) %
-	}{|E|-1} &
-		\Psi(e_t,e_{t+1}) = \left\{\begin{array}{l l}
-				1-e^{-(e_{t+1} - e_t)}	& \text{if post,visit}\\
-				e^{-(e_{t+1} - e_t)}			& \text{if visit,visit}\\
-		\end{array}\right.
-\end{array}
-\]
-
-\begin{figure}
-\[
-	\uparrow~~p_1,\underbrace{~~p_2,~~p_3,~~~p_4,\uparrow}_{\text{sliding window}}\uparrow
-\]
-\caption{An example of the sliding window metric. The metric is made up of two components: First, the probability that, given at least one post is present in the window, there are more visits than post. Secondly, the probability that there are more posts than visits for a given window. The weighted sum of this gives the overall $\prerror$}\label{prerror}
-\end{figure}
-
-
-\section{Normalising the $T$-score and Visit/Post ratio}
-We normalise the $T$-score to get a comparable metric across all the threads. In 
-order to do this, we consider again the thread posts and visits as a sequence of 
-events. We then define the \emph{lifetime}, denoted as $l$, of the thread as the 
-time between the first post and the last post. Any visits that occur after the 
-last post are ignored.
-
-We then consider the worst case in terms of timeliness, or misses. This would be 
-the case where the visit comes at the end, at the same time as the post. So we 
-get a value $T_{\max}$ and $P_{\text{miss}}$ such that
-\[
-	P_{\text{miss}} = \frac{T}{T_{\max}} = \dfrac{N \cdot T}{\sum_p l - p_t}
-\]
-
-It is difficult to consider the worst case in terms of false alarms, or visits 
-that retrieve nothing. There could be an infinite number of visits made if we 
-are to take the extreme case. In order to get around this, we consider discrete 
-time frames in which a visit can occur. Since for this dataset, our time 
-granularity is in terms of minutes, we shall use minutes as our discrete time 
-frame.
-
-With this simplified version of our series of events, we can then imagine a 
-worst-case performing revisit policy that visits at every single time frame.  
-This gives us
-\[
-	P_{\text{FA}} = \frac{|V|}{l - |P|}
-\]
-where $l$ is in units of our specified discrete time frame.
+These feature sets are used in different combinations, with different window 
+sizes. The results will be seen in the next chapter.
 
 \section{Discounted sum of previous instances}
+The current method uses only information on the current $w$ posts. However, 
+posts made further in the history of the thread may have an effect on when the 
+latest posts arrive. The magnitude of this effect, however, may diminish over 
+time.
 
-The current method uses only information on the current $w$ posts. However, posts made further in the history of the thread may have an effect on when the latest posts arrive. The magnitude of this effect, however, may diminish over time.
-
-Following this intuition we attempt to use a discounted sum over previous posts' word frequency vector:
+Following this intuition we attempt to use a discounted sum over previous posts' 
+word frequency vector:
 \[
-	\fvec_t = \vocab_t + \alpha \fvec_{t-1}
+	\X'_t = \X_t + \alpha \X'_{t-1}
 \]
-where $\fvec_t$ is the feature vector at post $t$, and $\vocab$ is the word frequency vector. $\alpha$ is the \emph{discount factor} and satisfies $0 \leq \alpha < 1$.
+where $\X_t$ is the feature vector at post $t$, and $\vocab$ is the word 
+frequency vector. $\alpha$ is the \emph{discount factor} and satisfies $0 \leq 
+\alpha < 1$.
 
 \section{Stochastic Gradient Descent}
 
-We attempt to use stochastic gradient descent to estimate the function $f$. However, during runtime, instead of using a static function, we continue to allow $f$ to vary whenever new posts and their update times are observed.
-Since $f(\fvec_{t-w},\hdots,\fvec_{t-1}) > 0$, we used a scaled sigmoid function,
+We attempt to use stochastic gradient descent to estimate the function $f$.  
+However, during runtime, instead of using a static function, we continue to 
+allow $f$ to vary whenever new posts and their update times are observed.
+Since $f(\X_{t-w},\hdots,\X_{t-1}) > 0$, we used a scaled sigmoid function,
 \[
 	f(\X) = \frac{\Lambda-\lambda}{1 + e^{\weights \cdot \X}} + \lambda
 \]
-where $\Lambda$ and $\lambda$ are the scaling factors. This results in $f: \mathbb{R}^{|\X|}  \rightarrow (\lambda,\Lambda)$. Bounding the estimation function between $\lambda$ and $\Lambda$ allows us to restrict the prediction from becoming negative, or, becoming exceedingly huge. For our purposes, we set $\lambda = Q_3 + 2.5(Q_{3} - Q_{1})$, where $Q_n$ is the value at the $n$-th quartile. 
+where $\Lambda$ and $\lambda$ are the scaling factors. This results in $f: 
+\mathbb{R}^{|\X|}  \rightarrow (\lambda,\Lambda)$. Bounding the estimation 
+function between $\lambda$ and $\Lambda$ allows us to restrict the prediction 
+from becoming negative, or, becoming exceedingly huge. For our purposes, we set 
+$\lambda = Q_3 + 2.5(Q_{3} - Q_{1})$, where $Q_n$ is the value at the $n$-th 
+quartile. 
 
 The resulting update rule for $\weights$ is then given by,
 \[
@@ -185,5 +155,7 @@ The resulting update rule for $\weights$ is then given by,
 				\underbrace{\left( f(\X)(1-f(\X)) \right)}_{\text{gradient}}
 						\X_i
 \]
-which is similar to the delta update rule found in artificial neural networks. We omit the scaling factor in the gradient as it is a constant and then experiment with various values of $\eta$, the learning rate. 
+which is similar to the delta update rule found in artificial neural networks.  
+We omit the scaling factor in the gradient as it is a constant and then 
+experiment with various values of $\eta$, the learning rate. 
 

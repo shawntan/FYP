@@ -1,0 +1,164 @@
+
+\section{Potential errors}
+To be thorough, let us also enumerate the types of errors that a model making 
+predictions could encounter.
+
+The model can potentially make a prediction such that the next visit comes 
+before the arrival of the next post. The predictions being made are the $\dt$ 
+between the posts, rather than the visitation times, hence, it is possible for 
+the model to make a prediciton that occurs before the current time. An erroneous 
+prediction can also cause the crawler to come in before the next post (two, or 
+more, visits, but nothing new fetched). Errors of this type waste bandwidth, 
+since the crawler will make an unneccessary visit to the page.
+
+Another type of error would have the prediction causing the next visit to come 
+some time after a post. Since most predictions are almost never fully accurate, 
+there will be some time between the post is made and hte page is fetched. These 
+errors are still relatively acceptable, but the time difference between the post 
+arriving and the visit should be minimised. The visit could also come more than 
+one post later. Errors of this kind incur a penalty on the freshness of the 
+data, more so than the after one post, especially if the multiple posts are far 
+apart time-wise.
+
+
+In the following experiments, the threads chosen from our extracted dataset are 
+those with a 100 to 1000 posts. This amounted to 97 threads. The first 75\% of 
+the thread was u sed as training data, while the remaining 25\% was used as test 
+data. We used Support Vector machines for this regression task, employing a 
+Radial Basis Function kernel as our learning algorithm. 
+
+The SVR module from the Python library scikit-learn was used in the implementation of this experiment.
+
+
+%include diagrams
+
+\section{Evaluation metrics}
+We use \emph{Mean Absolute Percentage Error} (MAPE), to measure the performance of the learnt model. This value is given by
+\[
+	\frac{1}{N}\sum^N_{i=1}\left|\frac{A_i-F_i}{A_i}\right|
+\]
+where $A_i$ is the actual value, and $F_i$ is the forecasted value for the 
+instance $i$. Realistically, the model would not be able to come into contact 
+with every possible window, since chances are it will make an error that causes 
+ %explain error in a new section (before this one) ?
+it to visit a thread late, causing it to miss two posts or more. This value does 
+not reflect how well the model will do in a real-time setting, but gives an idea 
+of how far off the model is given a window. 
+
+We also want to know the \emph{timeliness} of the model's visits. Yang et. al.  
+\cite{Yang2009} has a metric for measuring this. Taking $\Delta t_i$ as the time 
+difference between a post $i$ and it's download time, the timeliness of the 
+algorithm is given by
+\[T = \frac{1}{N} \sum^{N}_{i=1}\Delta t_i\]
+A good algorithm would give a low $T$-score. However, a crawler that hits the 
+site repeatedly performs well according to this metric. The authors account for 
+this by setting a bandwidth (fixed number of pages per day) for each iteration 
+of their testing. In our experimental results, we also take into account the 
+number of page requests made in comparison to the number of posts. %ratio?
+
+\begin{align*}
+	\begin{array}{l@{\mskip\thickmuskip}l}
+	Pr_{miss} &=  \dfrac{%
+		\sum^{N-k}_{i=1} \left[\Theta_{ref\_hyp} (i,k)\right]%
+	}{%
+		\sum^{N-k}_{i=1} \left[\Delta_{ref} (i,k)\right]%
+	}\\
+	 & \\
+	Pr_{fa} &= \dfrac{%
+		\sum^{N-k}_{i=1} \left[\Psi_{ref\_hyp} (i,k)\right]%
+	}{N-k}
+	\end{array}
+	\begin{array}{l@{\mskip\thickmuskip}l}
+		\Delta_{ref}(i,k) &= \left\{ \begin{array}{l l}
+				1, & \text{if }r(i,k) > 0 \\
+				0, & \text{otherwise} 
+		\end{array} \right.\\
+		\Theta_{ref\_hyp}(i,k) &= \left\{ \begin{array}{l l}
+				1, & \text{if ends with post} \\
+				0, & \text{otherwise} 
+		\end{array} \right.\\
+		\Psi_{ref\_hyp}(i,k) &= \left\{ \begin{array}{l l}
+				1, & \text{if ends with visit}\\
+				0, & \text{otherwise} 
+		\end{array} \right.\\
+	\end{array}
+\end{align*}
+Split the $Pr_{error}$ measure into 3 parts:
+
+Probability of having visits before the first post in the window.
+Probability of having more visits than posts after the first post.
+Probability of having more posts than visits after the first post.
+
+
+
+Viewing the posts made during the thread's lifetime as segmentations of the 
+thread, and the visits made as hypotheses of where the segmentations are, we use 
+the $\prerror$ metric from Georgescul et. al., 2006 as a measure of how close 
+the predictions are to the actual posts. An example can be seen in Figure 
+\ref{prerror}.
+
+
+
+Function that gives me:
+
+Increase in visit to post ratio		increase
+Increase in interval				increase
+
+Increase between post and visit		increase
+(0,$\infty$ or 1)
+
+Increase between visit and visit	decrease
+($\infty$ or 1,0)
+Increase between post and post		increase
+(0,$\infty$ or 1)
+
+\[
+	\begin{array}{l l}
+	T = \dfrac{%
+		\sum_{e=1}^{|E|-1} \Psi(e_t,e_{t+1}) %
+	}{|E|-1} &
+		\Psi(e_t,e_{t+1}) = \left\{\begin{array}{l l}
+				1-e^{-(e_{t+1} - e_t)}	& \text{if post,visit}\\
+				e^{-(e_{t+1} - e_t)}			& \text{if visit,visit}\\
+		\end{array}\right.
+\end{array}
+\]
+
+\begin{figure}
+\[
+	\uparrow~~p_1,\underbrace{~~p_2,~~p_3,~~~p_4,\uparrow}_{\text{sliding window}}\uparrow
+\]
+\caption{An example of the sliding window metric. The metric is made up of two components: First, the probability that, given at least one post is present in the window, there are more visits than post. Secondly, the probability that there are more posts than visits for a given window. The weighted sum of this gives the overall $\prerror$}\label{prerror}
+\end{figure}
+
+
+\section{Normalising the $T$-score and Visit/Post ratio}
+We normalise the $T$-score to get a comparable metric across all the threads. In 
+order to do this, we consider again the thread posts and visits as a sequence of 
+events. We then define the \emph{lifetime}, denoted as $l$, of the thread as the 
+time between the first post and the last post. Any visits that occur after the 
+last post are ignored.
+
+We then consider the worst case in terms of timeliness, or misses. This would be 
+the case where the visit comes at the end, at the same time as the post. So we 
+get a value $T_{\max}$ and $P_{\text{miss}}$ such that
+\[
+	P_{\text{miss}} = \frac{T}{T_{\max}} = \dfrac{N \cdot T}{\sum_p l - p_t}
+\]
+
+It is difficult to consider the worst case in terms of false alarms, or visits 
+that retrieve nothing. There could be an infinite number of visits made if we 
+are to take the extreme case. In order to get around this, we consider discrete 
+time frames in which a visit can occur. Since for this dataset, our time 
+granularity is in terms of minutes, we shall use minutes as our discrete time 
+frame.
+
+With this simplified version of our series of events, we can then imagine a 
+worst-case performing revisit policy that visits at every single time frame.  
+This gives us
+\[
+	P_{\text{FA}} = \frac{|V|}{l - |P|}
+\]
+where $l$ is in units of our specified discrete time frame.
+
+

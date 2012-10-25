@@ -71,10 +71,17 @@ posts. The methods used to produce a numeric similarities between posts may be
 used as a feature to describe a thread in its current state, but incorporating 
 this into our model is non-trivial.
 
-%Kleinberg used Hidden Markov Models to predict ``bursts" in message arrival times \cite{Kleinberg2003}. In his running example, he used email messages, and used time between messages to estimate the states that produced the sequence. While the model may be able to predict what the state is for the next time interval, it does so using the history of message arrival times, and does not take into account the content within the messages themselves.
+%Kleinberg used Hidden Markov Models to predict ``bursts" in message arrival 
+%times \cite{Kleinberg2003}. In his running example, he used email messages, and 
+%used time between messages to estimate the states that produced the sequence.  
+%While the model may be able to predict what the state is for the next time 
+%interval, it does so using the history of message arrival times, and does not 
+%take into account the content within the messages themselves.
 
 
-%One also cannot ignore the fact that social factors play a role when users interact in an online discussion. Granovetter's threshold model for social behaviour may also be useful in describing how the users behave as a whole.
+%One also cannot ignore the fact that social factors play a role when users 
+%interact in an online discussion. Granovetter's threshold model for social 
+%behaviour may also be useful in describing how the users behave as a whole.
 
 With these related work in mind, we next propose our modelling of a thread as a 
 Markov chain, and our approach to solving the problem.
