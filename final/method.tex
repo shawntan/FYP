@@ -48,31 +48,18 @@ $\X$		&	Feature vector extracted from a window\\
 
 We extracted the timestamp, author and text content for each post in each thread
 from the forums. Our dataset was obtained from from \url{avsforums.com}.
-\begin{description}
-	\item[Previous time differences] All the time differences between posts made 
-		in the window. ($\dtvec$)
-	\item[Time-based features] Day of week, Hour of day. Provides contextual 
-		information about when the post was made. ($\ctxvec$)
-	\item[Content features (text)] Word frequency counts are used for this set 
-		of experiments. Using regression, we find the top $K$ variables that the 
-		actual $\dt$ depends on.  Table \ref{vocab_exp} reflect the results of 
-		the experiments done with varying values of $K$.
-\end{description}
-
-\begin{table}
-	\footnotesize
-	\begin{centering}
-	\begin{tabular}{|l|c|c|c|c|c|c|c|c|}
-	\hline
-	\input{tables/vocab_exp}
-	\hline
-	\end{tabular}
-	\caption{Experiment results: Varying vocabulary size}
-	\label{vocab_exp}
-\end{centering}
-\end{table}
-
-
+%
+%\begin{description}
+%	\item[Previous time differences] All the time differences between posts made 
+%		in the window. ($\dtvec$)
+%	\item[Time-based features] Day of week, Hour of day. Provides contextual 
+%		information about when the post was made. ($\ctxvec$)
+%	\item[Content features (text)] Word frequency counts are used for this set 
+%		of experiments. Using regression, we find the top $K$ variables that the 
+%		actual $\dt$ depends on.  Table \ref{vocab_exp} reflect the results of 
+%		the experiments done with varying values of $K$.
+%\end{description}
+%
 
 \section{Baselines}
 A simple way of estimating the revisit rate would be to use the average time 
@@ -91,6 +78,22 @@ intuitively work, because it captures the context of the situation: A series of
 posts with short intervals should mean that the next post would come at around 
 the same interval as the few that came before.
 
+
+\begin{figure}
+	\begin{center}
+	\input{diagrams/eventsdemo.tex}
+	\caption{%
+A series of events, posts (blue) and visits (orange).  The diagram demonstrates 
+the concept of a window of $w=2$.
+}\label{fig:event_series}
+	\end{center}
+\end{figure}
+
+We will also be using figures similar to those found in Figure 
+\ref{fig:event_series}. In these diagrams, blue nodes represent post events and 
+orange nodes represent visit events.
+
+
 \section{Performing regression on windows}
 Previous work has used linear regression on a number of different features 
 extracted from forums \cite{Yang2009}. In their paper, the regressed function 
@@ -100,10 +103,22 @@ worse than that of the baseline.
 
 We did use some of the features mentioned in the paper: Window posts time 
 differences and time context features (bit-vector representations of the day of 
-the week and hour of the day). However, this time in stead of linear regression, 
-we used a regression method known as Support Vector Regression (SVR). This 
-method allows the using of different kernels, allowing for better estimation of 
-the target function.
+the week and hour of the day). In our own statistics we took from the 
+\url{avsforum.com} threads, we have also found that the time of the day the day 
+of the week matters when dealing with threads. An example of such a thread can 
+be seen in Figure \ref{fig:hr_freq}
+
+\begin{figure}
+\begin{center}
+\includegraphics[scale=0.5]{diagrams/threadfreq.png}
+\caption{The hourly post count for the hours during the day.}
+\label{fig:hr_freq}
+\end{center}
+\end{figure}
+
+ However, this time in stead of linear regression, we used a regression method 
+known as Support Vector Regression (SVR). This method allows the using of 
+different kernels, allowing for better estimation of the target function.
 
 The main focus of study in this report was to see if content helps with 
 predicting thread updates would produce an improvement. Some of the ways that 
@@ -112,7 +127,25 @@ frequency, the tf-idf of these words, and Part-of-Speech tags.
 
 We perform the standard preprocessing steps like removing stopwords and tokens 
 of length less than three. We also use Porter's stemming algorithm as another 
-preprocessing step, before performing a word frequency count.
+preprocessing step, before performing a word frequency count. However, the use 
+of the full vocabulary of the thread as a feature vector greatly increases the 
+time needed to train the model. As such, we used a simple univariate regression 
+technique for feature selection, and selected only the $K$ best tokens for 
+consideration. Table \ref{table:vocab_exp} shows the results of this experiment.  
+
+\begin{table}
+	\footnotesize
+	\begin{centering}
+	\begin{tabular}{|l|c|c|c|c|c|c|c|c|}
+	\hline
+	\input{tables/vocab_exp}
+	\hline
+	\end{tabular}
+	\caption{Experiment results: Varying vocabulary size}
+	\label{table:vocab_exp}
+\end{centering}
+\end{table}
+
 
 These feature sets are used in different combinations, with different window 
 sizes. The results will be seen in the next chapter.

@@ -7,15 +7,18 @@
 \contentsline {chapter}{\numberline {2}Related Work}{4}
 \contentsline {section}{\numberline {2.1}Refresh policies for incremental crawlers}{4}
 \contentsline {section}{\numberline {2.2}Thread content analysis}{5}
+\contentsline {section}{\numberline {2.3}Evaluation metrics}{6}
+\contentsline {section}{\numberline {2.4}Predicting events in social media}{6}
+\contentsline {section}{\numberline {2.5}Time series prediction}{6}
 \contentsline {chapter}{\numberline {3}Method}{7}
-\contentsline {section}{\numberline {3.1}Baselines}{9}
+\contentsline {section}{\numberline {3.1}Baselines}{7}
 \contentsline {section}{\numberline {3.2}Performing regression on windows}{9}
 \contentsline {section}{\numberline {3.3}Discounted sum of previous instances}{10}
-\contentsline {section}{\numberline {3.4}Stochastic Gradient Descent}{10}
+\contentsline {section}{\numberline {3.4}Stochastic Gradient Descent}{11}
 \contentsline {chapter}{\numberline {4}Evaluation}{12}
 \contentsline {section}{\numberline {4.1}Potential errors}{12}
 \contentsline {section}{\numberline {4.2}Evaluation metrics}{13}
-\contentsline {section}{\numberline {4.3}Normalising the $T$-score and Visit/Post ratio}{14}
+\contentsline {section}{\numberline {4.3}Normalising the $T$-score and Visit/Post ratio}{15}
 \contentsline {chapter}{\numberline {5}Conclusion}{16}
 \contentsline {section}{\numberline {5.1}Future Work}{16}
 \contentsline {chapter}{References}{17}

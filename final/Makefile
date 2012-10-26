@@ -96,6 +96,11 @@ define geteps
 	epses=`perl -ne '@foo=/^[^%]*\\\(includegraphics|psfig)(\[.*?\])?\{(.*?)\}/g;if (defined($$foo[2])) { if ($$foo[2] =~ /.eps$$/) { print "$$foo[2] "; } else { print "$$foo[2].eps "; }}' $< $$deps`
 endef
 
+define getpng
+	pngs=`perl -ne '@foo=/^[^%]*\\\(includegraphics|psfig)(\[.*?\])?\{(.*?)\}/g;if (defined($$foo[2])) { if ($$foo[2] =~ /.png$$/) { print "$$foo[2] "; } else { print "$$foo[2].png"; }}' $< $$deps`
+endef
+
+
 define manconf
 	mandeps=`if test -r $(basename $@).cnf ; then cat $(basename $@).cnf |tr -d '\n\r' ; fi`
 endef
@@ -114,9 +119,11 @@ veryclean	: clean
 %.d	: %.tex
 	$(get_dependencies) ; echo $$deps ; \
 	$(getbibs) ; echo $$bibs ; \
-	$(geteps) ; echo $$epses ; \
+	$(getpng) ; echo $$pngs ; \
 	$(manconf) ; echo  $$mandeps  ;\
 	echo "$*.dvi $@ : $< $$deps $$bibs $$epses $$mandeps" > $@ 
+
+#	$(geteps) ; echo $$epses ; \
 
 include $(SRC:.tex=.d)
 

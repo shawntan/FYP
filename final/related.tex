@@ -21,8 +21,8 @@ all threads in the forum site.
 Many such works have used the Poisson distribution to model page updates.  
 Coffman et. al. \cite{Coffman1997} analysed the theoretical aspects of doing 
 this, showing that if the page change process is governed by a Poisson process 
-$\lambda e^{-\lambda \mu}$, then accessing the page at intervals proportional to 
-$\mu$ is optimal.
+$\frac{\lambda^k e^{-\lambda \mu}}{k!}$, then accessing the page at intervals 
+proportional to $\lambda$ is optimal.
 
 Cho and Garcia-Molina trace the change history of 720,000 web pages collected 
 over 4 months, and showed empirically that the Poisson process model closely 
@@ -85,4 +85,22 @@ this into our model is non-trivial.
 
 With these related work in mind, we next propose our modelling of a thread as a 
 Markov chain, and our approach to solving the problem.
+
+
+\section{Evaluation metrics}
+
+Big problems... evaluating the performance of a trained model...
+Timeliness of model good but does not allow for proper comparisons.. Why?
+
+Other possibilities, Georgescul's method... Pr Error.... 
+
+MAPE..
+
+\section{Predicting events in social media}
+
+
+\section{Time series prediction}
+
+
+
 

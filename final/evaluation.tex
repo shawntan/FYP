@@ -6,34 +6,45 @@ predictions could encounter.
 The model can potentially make a prediction such that the next visit comes 
 before the arrival of the next post. The predictions being made are the $\dt$ 
 between the posts, rather than the visitation times, hence, it is possible for 
-the model to make a prediciton that occurs before the current time. An erroneous 
+the model to make a prediction that occurs before the current time. An erroneous 
 prediction can also cause the crawler to come in before the next post (two, or 
 more, visits, but nothing new fetched). Errors of this type waste bandwidth, 
-since the crawler will make an unneccessary visit to the page.
+since the crawler will make an unnecessary visit to the page.
 
 Another type of error would have the prediction causing the next visit to come 
 some time after a post. Since most predictions are almost never fully accurate, 
-there will be some time between the post is made and hte page is fetched. These 
+there will be some time between the post is made and the page is fetched. These 
 errors are still relatively acceptable, but the time difference between the post 
 arriving and the visit should be minimised. The visit could also come more than 
 one post later. Errors of this kind incur a penalty on the freshness of the 
 data, more so than the after one post, especially if the multiple posts are far 
 apart time-wise.
 
-
 In the following experiments, the threads chosen from our extracted dataset are 
 those with a 100 to 1000 posts. This amounted to 97 threads. The first 75\% of 
-the thread was u sed as training data, while the remaining 25\% was used as test 
+the thread was used as training data, while the remaining 25\% was used as test 
 data. We used Support Vector machines for this regression task, employing a 
 Radial Basis Function kernel as our learning algorithm. 
-
-The SVR module from the Python library scikit-learn was used in the implementation of this experiment.
-
 
 %include diagrams
 
 \section{Evaluation metrics}
-We use \emph{Mean Absolute Percentage Error} (MAPE), to measure the performance of the learnt model. This value is given by
+
+\begin{figure}
+	\begin{center}
+	\input{diagrams/pr_error.tex}
+	\caption{An example of a series of events used in our evaluation.}
+	\end{center}
+\end{figure}
+\begin{figure}
+	\begin{center}
+	\input{diagrams/t_score_diag}
+	\caption{An example of a series of events used in our evaluation.}
+	\end{center}
+\end{figure}
+
+We use \emph{Mean Absolute Percentage Error} (MAPE), to measure the performance 
+of the learnt model. This value is given by
 \[
 	\frac{1}{N}\sum^N_{i=1}\left|\frac{A_i-F_i}{A_i}\right|
 \]
@@ -103,7 +114,6 @@ Function that gives me:
 
 Increase in visit to post ratio		increase
 Increase in interval				increase
-
 Increase between post and visit		increase
 (0,$\infty$ or 1)
 

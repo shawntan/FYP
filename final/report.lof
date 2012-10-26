@@ -1,7 +1,11 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces A series of events, posts (blue) and visits (orange). The diagram demonstrates the concept of a window of $w=2$. }}{8}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces The hourly post count for the hours during the day.}}{9}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces An example of the sliding window metric. The metric is made up of two components: First, the probability that, given at least one post is present in the window, there are more visits than post. Secondly, the probability that there are more posts than visits for a given window. The weighted sum of this gives the overall $Pr_{error}$}}{15}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces An example of a series of events used in our evaluation.}}{13}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces An example of a series of events used in our evaluation.}}{13}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces An example of the sliding window metric. The metric is made up of two components: First, the probability that, given at least one post is present in the window, there are more visits than post. Secondly, the probability that there are more posts than visits for a given window. The weighted sum of this gives the overall $Pr_{error}$}}{15}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
