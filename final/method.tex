@@ -106,17 +106,29 @@ differences and time context features (bit-vector representations of the day of
 the week and hour of the day). In our own statistics we took from the 
 \url{avsforum.com} threads, we have also found that the time of the day the day 
 of the week matters when dealing with threads. An example of such a thread can 
-be seen in Figure \ref{fig:hr_freq}
+be seen in Figure \ref{fig:hr_freq} and Figure \ref{fig:week_freq}, where it can 
+be seen that activity on the board is highest at 2 PM, and drops slightly, 
+suggesting some type of lunch period, and then goes up again during the early 
+evening and at 9 PM, before dropping to its lowest at 3 AM. The weekly graph 
+also shows a pattern, showing lower posting frequencies during the weekends, and 
+its highest during Thursdays.
 
 \begin{figure}
 \begin{center}
-\includegraphics[scale=0.5]{diagrams/threadfreq.png}
-\caption{The hourly post count for the hours during the day.}
+\begin{subfigure}[b]{0.8\textwidth}
+\includegraphics[width=\textwidth]{diagrams/hoursofday.png}
+\caption{The hourly post frequency for the hours during the day.}
 \label{fig:hr_freq}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.8\textwidth}
+\includegraphics[width=\textwidth]{diagrams/daysofweek.png}
+\caption{The daily post frequency for the hours during the week. (Monday is 0)}
+\label{fig:week_freq}
+	\end{subfigure}
 \end{center}
 \end{figure}
 
- However, this time in stead of linear regression, we used a regression method 
+However, this time in stead of linear regression, we used a regression method 
 known as Support Vector Regression (SVR). This method allows the using of 
 different kernels, allowing for better estimation of the target function.
 
