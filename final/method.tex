@@ -8,13 +8,26 @@
 \newcommand{\post}{\rho}
 \renewcommand{\t}{t}
 \newcommand{\w}{w}
+% Jesse: you need to assume that you already have talked about the goals of
+% the project in the introduction and/or in a transitionary paragraph at the
+% end of the previous section. So this paragraph should read differently.
 Our project aims to predict the amount of time between the arrival of the next 
 post and the time the last post in the thread was made. The information 
 available to us are the previously made posts that we observe when first 
-visiting the thread. The assumption made here is that the thread is not 
+visiting the thread. 
+% Jesse: why is this assumption important? What justifications do you have for
+% making it?
+The assumption made here is that the thread is not 
 paginated in any way, and a single visit to the thread gives us the latest posts 
 without having to traverse through the links to the latest page.
 
+% Jesse: you are not compiling your LaTeX document correctly. The table
+% number does not appear in the pdf.
+% Jesse: Even though you defined the annotations in the table, you need to
+% mention them inline as well. For example, "Given the t-th post p ...".
+% Jesse: Up to this point you have not mentioned any notion of a window. You
+% shouldn't just make the concept appear in the formal definition without
+% explanation or motivation.
 More formally, what we are trying to do is to estimate a function $f$ such that 
 given a feature vector $\X$ representative of a window $\post_{t - w + 
 1},\post_{t - w + 2},\cdots ,\post_t$, we can approximate $\dt$ with $f(\X)$. In 
@@ -45,7 +58,7 @@ $\X$		&	Feature vector extracted from a window\\
 \caption{Notation reference} \label{table:notations}
 \end{table}
 
-
+% Jesse: this paragraph looks to be in the wrong place
 We extracted the timestamp, author and text content for each post in each thread
 from the forums. Our dataset was obtained from from \url{avsforums.com}.
 %
@@ -69,9 +82,16 @@ the Poisson mean would be an optimal revisit policy. %cite paper.
 
 There are some details that need to be considered. One revisit policy would be 
 to do so at a constant, fixed rate, independent of the posts being made to the 
-thread. For our baseline revisit policy, we took into account the last made post 
+thread. 
+% Jesse: does not compute. If you're trying to explain a method here, it does
+% not show.
+For our baseline revisit policy, we took into account the last made post 
 whenever we revisit, and calculate our next revisit time based on the last post.
 
+% Jesse: Use a consistent terminology. Have you used "post interval timing"
+% before?
+% Jesse: you could do a better job at explaining the sliding window
+% methodology. Can you cite a paper instead?
 Another way of predicting using average post interval timings would be to use a 
 sliding window. Averaging out the time differences between the posts would 
 intuitively work, because it captures the context of the situation: A series of 
@@ -89,22 +109,31 @@ the concept of a window of $w=2$.
 	\end{center}
 \end{figure}
 
+% Jesse: why is this paragraph here?
 We will also be using figures similar to those found in Figure 
 \ref{fig:event_series}. In these diagrams, blue nodes represent post events and 
 orange nodes represent visit events.
 
 
 \section{Performing regression on windows}
+% Jesse: I dont understand what role this paragraph plays. It doesnt seem to
+% add to explaining your method, which up to this point, still has not been
+% explained. 
 Previous work has used linear regression on a number of different features 
 extracted from forums \cite{Yang2009}. In their paper, the regressed function 
 was used as a scoring function rather than a predictive function. In site of 
 this, we attempted to implement the same model, but this resulted in evaluations 
 worse than that of the baseline.
 
+% Jesse: So are we discussing about features now? Why is this under the
+% "Performing regression on windows" section? 
 We did use some of the features mentioned in the paper: Window posts time 
 differences and time context features (bit-vector representations of the day of 
 the week and hour of the day). In our own statistics we took from the 
-\url{avsforum.com} threads, we have also found that the time of the day the day 
+\url{avsforum.com} threads, 
+% Jesse: How did you utilize this finding? Is it manifested in your method
+% somehow? What method?  
+we have also found that the time of the day the day 
 of the week matters when dealing with threads. An example of such a thread can 
 be seen in Figure \ref{fig:hr_freq} and Figure \ref{fig:week_freq}, where it can 
 be seen that activity on the board is highest at 2 PM, and drops slightly, 
@@ -132,6 +161,8 @@ However, this time in stead of linear regression, we used a regression method
 known as Support Vector Regression (SVR). This method allows the using of 
 different kernels, allowing for better estimation of the target function.
 
+% Jesse: Are you just naming the possible features or are these the actual
+% features used by your method? Nothing is clear.
 The main focus of study in this report was to see if content helps with 
 predicting thread updates would produce an improvement. Some of the ways that 
 content data were extracted into feature vectors are the following: Word 
@@ -159,6 +190,7 @@ consideration. Table \ref{table:vocab_exp} shows the results of this experiment.
 \end{table}
 
 
+% Jesse: I dont see K in the table. How did you determine K? What is it?
 These feature sets are used in different combinations, with different window 
 sizes. The results will be seen in the next chapter.
 
@@ -168,6 +200,7 @@ posts made further in the history of the thread may have an effect on when the
 latest posts arrive. The magnitude of this effect, however, may diminish over 
 time.
 
+% Jesse: "attempt to use"? So you planned to use this function, but failed?
 Following this intuition we attempt to use a discounted sum over previous posts' 
 word frequency vector:
 \[
@@ -204,3 +237,8 @@ which is similar to the delta update rule found in artificial neural networks.
 We omit the scaling factor in the gradient as it is a constant and then 
 experiment with various values of $\eta$, the learning rate. 
 
+% Jesse: your method chapter is confusing. You are explaining bits and pieces
+% of your method without actually taking time to define, explicitly, what your
+% method entails and what motivates this approach. This chapter so far feels
+% like you're explaining in great detail about every piece of a jigzaw puzzle
+% without actually showing me what the completed puzzle looks like.
