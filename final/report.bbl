@@ -27,10 +27,28 @@ Coffman, E., \& Liu, Z. (1997).
 \newblock {Optimal robot scheduling for web search engines}.
 \newblock {\em Sophia}, , 1997.
 
+\bibitem[\protect\citename{Naaman}{Boase}{Lai}{NaamanETAL}{2010}{Naaman2010}]{Naaman2010}
+Naaman, M., Boase, J., \& Lai, C.-h. (2010).
+\newblock {Is it really about me?: message content in social awareness
+  streams}.
+\newblock {\em Proceedings of the 2010 ACM conference \ldots}, , 2010,
+  189--192.
+
+\bibitem[\protect\citename{Sriram}{}{Fuhry}{Sriram-Fuhry}{2010}{Sriram2010}]{Sriram2010}
+Sriram, B., \& Fuhry, D. (2010).
+\newblock {Short text classification in twitter to improve information
+  filtering}.
+\newblock {\em \ldots in information retrieval}, , 2010, 4--5.
+
 \bibitem[\protect\citename{Tan}{Zhuang}{Mitra}{TanETAL}{2007}{Tan2007}]{Tan2007}
 Tan, Q., Zhuang, Z., \& Mitra, P. (2007).
 \newblock {Designing efficient sampling techniques to detect webpage updates}.
 \newblock {\em Proceedings of the 16th}, {\em 1\/}(3), 2007.
+
+\bibitem[\protect\citename{Wang}{Chen}{Kan}{WangETAL}{2012}{Wang2012}]{Wang2012}
+Wang, A., Chen, T., \& Kan, M. (2012).
+\newblock {Re-tweeting from a Linguistic Perspective}.
+\newblock {\em NAACL-HLT 2012}, , 2012.
 
 \bibitem[\protect\citename{Wang}{}{McCarthy}{Wang-McCarthy}{2011}{Wang2011}]{Wang2011}
 Wang, L., \& McCarthy, D. (2011).
