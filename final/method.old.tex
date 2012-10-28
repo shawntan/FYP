@@ -8,6 +8,9 @@
 \newcommand{\post}{\rho}
 \renewcommand{\t}{t}
 \newcommand{\w}{w}
+% Jesse: you need to assume that you already have talked about the goals of
+% the project in the introduction and/or in a transitionary paragraph at the
+% end of the previous section. So this paragraph should read differently.
 We aim to predict the amount of time between the arrival of the next post and 
 the time the last post in the thread was made. The information available to us 
 are the previously made posts that we observe when first visiting the thread.  
@@ -18,13 +21,19 @@ able to keep track of where the last visited page of the thread was, and reading
 the new posts would incur a few more requests to the thread. This, in comparison 
 to constantly hitting the page for updates, would be negligible.
 
+% Jesse: you are not compiling your LaTeX document correctly. The table
+% number does not appear in the pdf.
+% Jesse: Even though you defined the annotations in the table, you need to
+% mention them inline as well. For example, "Given the t-th post p ...".
+% Jesse: Up to this point you have not mentioned any notion of a window. You
+% shouldn't just make the concept appear in the formal definition without
+% explanation or motivation.
 More formally, what we are trying to do is to estimate a function $f$ such that 
 given a feature vector $\X$ representative of a window $\post_{t - w + 
-1},\post_{t - w + 2},\cdots ,\post_t$, where $\post_t$ represents the $t$-th 
-post in the thread, we can approximate $\dt$ with $f(\X)$.  In the following 
-sections, we will discuss various methods for estimating $f$.  Various notations 
-will be used, a quick reference is provided in Table \ref{table:notations}.
-
+1},\post_{t - w + 2},\cdots ,\post_t$, we can approximate $\dt$ with $f(\X)$. In 
+the following sections, we will discuss various methods for estimating $f$.  
+Various notations will be used, a quick reference is provided in Table 
+\ref{table:notations}.
 
 \begin{table}
 	\begin{center}
@@ -49,6 +58,21 @@ $\X$		&	Feature vector extracted from a window\\
 \caption{Notation reference} \label{table:notations}
 \end{table}
 
+%We extracted the timestamp, author and text content for each post in each thread
+%from the forums. Our dataset was obtained from from \url{avsforums.com}.
+%
+%\begin{description}
+%	\item[Previous time differences] All the time differences between posts made 
+%		in the window. ($\dtvec$)
+%	\item[Time-based features] Day of week, Hour of day. Provides contextual 
+%		information about when the post was made. ($\ctxvec$)
+%	\item[Content features (text)] Word frequency counts are used for this set 
+%		of experiments. Using regression, we find the top $K$ variables that the 
+%		actual $\dt$ depends on.  Table \ref{vocab_exp} reflect the results of 
+%		the experiments done with varying values of $K$.
+%\end{description}
+%
+
 
 In the following sections, we describe the various methods we have to 
 approximate $f$.
@@ -57,26 +81,33 @@ approximate $f$.
 A simple way of estimating the revisit rate would be to use the average time 
 differences given the observed posts, or a training set. In previous work, we 
 have seen that if page updates follow a Poisson distribution, then revisiting at 
-the Poisson mean would be an optimal revisit policy. %cite paper
+the Poisson mean would be an optimal revisit policy. %cite paper.
 
-In our baseline revisit policy, we took into account the last made post whenever 
-we make a visit to the thread, and calculate our next revisit time based on the 
-average post intervals added to the timestamp of the previous post. This is in 
-contrast to an even simpler revisit policy that just revisits at a constant, 
-fixed rate, independent of the posts being made to the thread.
+There are some details that need to be considered. One revisit policy would be 
+to do so at a constant, fixed rate, independent of the posts being made to the 
+thread. 
+% Jesse: does not compute. If you're trying to explain a method here, it does
+% not show.
+For our baseline revisit policy, we took into account the last made post 
+whenever we revisit, and calculate our next revisit time based on average post 
+intervals added to the timestamp of the previous post.
 
-One other way of predicting using average post intervals would be to use the 
-concept of a \emph{window}. Averaging out the time differences between the posts 
-would intuitively work, because it captures the context of the situation: A 
-series of posts with short intervals should mean that the next post would come 
-at around the same interval as the few that came before.
+% Jesse: Use a consistent terminology. Have you used "post interval timing"
+% before?
+% Jesse: you could do a better job at explaining the sliding window
+% methodology. Can you cite a paper instead?
+Another way of predicting using average post intervals would be to use a sliding 
+window. Averaging out the time differences between the posts would intuitively 
+work, because it captures the context of the situation: A series of posts with 
+short intervals should mean that the next post would come at around the same 
+interval as the few that came before.
 
-In terms of using content for prediction, windows also make sense: Forum users 
-view content as paginated posts, so time differences between posts do not affect 
-their decision to post. Rather, reading a number of posts together affect 
-whether or not the user chooses to reply.
-
-An example of a window ($w=2$) can be seen in Figure \ref{fig:event_series}.
+%TODO:Rewrite.
+In terms of using content for prediction, windows should also make sense 
+because:
+people view content as paginated posts, so time differences between posts don't 
+really affect people's decision to post or not. Rather, reading the posts together
+affect whether or not the user chooses to reply.
 
 \begin{figure}
 	\begin{center}
@@ -88,22 +119,25 @@ the concept of a window of $w=2$.
 	\end{center}
 \end{figure}
 
-
 \section{Performing regression on windows}
 % Jesse: I dont understand what role this paragraph plays. It doesnt seem to
 % add to explaining your method, which up to this point, still has not been
-% explained.
-% Shawn: To explain why I didn't do simple linear regression.
+% explained. 
 Previous work has used linear regression on a number of different features 
 extracted from forums \cite{Yang2009}. In their paper, the regressed function 
 was used as a scoring function rather than a predictive function. In site of 
 this, we attempted to implement the same model, but this resulted in evaluations 
 worse than that of the baseline.
 
+% Jesse: So are we discussing about features now? Why is this under the
+% "Performing regression on windows" section? 
 We did use some of the features mentioned in the paper: Window posts time 
 differences and time context features (bit-vector representations of the day of 
 the week and hour of the day). In our own statistics we took from the 
-\url{avsforum.com} threads, we have also found that the time of the day the day 
+\url{avsforum.com} threads, 
+% Jesse: How did you utilize this finding? Is it manifested in your method
+% somehow? What method?  
+we have also found that the time of the day the day 
 of the week matters when dealing with threads. An example of such a thread can 
 be seen in Figure \ref{fig:hr_freq} and Figure \ref{fig:week_freq}, where it can 
 be seen that activity on the board is highest at 2 PM, and drops slightly, 
@@ -111,6 +145,7 @@ suggesting some type of lunch period, and then goes up again during the early
 evening and at 9 PM, before dropping to its lowest at 3 AM. The weekly graph 
 also shows a pattern, showing lower posting frequencies during the weekends, and 
 its highest during Thursdays.
+
 \begin{figure}
 \begin{center}
 \begin{subfigure}[b]{0.8\textwidth}
@@ -126,16 +161,12 @@ its highest during Thursdays.
 \end{center}
 \end{figure}
 
-
-This suggests that the \emph{time context} of which the posts were made are 
-important when trying to determine the rate of posts.  As such, we factor in the 
-day and hour information into our feature sets as well.
-
 However, this time in stead of linear regression, we used a regression method 
-known as Support Vector Regression (SVR), using a radial basis function kernel.  
-This method allows the using of different kernels, allowing for better 
-estimation of the target function.
+known as Support Vector Regression (SVR). This method allows the using of 
+different kernels, allowing for better estimation of the target function.
 
+% Jesse: Are you just naming the possible features or are these the actual
+% features used by your method? Nothing is clear.
 The main focus of study in this report was to see if content helps with 
 predicting thread updates would produce an improvement. Some of the ways that 
 content data were extracted into feature vectors are the following: Word 
@@ -162,59 +193,33 @@ consideration. Table \ref{table:vocab_exp} shows the results of this experiment.
 \end{centering}
 \end{table}
 
+
+% Jesse: I dont see K in the table. How did you determine K? What is it?
 These feature sets are used in different combinations, with different window 
 sizes. The results will be seen in the next chapter.
 
-The methods in this section use features extracted from the current window. A 
-model is then trained using these extracted features in order to make a 
-prediction. We take a look now at a two other novel methods that we developed.
-
 \section{Discounted sum of previous instances}
- 
-Posts made further in the history of the thread may have an effect on when the 
+The current method uses only information on the current $w$ posts. However, 
+posts made further in the history of the thread may have an effect on when the 
 latest posts arrive. The magnitude of this effect, however, may diminish over 
 time.
 
-Instead of having a finite window for which all posts (in said window) are 
-treated equally, why not try to account for all previous posts, but weigh them 
-accordingly: the earlier they were made, the less weightage on the prediction 
-the post should have.
-
+% Jesse: "attempt to use"? So you planned to use this function, but failed?
 Following this intuition we used a discounted sum over previous posts' word 
 frequency vector:
 \[
 	\X'_t = \X_t + \alpha \X'_{t-1}
 \]
-where $\X_t$ is the feature vector at post $t$. $\alpha$ is the \emph{discount 
-factor} and satisfies $0 \leq \alpha < 1$.
-
-This new feature vector $\X'_t$ will be used in the same way as before, 
-instances of $\X'$ will be regressed with their $\dt$ values. As before, we will 
-look at the results for this method in the next chapter.
-
-Up till now, we have looked at methods that treat the model as static -- once 
-trained, the model never gets updated during run time. However, this is 
-unrealistic due to the fact that over time, different words are popular as a 
-direct result of different topics in the real world being popular. In this case, 
-these fluctuations may be due to new updates to firmware being released or newer 
-models of, say, a stereo set.
+where $\X_t$ is the feature vector at post $t$, and $\vocab$ is the word 
+frequency vector. $\alpha$ is the \emph{discount factor} and satisfies $0 \leq 
+\alpha < 1$.
 
 \section{Stochastic Gradient Descent}
+%TODO: describe why conventional SGD doesn't work.
 We also used stochastic gradient descent to estimate the function $f$.  However, 
 during runtime, instead of using a static function, we continue to allow $f$ to 
 vary whenever new posts and their update times are observed.
-
-Having already attempted using linear regression for this purpose, we have found 
-it unsuitable for $f$ to be estimated by a linear function. Such a linear 
-function has often resulted in making a negative prediction, and sometimes an 
-overly huge one, when given feature vectors that have previously never been 
-observed. The function has to be somehow constrained such that the value 
-returned never drops below 0, and never predicts something too huge such that 
-many posts are missed.
-
-
-
-Since $f(\X) > 0$, we used a scaled sigmoid function,
+Since $f(\X_{t-w},\hdots,\X_{t-1}) > 0$, we used a scaled sigmoid function,
 \[
 	f(\X) = \frac{\Lambda-\lambda}{1 + e^{\weights \cdot \X}} + \lambda
 \]
@@ -223,22 +228,7 @@ where $\Lambda$ and $\lambda$ are the scaling factors. This results in $f:
 function between $\lambda$ and $\Lambda$ allows us to restrict the prediction 
 from becoming negative, or, becoming exceedingly huge. For our purposes, we set 
 $\lambda = Q_3 + 2.5(Q_{3} - Q_{1})$, where $Q_n$ is the value at the $n$-th 
-quartile. A visual interpretation of such a curve can be seen in Figure 
-\ref{fig:scaled_sigmoid}.
-\begin{figure}
-\begin{center}
-\begin{tikzpicture}
-	\begin{axis}[
-		xlabel=$\weights\cdot\X$,
-		ylabel=$f(\X)$,
-		ytick={0,0.5,1},
-		yticklabels={$\lambda$,$\frac{\lambda + \Lambda}{2}$,$\Lambda$}
-	]
-\addplot {1/(1+ e^-x)}; \end{axis}
-\end{tikzpicture}
-\end{center}
-\caption{Scaled sigmoid curve}\label{fig:scaled_sigmoid}
-\end{figure}
+quartile. 
 
 The resulting update rule for $\weights$ is then given by,
 \[
@@ -251,11 +241,8 @@ which is similar to the delta update rule found in artificial neural networks.
 We omit the scaling factor in the gradient as it is a constant and then 
 experiment with various values of $\eta$, the learning rate. 
 
-In this chapter, we have outlined the specific task we will be attempting, to 
-try and predict the time from the current last post in the thread to the next.
-We have discussed the types of features we will be using, time context features, 
-with a focus on content features that consists mainly of the tokens present. We 
-have also discussed the concept of a window, and how it could help to make 
-predictions better. Also, two novel methods were discussed, and, in the next 
-chapter, we will look at how these methods stack up against one another.
-
+% Jesse: your method chapter is confusing. You are explaining bits and pieces
+% of your method without actually taking time to define, explicitly, what your
+% method entails and what motivates this approach. This chapter so far feels
+% like you're explaining in great detail about every piece of a jigzaw puzzle
+% without actually showing me what the completed puzzle looks like.
