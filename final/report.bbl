@@ -27,6 +27,13 @@ Coffman, E., \& Liu, Z. (1997).
 \newblock {Optimal robot scheduling for web search engines}.
 \newblock {\em Sophia}, , 1997.
 
+\bibitem[\protect\citename{Georgescul}{Clark}{Armstrong}{GeorgesculETAL}{2009}{Georgescul2009}]{Georgescul2009}
+Georgescul, M., Clark, A., \& Armstrong, S. (2009).
+\newblock {An analysis of quantitative aspects in the evaluation of thematic
+  segmentation algorithms}.
+\newblock {\em \ldots of the 7th SIGdial Workshop on \ldots}, (July), 2009,
+  144--151.
+
 \bibitem[\protect\citename{Naaman}{Boase}{Lai}{NaamanETAL}{2010}{Naaman2010}]{Naaman2010}
 Naaman, M., Boase, J., \& Lai, C.-h. (2010).
 \newblock {Is it really about me?: message content in social awareness
@@ -44,11 +51,6 @@ Sriram, B., \& Fuhry, D. (2010).
 Tan, Q., Zhuang, Z., \& Mitra, P. (2007).
 \newblock {Designing efficient sampling techniques to detect webpage updates}.
 \newblock {\em Proceedings of the 16th}, {\em 1\/}(3), 2007.
-
-\bibitem[\protect\citename{Wang}{Chen}{Kan}{WangETAL}{2012}{Wang2012}]{Wang2012}
-Wang, A., Chen, T., \& Kan, M. (2012).
-\newblock {Re-tweeting from a Linguistic Perspective}.
-\newblock {\em NAACL-HLT 2012}, , 2012.
 
 \bibitem[\protect\citename{Wang}{}{McCarthy}{Wang-McCarthy}{2011}{Wang2011}]{Wang2011}
 Wang, L., \& McCarthy, D. (2011).

@@ -87,13 +87,22 @@ Markov chain, and our approach to solving the problem.
 
 
 \section{Evaluation metrics}
+\outcite{Yang2009} have a metric known as the $T$-score which gives the average 
+time a post is made and when the post is received. The lower the $T$-score, the 
+better the model. However, the metric does not account for visits which retrieve 
+nothing new from the thread.  As such, a crawler that repeatedly crawls the site 
+at a frequent rate would do very well.
 
-Big problems... evaluating the performance of a trained model...
-Timeliness of model good but does not allow for proper comparisons.. Why?
-
-Other possibilities, Georgescul's method... Pr Error.... 
-
-MAPE..
+In \outcite{Georgescul2009}, the authors propose a new scheme for evaluating 
+segmentation algorithms, $Pr_{error}$. This metric is the weighted sum of two 
+probability counts $Pr_{fa}$ which is the probability that a false alarm 
+segmentation is made, and $Pr_{miss}$ which is the probability that a 
+segmentation is not made when there should be one. Unfortunately for our 
+purposes, the metrics are calculated using the number of ground truths and 
+segmentations given a window. As such, it does not account for the ``distance" 
+between the ground truths and the segmentation. It also does not allow for the 
+predictions to appear after the ground truths, all requirements needed for a 
+metric to evaluate timeliness of a model.
 
 \section{Predicting events in social media}
 There has been some work done recently in predicting events in social media, and 
