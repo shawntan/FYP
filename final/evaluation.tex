@@ -1,3 +1,17 @@
+One of the contributions of this project was also to come up with a good metric 
+for measuring the performance of a model that performs predictions. Our metric 
+has to be different from traditional methods of measuring performance, like Mean 
+Average Percentage Error (MAPE), for instance. In such measures, the performance 
+of the model is measured on an instance by instance basis. To give a concrete 
+example, say we are attempting to predict stock prices. Given the feature vector 
+as input, we get an estimate of what the stock prices will be for, say, the next 
+day. We can then measure the absolute difference between what was predicted and 
+the actual amount, and evaluate the model based on that.
+
+In our case, we want to know how long it takes before any post made will be 
+retrieved by the crawler. We also want to ensure that the model does not choose 
+to make too many requests. The rest of the chapter explains in detail how we 
+came up with our metric, its advantages and limitations.
 
 \section{Potential errors}
 To be thorough, let us also enumerate the types of errors that a model making 
