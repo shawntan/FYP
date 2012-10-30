@@ -9,7 +9,7 @@
 \contentsline {section}{\numberline {2.2}Thread content analysis}{5}
 \contentsline {section}{\numberline {2.3}Evaluation metrics}{6}
 \contentsline {section}{\numberline {2.4}Predicting events in social media}{6}
-\contentsline {section}{\numberline {2.5}Time series prediction}{7}
+\contentsline {section}{\numberline {2.5}Forecasting and Machine Learning}{7}
 \contentsline {chapter}{\numberline {3}Method}{8}
 \contentsline {section}{\numberline {3.1}Baselines}{8}
 \contentsline {section}{\numberline {3.2}Performing regression on windows}{10}

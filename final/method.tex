@@ -148,18 +148,18 @@ of the full vocabulary of the thread as a feature vector greatly increases the
 time needed to train the model. As such, we used a simple univariate regression 
 technique for feature selection, and selected only the $K$ best tokens for 
 consideration. Table \ref{table:vocab_exp} shows the results of this experiment.  
-
+	
 \begin{table}
 	\footnotesize
-	\begin{centering}
+\begin{center}
 	\begin{tabular}{|l|c|c|c|c|c|c|c|c|}
 	\hline
 	\input{tables/vocab_exp}
 	\hline
 	\end{tabular}
+\end{center}
 	\caption{Experiment results: Varying vocabulary size}
 	\label{table:vocab_exp}
-\end{centering}
 \end{table}
 
 These feature sets are used in different combinations, with different window 

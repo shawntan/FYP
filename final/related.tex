@@ -122,7 +122,10 @@ since we are trying to minimise the time from which a post is made to when the
 page is revisited. However, the feature sets used in these works should prove 
 useful in our task.  
 
-\section{Time series prediction}
+\section{Forecasting and Machine Learning}
+Since the purpose of our envisioned model would be to create a crawler that can estimate the best times to revisit a page, a proper approach to modeling this as a time-series model would be through machine learning techniques.
+
+An interesting approach to forecasting stock prices was presented in \outcite{Cao2003}. The technique involved tweaking conventional SVMs to weigh recent training instances more heavily than older instances. This is a particularly useful idea, since we face the same issue in our task: Recent posts are more descriptive of the current state of the thread, and hence should be more useful in predicting the next post.
 
 
 
