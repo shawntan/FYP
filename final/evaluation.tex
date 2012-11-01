@@ -1,12 +1,54 @@
+\renewcommand{\P}{Pr}
+
+%\begin{figure}
+%\begin{center}
+%	\includegraphics[width=0.8\textwidth]{diagrams/time_dist.png}
+%\end{center}
+%\caption{Time distribution for a subset of 97 threads}\label{fig:time_dist}
+%\end{figure}
+%
+\begin{table}
+\begin{center}
+\begin{tabular}{l l}
+	\hline
+Notation	&	Description		\\
+	\hline
+$P$			&	List of posts. \\
+$V$			&	List of visits.\\
+$T$			&	A thread's $T$-score. \\
+	$T_\text{max}$	&	A thread's maximum $T$-score. \\
+$t(\post)$	&	Timestamp of the post.\\
+	\hline
+\end{tabular}
+\end{center}
+	\caption{Notation used for evaluation metrics}
+\end{table}
+
+
 One of the contributions of this project was also to come up with a good metric 
-for measuring the performance of a model that performs predictions. Our metric 
-has to be different from traditional methods of measuring performance, like Mean 
-Average Percentage Error (MAPE), for instance. In such measures, the performance 
-of the model is measured on an instance by instance basis. To give a concrete 
-example, say we are attempting to predict stock prices. Given the feature vector 
-as input, we get an estimate of what the stock prices will be for, say, the next 
-day. We can then measure the absolute difference between what was predicted and 
-the actual amount, and evaluate the model based on that.
+for measuring the performance of a model that performs predictions. 
+
+Our metric has to be different from traditional methods of measuring 
+performance. One example of such a measure is Mean Average Percentage Error 
+(MAPE), which we use to measure the performance of the learnt model. This value 
+is given by
+\[
+	\frac{1}{|P|}\sum^{|P|}_{t=1}\left|\frac{f(\X_t) - \dt}{\dt}\right|
+\]
+where $A_i$ is the actual value, and $F_i$ is the forecasted value for the 
+instance $i$. Realistically, the model would not be able to come into contact 
+with every possible window, since chances are it will make an error that causes 
+ %explain error in a new section (before this one) ?
+it to visit a thread late, causing it to miss two posts or more. This value does 
+not reflect how well the model will do in a real-time setting, but gives an idea 
+of how far off the model is given a window.
+
+In such measures, the performance of the model is measured on an instance by 
+instance basis. To give a concrete example, say we are attempting to predict 
+stock prices. Given the feature vector as input, we get an estimate of what the 
+stock prices will be for, say, the next day. We can then measure the absolute 
+difference between what was predicted and the actual amount, and evaluate the 
+model based on that.
 
 In our case, we want to know how long it takes before any post made will be 
 retrieved by the crawler. We also want to ensure that the model does not choose 
@@ -33,23 +75,10 @@ arriving and the visit should be minimised. The visit could also come more than
 one post later. Errors of this kind incur a penalty on the freshness of the 
 data, more so than the after one post, especially if the multiple posts are far 
 apart time-wise.
-
-In the following experiments, the threads chosen from our extracted dataset are 
-those with a 100 to 1000 posts. This amounted to 97 threads. The first 75\% of 
-the thread was used as training data, while the remaining 25\% was used as test 
-data. We used Support Vector machines for this regression task, employing a 
-Radial Basis Function kernel as our learning algorithm. 
-
 %include diagrams
 
-\section{Evaluation metrics}
+\section{$T$-score, and the Visit/Post ratio}
 
-\begin{figure}
-	\begin{center}
-	\input{diagrams/pr_error.tex}
-	\caption{An example of a series of events used in our evaluation.}
-	\end{center}
-\end{figure}
 \begin{figure}
 	\begin{center}
 	\input{diagrams/t_score_diag}
@@ -57,104 +86,82 @@ Radial Basis Function kernel as our learning algorithm.
 	\end{center}
 \end{figure}
 
-We use \emph{Mean Absolute Percentage Error} (MAPE), to measure the performance 
-of the learnt model. This value is given by
-\[
-	\frac{1}{N}\sum^N_{i=1}\left|\frac{A_i-F_i}{A_i}\right|
-\]
-where $A_i$ is the actual value, and $F_i$ is the forecasted value for the 
-instance $i$. Realistically, the model would not be able to come into contact 
-with every possible window, since chances are it will make an error that causes 
- %explain error in a new section (before this one) ?
-it to visit a thread late, causing it to miss two posts or more. This value does 
-not reflect how well the model will do in a real-time setting, but gives an idea 
-of how far off the model is given a window. 
-
-We also want to know the \emph{timeliness} of the model's visits. Yang et. al.  
-\cite{Yang2009} has a metric for measuring this. Taking $\Delta t_i$ as the time 
-difference between a post $i$ and it's download time, the timeliness of the 
+We also want to know the \emph{timeliness} of the model's visits.  
+\outcite{Yang2009} has a metric for measuring this. Taking $\Delta t_i$ as the 
+time difference between a post $i$ and it's download time, the timeliness of the 
 algorithm is given by
-\[T = \frac{1}{N} \sum^{N}_{i=1}\Delta t_i\]
+\[
+	T = \frac{1}{|P|} \sum^{|P|}_{i=1}\Delta t_i
+\]
+
 A good algorithm would give a low $T$-score. However, a crawler that hits the 
 site repeatedly performs well according to this metric. The authors account for 
 this by setting a bandwidth (fixed number of pages per day) for each iteration 
 of their testing. In our experimental results, we also take into account the 
 number of page requests made in comparison to the number of posts. %ratio?
 
-\begin{align*}
-	\begin{array}{l@{\mskip\thickmuskip}l}
-	Pr_{miss} &=  \dfrac{%
-		\sum^{N-k}_{i=1} \left[\Theta_{ref\_hyp} (i,k)\right]%
-	}{%
-		\sum^{N-k}_{i=1} \left[\Delta_{ref} (i,k)\right]%
-	}\\
-	 & \\
-	Pr_{fa} &= \dfrac{%
-		\sum^{N-k}_{i=1} \left[\Psi_{ref\_hyp} (i,k)\right]%
-	}{N-k}
-	\end{array}
-	\begin{array}{l@{\mskip\thickmuskip}l}
-		\Delta_{ref}(i,k) &= \left\{ \begin{array}{l l}
-				1, & \text{if }r(i,k) > 0 \\
-				0, & \text{otherwise} 
-		\end{array} \right.\\
-		\Theta_{ref\_hyp}(i,k) &= \left\{ \begin{array}{l l}
-				1, & \text{if ends with post} \\
-				0, & \text{otherwise} 
-		\end{array} \right.\\
-		\Psi_{ref\_hyp}(i,k) &= \left\{ \begin{array}{l l}
-				1, & \text{if ends with visit}\\
-				0, & \text{otherwise} 
-		\end{array} \right.\\
-	\end{array}
-\end{align*}
-Split the $Pr_{error}$ measure into 3 parts:
+%\begin{align*}
+%	\begin{array}{l@{\mskip\thickmuskip}l}
+%	Pr_{miss} &=  \dfrac{%
+%		\sum^{N-k}_{i=1} \left[\Theta_{ref\_hyp} (i,k)\right]%
+%	}{%
+%		\sum^{N-k}_{i=1} \left[\Delta_{ref} (i,k)\right]%
+%	}\\
+%	 & \\
+%	Pr_{fa} &= \dfrac{%
+%		\sum^{N-k}_{i=1} \left[\Psi_{ref\_hyp} (i,k)\right]%
+%	}{N-k}
+%	\end{array}
+%	\begin{array}{l@{\mskip\thickmuskip}l}
+%		\Delta_{ref}(i,k) &= \left\{ \begin{array}{l l}
+%				1, & \text{if }r(i,k) > 0 \\
+%				0, & \text{otherwise} 
+%		\end{array} \right.\\
+%		\Theta_{ref\_hyp}(i,k) &= \left\{ \begin{array}{l l}
+%				1, & \text{if ends with post} \\
+%				0, & \text{otherwise} 
+%		\end{array} \right.\\
+%		\Psi_{ref\_hyp}(i,k) &= \left\{ \begin{array}{l l}
+%				1, & \text{if ends with visit}\\
+%				0, & \text{otherwise} 
+%		\end{array} \right.\\
+%	\end{array}
+%\end{align*}
+%Split the $Pr_{error}$ measure into 3 parts:
+%
+%Probability of having visits before the first post in the window.
+%Probability of having more visits than posts after the first post.
+%Probability of having more posts than visits after the first post.
 
-Probability of having visits before the first post in the window.
-Probability of having more visits than posts after the first post.
-Probability of having more posts than visits after the first post.
+%Viewing the posts made during the thread's lifetime as segmentations of the 
+%thread, and the visits made as hypotheses of where the segmentations are, we 
+%use the $\prerror$ metric from \outcite{Georgescul2009} as a measure of how 
+%close the predictions are to the actual posts. An example can be seen in Figure 
+%\ref{prerror}.
 
-
-
-Viewing the posts made during the thread's lifetime as segmentations of the 
-thread, and the visits made as hypotheses of where the segmentations are, we use 
-the $\prerror$ metric from Georgescul et. al., 2006 as a measure of how close 
-the predictions are to the actual posts. An example can be seen in Figure 
-\ref{prerror}.
-
-
-
-Function that gives me:
-
-Increase in visit to post ratio		increase
-Increase in interval				increase
-Increase between post and visit		increase
-(0,$\infty$ or 1)
-
-Increase between visit and visit	decrease
-($\infty$ or 1,0)
-Increase between post and post		increase
-(0,$\infty$ or 1)
-
-\[
-	\begin{array}{l l}
-	T = \dfrac{%
-		\sum_{e=1}^{|E|-1} \Psi(e_t,e_{t+1}) %
-	}{|E|-1} &
-		\Psi(e_t,e_{t+1}) = \left\{\begin{array}{l l}
-				1-e^{-(e_{t+1} - e_t)}	& \text{if post,visit}\\
-				e^{-(e_{t+1} - e_t)}			& \text{if visit,visit}\\
-		\end{array}\right.
-\end{array}
-\]
-
-\begin{figure}
-\[
-	\uparrow~~p_1,\underbrace{~~p_2,~~p_3,~~~p_4,\uparrow}_{\text{sliding window}}\uparrow
-\]
-\caption{An example of the sliding window metric. The metric is made up of two components: First, the probability that, given at least one post is present in the window, there are more visits than post. Secondly, the probability that there are more posts than visits for a given window. The weighted sum of this gives the overall $\prerror$}\label{prerror}
-\end{figure}
-
+%Function that gives me:
+%
+%Increase in visit to post ratio		increase
+%Increase in interval				increase
+%Increase between post and visit		increase
+%(0,$\infty$ or 1)
+%
+%Increase between visit and visit	decrease
+%($\infty$ or 1,0)
+%Increase between post and post		increase
+%(0,$\infty$ or 1)
+%
+%\[
+%	\begin{array}{l l}
+%	T = \dfrac{%
+%		\sum_{e=1}^{|E|-1} \Psi(e_t,e_{t+1}) %
+%	}{|E|-1} &
+%		\Psi(e_t,e_{t+1}) = \left\{\begin{array}{l l}
+%				1-e^{-(e_{t+1} - e_t)}	& \text{if post,visit}\\
+%				e^{-(e_{t+1} - e_t)}			& \text{if visit,visit}\\
+%		\end{array}\right.
+%\end{array}
+%\]
 
 \section{Normalising the $T$-score and Visit/Post ratio}
 We normalise the $T$-score to get a comparable metric across all the threads. In 
@@ -166,23 +173,223 @@ last post are ignored.
 We then consider the worst case in terms of timeliness, or misses. This would be 
 the case where the visit comes at the end, at the same time as the post. So we 
 get a value $T_{\max}$ and $P_{\text{miss}}$ such that
-\[
-	P_{\text{miss}} = \frac{T}{T_{\max}} = \dfrac{N \cdot T}{\sum_p l - p_t}
-\]
+\begin{align*}
+	\P_{\text{miss}} &= \frac{T}{T_{\max}}\\
+							  &= \dfrac{T}{\left(
+					\dfrac{%
+			\sum_\post (\max_{\post'}t(\post') - t(\post))}{|P|}\right)} \\
+					&= \dfrac{|P| \cdot T}{%
+		\sum_\post (\max_{\post'}t(\post') - t(\post))}
+\end{align*}
 
+
+An example can be viewed in Figure \ref{fig:norm_t_score}. Assuming that there 
+are no posts before $\post_1$ here, we simply take the usual $T$-score value to 
+get $T_\text{max}$
+\begin{figure}
+\begin{center}
+\input{diagrams/norm_t_score_diag}
+	\end{center}
+\caption{An example of calculating $T_\text{max}$. A visit is assumed at the 
+same time as the final post made, and the usual $T$-score metric is 
+calculated}\label{fig:norm_t_score}
+\end{figure}
 It is difficult to consider the worst case in terms of false alarms, or visits 
 that retrieve nothing. There could be an infinite number of visits made if we 
 are to take the extreme case. In order to get around this, we consider discrete 
 time frames in which a visit can occur. Since for this dataset, our time 
 granularity is in terms of minutes, we shall use minutes as our discrete time 
 frame.
-
 With this simplified version of our series of events, we can then imagine a 
 worst-case performing revisit policy that visits at every single time frame.  
-This gives us
+Here, we assume all quantities are measured in terms of minutes. This gives us
 \[
-	P_{\text{FA}} = \frac{|V|}{l - |P|}
+	\P_{\text{FA}} = \frac{|V|}{(\max_{\post}t(\post)) - |P|}
 \]
-where $l$ is in units of our specified discrete time frame.
+where $l$ is in units of:our specified discrete time frame. Figure 
+\ref{fig:norm_fa_score} shows an example of how $\P_{\text{FA}}$ is calculated.
+
+\begin{figure}
+\begin{center}
+	\input{diagrams/fa_diag}
+\end{center}
+\caption{An example of calculating the maximum number of visits given a thread. 
+The ratio between the number of visits predicted and the number of visits to the 
+thread, and is used as $\P_{\text{FA}}$}
+\label{fig:norm_fa_score}
+\end{figure}
 
 
+With these two normalised forms of the original metrics, we can use the harmonic 
+mean to give a weighted combined form of the two error rates, 
+$\P_{\text{error}}$:
+\[
+	\P_{\text{error}} = 2\cdot
+	\frac{\P_{\text{miss}} \cdot \P_{\text{FA}}}{%
+		\P_{\text{miss}} + \P_{\text{FA}}%
+	}
+\]
+
+
+In the following sections, we will discuss the results of our experiments with 
+the various algorithms found in the previous chapter, and measure their 
+effectiveness using their $T$-scores and Visit/Post ratio, and comparing them 
+using the  $\P_{\text{error}}$ metric.
+
+\section{Experiment setup}
+The first 75\% of the thread was used as training data, while the remaining 25\% 
+was used as test data. We used Support Vector Regression for this regression 
+task, employing a Radial Basis Function kernel as our learning algorithm. 
+
+\begin{figure}
+	\footnotesize
+	\singlespacing
+	\begin{tabular}{| p{0.5\textwidth} | p{0.16\textwidth} |}
+		\hline
+		75\% Training 	&	25\% Testing \\
+		\hline
+	\end{tabular}\\
+	\begin{tabular}{| p{0.6\textwidth} | p{0.2\textwidth} |}
+		\hline
+		75\% Training 	&	25\% Testing \\
+		\hline
+	\end{tabular}\\
+	\begin{tabular}{| p{0.45\textwidth} | p{0.15\textwidth} |}
+		\hline
+		75\% Training 	&	25\% Testing \\
+		\hline
+	\end{tabular}\\
+$\vdots$\\
+	\begin{tabular}{| p{0.15\textwidth} | p{0.05\textwidth} |}
+		\hline
+		75\% &	25\% \\
+		\hline
+	\end{tabular}
+	\caption{Our experiment setup}\label{fig:exp_setup}
+\end{figure}
+
+\subsection{Parameter Tuning}
+Before we begin performing experiments on the full dataset, we first tuned the 
+machine learning algorithms using a sample of the forum threads. In the 
+following experiments, the threads chosen from our extracted dataset are those 
+with a 100 to 1000 posts. This amounted to 97 threads.
+%TODO: may need to change once results are out.
+In each of these experiments, we run the algorithm with different parameters, 
+and use the optimal one in our final evaluation. 
+
+\subsubsection{Window size}
+Using a combination of feature sets, we experiment with different window sizes, 
+$w = 1, 5, 10, 15$.
+
+Performing the experiment using only the $\dt$ values within the window, we 
+obtain the results found in Table \ref{tbl:par_tune_dt}. The results show that 
+$w=15$ provide the best $T$-score. We must however, keep in mind that its 
+Visit/Post ratio is the highest, but also has a higher standard error.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{| l | c | c | c |}
+\hline
+		& $Pr_{error}$		  & $T$-score			   &	Visit/Post\\
+\hline
+	\input{tables/dt_vec_features}
+\hline
+\end{tabular}
+\end{center}
+\caption{Some results}\label{tbl:par_tune_dt}
+\end{table}
+
+Using only the content, we perform the same experiment again. Since the size of 
+the vocabulary is large, we select the $K = 50$ best tokens to consider using 
+Univariate feature selection. This gives us the results in Table 
+\ref{tbl:par_tune_content}. The best $T$-score here does not do as well as that 
+in the previous experiment. However, it is interesting to note that, again, 
+$w=15$ results in the best $T$-score.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{| l | c | c | c |}
+\hline
+		& $Pr_{error}$		  & $T$-score			   &	Visit/Post\\
+\hline
+	\input{tables/dt_vec_features}
+\hline
+\end{tabular}
+\end{center}
+\caption{Some results}\label{tbl:par_tune_content}
+\end{table}
+
+For our final experiment for tuning the window size, we combine the various 
+feature sets together. We also include the time-context in this experiment, and 
+we arrive at the results found in Table \ref{tbl:par_tune_comb}. Again, $w=15$ 
+has the best $T$-score, but only with a slight improvement over our first 
+experiment.
+
+In any case, this suggests that $w=15$ may be the best window size. In the 
+following experiments, this will be our $w$ value.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{| l | c | c | c |}
+\hline
+		& $Pr_{error}$		  & $T$-score			   &	Visit/Post\\
+\hline
+	\input{tables/comb_vec_features}
+\hline
+\end{tabular}
+\end{center}
+\caption{Some results}\label{tbl:par_tune_comb}
+\end{table}
+
+
+\subsubsection{Decay factor}
+In our discounted sum method, we have to tune the $\alpha$ parameter. We search 
+through 0.1 to 0.9 (inclusive) with 0.1 increments to find the best possible 
+value for $\alpha$.  We used the combined set of features for this experiment.
+The results are shown in Table \ref{tbl:par_tune_decay}.
+\begin{table}
+\begin{center}
+\begin{tabular}{| l | c | c | c |}
+\hline
+		& $Pr_{error}$		  & $T$-score			   &	Visit/Post\\
+\hline
+	\input{tables/alpha_decay}
+\hline
+\end{tabular}
+\end{center}
+\caption{Some results}\label{tbl:par_tune_decay}
+\end{table}
+
+$\alpha=0.9$ performs the best, but its improvement over the rest of the values 
+for $\alpha$ are not by much. Also, note that the $T$-scores do not defer much 
+from the previous experiment, although there is a slight improvement.
+
+\subsubsection{Learning rate for Stochastic Gradient Descent}
+
+Because of the scaling factors applied to the sigmoid function, a small change 
+in the exponent of $e$ results in huge fluctuations. As such, we need to find a 
+small enough learning rate such that the predicted values do not end up at only 
+the extremes, but large enough such that the model is adaptive enough to 
+``react" to changes.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{| l | c | c | c |}
+\hline
+		& $Pr_{error}$		  & $T$-score			   &	Visit/Post\\
+\hline
+	\input{tables/learning_rate}
+\hline
+\end{tabular}
+\end{center}
+\caption{Some results}\label{tbl:par_tune_learning}
+\end{table}
+
+In this experiment, we find that $\eta = \eta=5\cdot10^{-8}$ is the best value 
+for the learning rate. Also note that this model produces the best results for 
+the sample dataset.
+
+In the following section, we will describe the experiment performed on the full 
+dataset.
+
+\section{Experiments}

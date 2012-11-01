@@ -16,10 +16,16 @@
 \contentsline {section}{\numberline {3.3}Discounted sum of previous instances}{13}
 \contentsline {section}{\numberline {3.4}Stochastic Gradient Descent}{13}
 \contentsline {chapter}{\numberline {4}Evaluation}{16}
-\contentsline {section}{\numberline {4.1}Potential errors}{16}
-\contentsline {section}{\numberline {4.2}Evaluation metrics}{18}
-\contentsline {section}{\numberline {4.3}Normalising the $T$-score and Visit/Post ratio}{19}
-\contentsline {chapter}{\numberline {5}Conclusion}{21}
-\contentsline {section}{\numberline {5.1}Future Work}{21}
-\contentsline {chapter}{References}{22}
+\contentsline {section}{\numberline {4.1}Potential errors}{17}
+\contentsline {section}{\numberline {4.2}$T$-score, and the Visit/Post ratio}{18}
+\contentsline {section}{\numberline {4.3}Normalising the $T$-score and Visit/Post ratio}{18}
+\contentsline {section}{\numberline {4.4}Experiment setup}{20}
+\contentsline {subsection}{\numberline {4.4.1}Parameter Tuning}{20}
+\contentsline {subsubsection}{Window size}{21}
+\contentsline {subsubsection}{Decay factor}{22}
+\contentsline {subsubsection}{Learning rate for Stochastic Gradient Descent}{23}
+\contentsline {section}{\numberline {4.5}Experiments}{23}
+\contentsline {chapter}{\numberline {5}Conclusion}{25}
+\contentsline {section}{\numberline {5.1}Future Work}{25}
+\contentsline {chapter}{References}{26}
 \contentsline {chapter}{\numberline {A}Code}{A-1}

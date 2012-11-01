@@ -1,4 +1,3 @@
-
 \tikzstyle{post}=[circle,
 	thick,
 	minimum size=1.2cm,
@@ -19,13 +18,13 @@
   \matrix[column sep=0.4cm] {
     % First line: Control input
     	&
-		\node (e0)				{$\cdots$};&
-		\node (e1)	[post]			{$\rho_1$}; &
+		\node (e0)						{};&
+		\node (e1)	[post]				{}; &
 		&
-		\node (e2)	[post]			{$\rho_2$}; &
-		\node (e3)	[visit]			{$\rho_5$}; &
-		\node (e4)	[visit]			{$\rho_6$}; &
-		\node (e)				{$\cdots$};&
+		\node (e2)	[post]				{}; &
+		\node (e3)	[visit]				{}; &
+		\node (e4)	[visit]				{}; &
+		\node (e)						{};&
 		&
         \\
 	};
