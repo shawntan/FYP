@@ -1,0 +1,22 @@
+	\begin{tabular}{| p{0.5\textwidth} | p{0.16\textwidth} |}
+		\hline
+		75\% Training 	&	25\% Testing \\
+		\hline
+	\end{tabular}\\
+	\begin{tabular}{| p{0.6\textwidth} | p{0.2\textwidth} |}
+		\hline
+		75\% Training 	&	25\% Testing \\
+		\hline
+	\end{tabular}\\
+	\begin{tabular}{| p{0.45\textwidth} | p{0.15\textwidth} |}
+		\hline
+		75\% Training 	&	25\% Testing \\
+		\hline
+	\end{tabular}\\
+$\vdots$\\
+	\begin{tabular}{| p{0.15\textwidth} | p{0.05\textwidth} |}
+		\hline
+		75\% &	25\% \\
+		\hline
+	\end{tabular}
+
