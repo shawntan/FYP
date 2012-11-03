@@ -1,3 +1,5 @@
+\newcommand{\Prerror}{Pr_{\text{error}}}
+
 \section{Experiment setup}
 The first 75\% of the thread was used as training data, while the remaining 25\% 
 was used as test data. We used Support Vector Regression for this regression 
@@ -30,7 +32,7 @@ Visit/Post ratio is the highest, but also has a higher standard error.
 \begin{center}
 \begin{tabular}{| l | c | c | c |}
 \hline
-		& $Pr_{error}$		  & $T$-score			   &	Visit/Post\\
+& $T$-score			   &	Visit/Post & 	$\prerror$\\
 \hline
 	\input{tables/dt_vec_features}
 \hline
@@ -50,8 +52,9 @@ $w=15$ results in the best $T$-score.
 \begin{center}
 \begin{tabular}{| l | c | c | c |}
 \hline
-		& $Pr_{error}$		  & $T$-score			   &	Visit/Post\\
+& $T$-score			   &	Visit/Post & 	$\prerror$\\
 \hline
+
 	\input{tables/dt_vec_features}
 \hline
 \end{tabular}
@@ -72,9 +75,9 @@ following experiments, this will be our $w$ value.
 \begin{center}
 \begin{tabular}{| l | c | c | c |}
 \hline
-		& $Pr_{error}$		  & $T$-score			   &	Visit/Post\\
+& $T$-score			   &	Visit/Post & 	$\prerror$\\
 \hline
-	\input{tables/comb_vec_features}
+\input{tables/comb_vec_features}
 \hline
 \end{tabular}
 \end{center}
@@ -91,7 +94,7 @@ The results are shown in Table \ref{tbl:par_tune_decay}.
 \begin{center}
 \begin{tabular}{| l | c | c | c |}
 \hline
-		& $Pr_{error}$		  & $T$-score			   &	Visit/Post\\
+& $T$-score			   &	Visit/Post & 	$\prerror$\\
 \hline
 	\input{tables/alpha_decay}
 \hline
