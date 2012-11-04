@@ -1,4 +1,23 @@
-\newcommand{\Prerror}{Pr_{\text{error}}}
+In our project, the dataset we used was crawled from 
+\url{http://www.avsforum.com/f/}. The forum dealt mainly with Audio-Visual 
+equipment, with discussions mainly about technical details, offers and people 
+showing off their DIY projects.
+
+The forum was chosen from the list which \outcite{Yang2009} provided in their 
+paper. The forum users use mainly proper English, which made removing stopwords 
+and stemming simpler.
+
+We crawled 4,158 threads, with a total of 1,002,225 posts. A distribution of how 
+the length of threads are distributed can be seen in Figure \ref{fig:len_dist}.  
+Threads with 1 to 10 posts already make up half the number of collected threads.
+The distribution of the time differences are shown in Figure 
+\ref{fig:time_dist}. In both the figures, the right-hand-side cutoff was set at 
+1,000 due to the negligible number of items to the right of the cutoff.
+
+
+\putgraphic{diagrams/len_dist.png}{Distribution of thread 
+length}{len_dist}{0.75}
+\putgraphic{diagrams/time_dist.png}{Distribution of $\dt$}{time_dist}{0.75}
 
 \section{Experiment setup}
 The first 75\% of the thread was used as training data, while the remaining 25\% 
@@ -18,6 +37,25 @@ with a 100 to 1000 posts. This amounted to 97 threads.
 %TODO: may need to change once results are out.
 In each of these experiments, we run the algorithm with different parameters, 
 and use the optimal one in our final evaluation. 
+
+\subsubsection{Vocabulary size}
+%TODO in progress.
+\begin{table}
+	\footnotesize
+\begin{center}
+	\begin{tabular}{|l|c|c|c|c|c|c|c|c|}
+	\hline
+& $T$-score			   &	Visit/Post & 	$\prerror$\\
+	\hline
+	\input{tables/vocab_exp}
+	\hline
+	\end{tabular}
+\end{center}
+	\caption{Experiment results: Varying vocabulary size}
+	\label{table:vocab_exp}
+\end{table}
+
+
 
 \subsubsection{Window size}
 Using a combination of feature sets, we experiment with different window sizes, 
@@ -119,7 +157,7 @@ the extremes, but large enough such that the model is adaptive enough to
 \begin{center}
 \begin{tabular}{| l | c | c | c |}
 \hline
-		& $Pr_{error}$		  & $T$-score			   &	Visit/Post\\
+& $T$-score			   &	Visit/Post & 	$\prerror$\\
 \hline
 	\input{tables/learning_rate}
 \hline
@@ -128,11 +166,12 @@ the extremes, but large enough such that the model is adaptive enough to
 \caption{Some results}\label{tbl:par_tune_learning}
 \end{table}
 
-In this experiment, we find that $\eta = \eta=5\cdot10^{-8}$ is the best value 
-for the learning rate. Also note that this model produces the best results for 
-the sample dataset.
+In this experiment, we find that $\eta=5\cdot10^{-8}$ is the best value for the 
+learning rate. Also note that this model produces the best results for the 
+sample dataset.
 
-In the following section, we will describe the experiment performed on the full 
-dataset.
+
+So at the end of tuning our feature set and parameters, we have the following 
+set of parameters: $K = 50, w = 15, \alpha = 0.9, \eta = 5\cdot10^{-8}$
 
 \section{Experiments}
