@@ -1,6 +1,7 @@
-With the advent of Web 2.0, sites with forums, or similar thread-based 
-discussion features are increasingly common.
-In this project,our goal is to predict updates in such threads.
+With the advent of Web 2.0, sites with forums, or similar thread-based
+discussion features are increasingly common.  Our goal in this thesis
+is to create an algorithm that can predict when updates in such
+threads will occur.
 %Just recently, Google+ has just
 \begin{table}\label{table:web20}
 	\makebox[\textwidth][c]{
@@ -29,35 +30,57 @@ In this project,our goal is to predict updates in such threads.
 }
 \end{table}
 
-Table \ref{table:web20} shows us that many of the popular Web 2.0 sites have 
-comment features. This suggests that content on the web is increasingly being 
-created by users alongside content providers. While mining structured, curated 
-content from sites like Amazon, for data like prices is easy and effective, data 
-that can be obtained from user-generated content are of a different nature. One 
-may be able to infer public sentiment about a given product that would not be 
-readily available from an e-commerce site.
+Table \ref{table:web20} shows us that many of the popular Web 2.0
+sites have comment features. This suggests that content on the web is
+increasingly being created by users alongside content providers.
+% Min: not sure what you mean about easy and difficult.  Your
+% following sentence also doesn't seem to match the content.
+ While mining structured, curated content from sites such as Amazon --
+for data like prices -- is easy, data that can be obtained from
+user-generated content are more difficult. One may be able to infer
+public sentiment about a given product that would not be readily
+available from an e-commerce site.
+% Min: a bit misleading because you are not doing anything about
+% ecommerce or sentiment analysis.  Perhaps just stick to the
+% freshness of data.
 %we are predicting web 2.0 updates
- In some cases, news may travel more quickly through such online community 
-discussion than through traditional media. Users also typically discuss 
-purchased products bought online via these forums, and companies that want to 
-get timely feedback about their product should turn to data mined from such 
-sites.
+In an increasing number of cases, news travels more quickly through
+online community discussions than through traditional media. Users also
+typically discuss purchased products bought online on forums,
+and companies that want to get timely feedback about their product
+should turn to data mined from such sites.
 
- A naive way of getting timely updates is to aggressively hit the pages 
-repeatedly downloading the pages at a very frequent rate. However, the number of 
-pages in a forum site are far too large to perform this efficiently on every 
-forum. One way to minimise this cost would be to look at the time differences 
-between previous posts to estimate the arrival of the next one. We believe that 
-the content of the thread has information that can give a better estimate of the 
-time interval between the last post and a new one.
+ A naive way of getting timely updates is to repeatedly poll the websites 
+to check for the presence of new posts. However, the large number of 
+pages in popular forum sites make this task infeasible in practice, 
+% Min: need to talk about DOS. Most sites don't mind occasional
+% bandwidth use but too much is not a good thing.  See white-hat rules
+% about spiders.
+A simple method to reduce the amount of polling needed is to use the
+previous time differences between previous posts to estimate the
+arrival of the next one, and to abstain from polling until the
+estimated time.
+% Min: you need to discuss how well this simple baseline does and whether it is actually adopted.
 
+% Min: this needs a new paragraph; it's about a different topic now.
+A key observation in our work is that the contents of the thread may
+also influence the discussion and hence the rate of commenting.  We
+believe that the content of the thread has information that can give a
+better estimate of the time interval between the last post and a new
+one.
 
+% Min: tie the ``hypothetical'' example with actual posts.  Also, your
+% introduction needs to actually carry through to the final
+% implementation and experimentation where you use such features to
+% estimate properly.
  For example, a thread in a technical forum about a Linux distribution may start 
 out as a question. Subsequent questions that attempt to either clarify or expand 
 on the original question may then be posted, resulting in a quick flurry of 
 messages. Eventually, a more technically savvy user of the forum may come up 
 with a solution, and the thread may eventually slow down after a series of 
-messages thanking the problem solver. Suppose 10 days later, someone with a 
+messages thanking the problem solver. 
+% Min: I don't know how this following sentence helps.  Would just omit.
+Suppose ten days later, someone with a 
 slight variation of the same problem posts on the thread again. A crawler that 
 estimates update rates solely on the age of the thread to determine its download 
 rate of the thread may not update itself with the thread.
@@ -66,6 +89,13 @@ rate of the thread may not update itself with the thread.
 %as rate increase, timeliness become more important
 % talk about consequences of naive method
 
+% Min: your introduction needs some work.
+% Towards the end you need.  Please restructure the below.
+% 1) a clear problem statement
+% 2) statements of the contribution of your work
+% 3) A navigation paragraph that describes how the rest of the report
+% is going to be structured, especially if it deviates from ``normal''
+% structure.
  Let us define all such thread-based discussion styled sites as forums. Ideally, 
 an incremental crawler of such user-generated content should be able to maintain 
 a fresh and complete database of content of the forum that it is monitoring.  

@@ -13,18 +13,18 @@
 \contentsline {chapter}{\numberline {3}Method}{8}
 \contentsline {section}{\numberline {3.1}Baselines}{8}
 \contentsline {section}{\numberline {3.2}Performing regression on windows}{10}
-\contentsline {section}{\numberline {3.3}Discounted sum of previous instances}{11}
+\contentsline {section}{\numberline {3.3}Discounted sum of previous instances}{13}
 \contentsline {section}{\numberline {3.4}Stochastic Gradient Descent}{13}
-\contentsline {chapter}{\numberline {4}Evaluation Metrics}{15}
-\contentsline {section}{\numberline {4.1}Potential errors}{16}
-\contentsline {section}{\numberline {4.2}$T$-score, and the Visit/Post ratio}{17}
-\contentsline {section}{\numberline {4.3}Normalising the $T$-score and Visit/Post ratio}{17}
-\contentsline {chapter}{\numberline {5}Evaluation}{20}
-\contentsline {section}{\numberline {5.1}Experiment setup}{20}
-\contentsline {subsection}{\numberline {5.1.1}Parameter Tuning}{20}
-\contentsline {subsubsection}{Window size}{21}
-\contentsline {subsubsection}{Decay factor}{22}
-\contentsline {subsubsection}{Learning rate for Stochastic Gradient Descent}{22}
+\contentsline {chapter}{\numberline {4}Evaluation Metrics}{16}
+\contentsline {section}{\numberline {4.1}Potential errors}{17}
+\contentsline {section}{\numberline {4.2}$T$-score, and the Visit/Post ratio}{18}
+\contentsline {section}{\numberline {4.3}Normalising the $T$-score and Visit/Post ratio}{18}
+\contentsline {chapter}{\numberline {5}Evaluation}{21}
+\contentsline {section}{\numberline {5.1}Experiment setup}{21}
+\contentsline {subsection}{\numberline {5.1.1}Parameter Tuning}{21}
+\contentsline {subsubsection}{Window size}{22}
+\contentsline {subsubsection}{Decay factor}{23}
+\contentsline {subsubsection}{Learning rate for Stochastic Gradient Descent}{24}
 \contentsline {section}{\numberline {5.2}Experiments}{24}
 \contentsline {chapter}{\numberline {6}Conclusion}{25}
 \contentsline {section}{\numberline {6.1}Future Work}{25}
