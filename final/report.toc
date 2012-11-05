@@ -26,7 +26,13 @@
 \contentsline {subsubsection}{Window size}{21}
 \contentsline {subsubsection}{Decay factor}{23}
 \contentsline {subsubsection}{Learning rate for Stochastic Gradient Descent}{23}
-\contentsline {section}{\numberline {5.2}Experiments}{23}
-\contentsline {chapter}{\numberline {6}Conclusion}{25}
-\contentsline {chapter}{References}{26}
+\contentsline {section}{\numberline {5.2}Experiments}{25}
+\contentsline {chapter}{\numberline {6}Conclusion}{26}
+\contentsline {section}{\numberline {6.1}Contributions}{26}
+\contentsline {section}{\numberline {6.2}Future Work}{27}
+\contentsline {subsection}{\numberline {6.2.1}Using Natural Language Processing (NLP) techniques}{27}
+\contentsline {subsection}{\numberline {6.2.2}Topic modelling}{27}
+\contentsline {subsection}{\numberline {6.2.3}Leveraging context}{27}
+\contentsline {subsection}{\numberline {6.2.4}Using online learning techniques}{27}
+\contentsline {chapter}{References}{28}
 \contentsline {chapter}{\numberline {A}Code}{A-1}

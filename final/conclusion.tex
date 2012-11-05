@@ -1,0 +1,51 @@
+With the increasing number of sites leveraging user-generated content, a method 
+for predicting the updates of such sites needs to be created in order for an 
+incremental web crawler to effectively crawl the site. Our high level goal: to 
+predict the posting behaviour of users to such sites.
+
+While this primary goal has many challenges, in this report, we have chosen to 
+address challenges specific to forum threads. We want to predict, given content 
+of the current thread, the time at which a user would post to the thread. We 
+evaluate three different machine learning approaches: Two offline algorithms, 
+one that only takes into account only the latest window, and another that 
+accounts for past windows, with decreasing weightage. And an online algorithm, 
+that uses gradient descent to update its weights every time a new post is 
+observed.
+
+Overall, our evaluation shows that our methods work better than the baseline, 
+which was to revisit the thread at the average time interval. These are 
+promising results, and more can be done to improve upon them. 
+
+There are, however, limitations with the current methods, such as....
+
+
+\section{Contributions}
+We have made the following contributions with our work:
+\begin{enumerate}
+\item Provide comparable evaluation metrics that can be parameterised, depending 
+on the evaluators' priority: freshness or bandwidth.
+
+\item Three different prediction methods using machine learning.
+\item The effectiveness of using content and time differences for post 
+prediction.
+\end{enumerate}
+
+\section{Future Work}
+
+With the proposed methods still having many shortcomings when predicting new 
+posts, or providing insight into what causes post arrival times, it leaves much 
+room for future work to be done.
+
+\subsection{Using Natural Language Processing (NLP) techniques}
+\cite{Wang}
+
+\subsection{Topic modelling}
+\cite{Gonzalez2005,Hsu2006}
+
+\subsection{Leveraging context}
+
+
+\subsection{Using online learning techniques}
+
+
+

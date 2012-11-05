@@ -221,14 +221,11 @@ thread, and is used as $\P_{\text{FA}}$}
 \end{figure}
 
 
-With these two normalised forms of the original metrics, we can use the harmonic 
+With these two normalised forms of the original metrics, we can use a weighted 
 mean to give a weighted combined form of the two error rates, 
 $\P_{\text{error}}$:
 \[
-	\P_{\text{error}} = 2\cdot
-	\frac{\P_{\text{miss}} \cdot \P_{\text{FA}}}{%
-		\P_{\text{miss}} + \P_{\text{FA}}%
-	}
+	\P_{\text{error}} = \alpha\P_{\text{FA}} + (1-\alpha)\P_{\text{error}}
 \]
 
 

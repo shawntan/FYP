@@ -41,6 +41,19 @@ Georgescul, M., Clark, A., \& Armstrong, S. (2009).
 \newblock {\em \ldots of the 7th SIGdial Workshop on \ldots}, (July), 2009,
   144--151.
 
+\bibitem[\protect\citename{Gonz\'{a}lez}{Mu\~{n}oz,
+  Roque}{Garc\'{\i}a-gonz\'{a}lez}{Gonz\'{a}lezETAL}{2005}{Gonzalez2005}]{Gonzalez2005}
+Gonz\'{a}lez, A.~M., Mu\~{n}oz, A., Roque, S., \& Garc\'{\i}a-gonz\'{a}lez, J.
+  (2005).
+\newblock {Modeling and Forecasting Electricity Prices with Input / Output
+  Hidden Markov Models}.
+\newblock {\em 20\/}(1), 2005, 13--24.
+
+\bibitem[\protect\citename{Hsu}{}{Glass}{Hsu-Glass}{2006}{Hsu2006}]{Hsu2006}
+Hsu, B.-j.~P., \& Glass, J. (2006).
+\newblock {Style \& Topic Language Model Adaptation Using HMM-LDA}.
+\newblock (July), 2006, 373--381.
+
 \bibitem[\protect\citename{Naaman}{Boase}{Lai}{NaamanETAL}{2010}{Naaman2010}]{Naaman2010}
 Naaman, M., Boase, J., \& Lai, C.-h. (2010).
 \newblock {Is it really about me?: message content in social awareness
