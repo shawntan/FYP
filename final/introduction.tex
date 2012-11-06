@@ -33,16 +33,7 @@ threads will occur.
 Table \ref{table:web20} shows us that many of the popular Web 2.0
 sites have comment features. This suggests that content on the web is
 increasingly being created by users alongside content providers.
-% Min: not sure what you mean about easy and difficult.  Your
-% following sentence also doesn't seem to match the content.
- While mining structured, curated content from sites such as Amazon --
-for data like prices -- is easy, data that can be obtained from
-user-generated content are more difficult. One may be able to infer
-public sentiment about a given product that would not be readily
-available from an e-commerce site.
-% Min: a bit misleading because you are not doing anything about
-% ecommerce or sentiment analysis.  Perhaps just stick to the
-% freshness of data.
+
 %we are predicting web 2.0 updates
 In an increasing number of cases, news travels more quickly through
 online community discussions than through traditional media. Users also
@@ -79,15 +70,6 @@ on the original question may then be posted, resulting in a quick flurry of
 messages. Eventually, a more technically savvy user of the forum may come up 
 with a solution, and the thread may eventually slow down after a series of 
 messages thanking the problem solver. 
-% Min: I don't know how this following sentence helps.  Would just omit.
-Suppose ten days later, someone with a 
-slight variation of the same problem posts on the thread again. A crawler that 
-estimates update rates solely on the age of the thread to determine its download 
-rate of the thread may not update itself with the thread.
-%TODO:Bring to beginning and shorten to 1 or 2 sentences after the problem 
-%statement.
-%as rate increase, timeliness become more important
-% talk about consequences of naive method
 
 % Min: your introduction needs some work.
 % Towards the end you need.  Please restructure the below.
@@ -96,18 +78,11 @@ rate of the thread may not update itself with the thread.
 % 3) A navigation paragraph that describes how the rest of the report
 % is going to be structured, especially if it deviates from ``normal''
 % structure.
- Let us define all such thread-based discussion styled sites as forums. Ideally, 
+
+Let us define all such thread-based discussion styled sites as forums. Ideally, 
 an incremental crawler of such user-generated content should be able to maintain 
 a fresh and complete database of content of the forum that it is monitoring.  
 However, doing so with the previously mentioned naive method would (1) incur 
 excessive costs when downloading un-updated pages, and (2) raise the possibility 
 of the web master blocking the requester's IP address.
-
- %Thus, we need a strategy of revisiting pages that will reduce the cost of 
- %downloading unchanged pages, while at the same time downloading them as soon 
- %as possible after it's update. 
- This year-long project proposes to use content-based features of a given thread 
-to predict its next update time. We argue, that the content within the posts of 
-the thread should be important in predicting the thread updates, and propose our 
-approach to solving the problem.
 
