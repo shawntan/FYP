@@ -97,11 +97,11 @@ the day of the week and hour of the day).
 % and its accompanying features properly as well as the (machine) learning 
 % method.  Right now, it's still a mess of a narrative, not properly organized 
 % into different sections.
-% Min: describe SVR and RBF, and why you chose them
 However, this time instead of linear regression, we used a regression method 
-known as Support Vector Regression (SVR), using a radial basis function kernel.  
-This method allows the using of different kernels, allowing for better 
-estimation of the target function.
+known as Support Vector Regression (SVR). SVR is an extension of using Support 
+Vector Machines for classification. Since support vector optimisation does not 
+depend on the dimension of the input space, SVR will have advantages in high 
+dimension feature vectors. We are also using a radial basis function kernel.
 
 The main focus of study in this report was to see if content helps with 
 predicting thread updates would produce an improvement. In this project we used 
@@ -150,9 +150,10 @@ models of a product.
 
 \section{Stochastic Gradient Descent (\texttt{SGD})}
 To address this problem, we investigate the use of a stochastic gradient descent 
-(SGD) to estimate the function $f$.  The SGD allows us to use a dynamic function 
-instead of a static function for estimation during runtime.  We continue to 
-allow $f$ to vary whenever new posts and their update times are observed.
+(SGD) to estimate the function $f$.  \texttt{SGD} allows us to use a dynamic 
+function instead of a static function for estimation during runtime.  We 
+continue to allow $f$ to vary whenever new posts and their update times are 
+observed.
 
 % Min: try to write a bit more formally here.
 Having already attempted using linear regression for this purpose, we have found 

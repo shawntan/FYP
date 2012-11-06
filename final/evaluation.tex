@@ -11,15 +11,14 @@ and stemming simpler.
 
 We crawled 4,158 threads, with a total of 1,002,225 posts. A distribution of how 
 the length of threads are distributed can be seen in Figure \ref{fig:len_dist}.  
-Threads with 1 to 10 posts already make up half the number of collected threads.
-The distribution of the time differences are shown in Figure 
-\ref{fig:time_dist}. In both the figures, the right-hand-side cutoff was set at 
-1,000 due to the negligible number of items to the right of the cutoff.
+The distribution of the time differences are shown in Figure \ref{fig:dt_dist}.  
+In both the figures, the right-hand-side cutoff was set at 1,000 due to the 
+negligible number of items to the right of the cutoff.
 
 
 \putgraphic{diagrams/len_dist.png}{Distribution of thread 
 length}{len_dist}{0.75}
-\putgraphic{diagrams/time_dist.png}{Distribution of $\dt$}{time_dist}{0.75}
+\putgraphic{diagrams/time_dist.png}{Distribution of $\dt$}{dt_dist}{0.75}
 
 We have also found that the time of the day the day of the week matters when 
 dealing with threads. An example of such a thread can be seen in Figure 
@@ -48,11 +47,8 @@ frequencies during the weekends, and its highest peak on Thursdays.
 
 \section{Experiment setup}
 The first 75\% of the thread was used as training data, while the remaining 25\% 
-was used as test data. We used Support Vector Regression for this regression 
-task, employing a Radial Basis Function kernel as our learning algorithm. 
-
-This setup is used in both the tuning of parameters and for the full evaluation 
-of the entire dataset.
+was used as test data. This setup is used in both the tuning of parameters and 
+for the full evaluation of the entire dataset.
 \begin{figure}
 	\input{diagrams/exp_setup}
 	\caption{Our experiment setup}
@@ -68,13 +64,13 @@ experiments, we run the algorithm with different parameters, and use the optimal
 one in our final evaluation. 
 
 \subsubsection{Vocabulary size}
-Before we begin tuning the other parameters, we start with limiting the feature 
-vector when using the content information. This is important as having an 
-excessively large feature vector due to a large vocabulary size leads to 
-complications due to limited memory size. We restrict our search for a good size 
-of vocabulary from $10 \leq K \leq 60$, with increments of 10.  The results are 
-shown in Table \ref{table:vocab_exp}. While $K=60$ gives us the best $T$-score, 
-we select $K=50$ as this gives us the best $\Prerror$ score.  
+Before we begin tuning the other parameters, we start with limiting the size of 
+the feature vector when using the content information. This is important as 
+having an excessively large feature vector due to a large vocabulary size leads 
+to complications due to limited memory size. We restrict our search for a good 
+size of vocabulary from $10 \leq K \leq 60$, with increments of 10.  The results 
+are shown in Table \ref{table:vocab_exp}. While $K=60$ gives us the best 
+$T$-score, we select $K=50$ as this gives us the best $\Prerror$ score.  
 \begin{table}
 	\footnotesize
 \begin{center}
@@ -116,12 +112,10 @@ Visit/Post ratio is the highest, but also has a higher standard error.
 $\dtvec$}\label{tbl:par_tune_dt}
 \end{table}
 
-Using only the content, we perform the same experiment again. Since the size of 
-the vocabulary is large, we select the $K = 50$ best tokens to consider using 
-Univariate feature selection. This gives us the results in Table 
-\ref{tbl:par_tune_content}. The best $T$-score here does not do as well as that 
-in the previous experiment. However, it is interesting to note that, again, 
-$w=15$ results in the best $T$-score.
+Using only the content, we perform the same experiment again. This gives us the 
+results in Table \ref{tbl:par_tune_content}. The best $T$-score here does not do 
+as well as that in the previous experiment. However, it is interesting to note 
+that, again, $w=15$ results in the best $T$-score.
 
 \begin{table}
 	\footnotesize
@@ -165,7 +159,7 @@ following experiments, this will be our $w$ value.
 
 \subsubsection{Decay factor}
 In our discounted sum method, we have to tune the $\alpha$ parameter. We search 
-through 0.1 to 0.9 (inclusive) with 0.1 increments to find the best possible 
+through 0.1 to 0.9 (inclusive) with increments of 0.1 to find the best possible 
 value for $\alpha$.  We used the combined set of features for this experiment.
 The results are shown in Table \ref{tbl:par_tune_decay}.
 \begin{table}
@@ -192,8 +186,8 @@ from the previous experiment, although there is a slight improvement.
 Because of the scaling factors applied to the sigmoid function, a small change 
 in the exponent of $e$ results in huge fluctuations. As such, we need to find a 
 small enough learning rate such that the predicted values do not end up at only 
-the extremes, but large enough such that the model is adaptive enough to 
-``react" to changes.
+the extremes ($\lambda$ or $\Lambda$), but large enough such that the model is 
+adaptive enough to ``react" to changes.
 
 \begin{table}
 	\footnotesize
@@ -222,9 +216,9 @@ these parameters, we run a full evaluation on our dataset.
 \section{Experiments}
 For our experiments, we selected threads larger than the window size, and have 
 enough posts such that we can split each thread into our 3:1 ratio for training 
-and testing. As such, the threads are at least 19 posts long, since the training 
-set also requires at least two posts in order for us to apply our $\prerror$ 
-metric.
+and testing. As such, the threads are at least 19 posts long (5 windows), since 
+the training set also requires at least two posts in order for us to apply our 
+$\prerror$ metric.
 
 This reduces our dataset to a size of 830 threads. We run all three of our 
 algorithms on the dataset, and determine if the performance based on the 
@@ -268,9 +262,9 @@ $\prerror$. We only perform the statistical significance test on $\prerror$.
 \caption{Paired difference evaluation results}\label{tbl:diff_eval}
 \end{table}
 
-We can observe from Table \label{tbl:diff} that first two regression methods 
-using SVR perform significantly better than the baseline, while our SGD method 
-has a $p$-value of less than 10\%. This begs the question: Do the models perform 
+We can observe from Table \label{tbl:diff_eval} that first two regression 
+methods using SVR perform significantly better than the baseline, while our SGD 
+method has a $p$-value of less than 10\%. However, do the models perform 
 differently for different thread lengths?
 
 \subsubsection{Different thread lengths}
