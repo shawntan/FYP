@@ -204,23 +204,23 @@ experiment with various values of $\eta$, the learning rate.
 In this chapter, we have outlined the specific task we will be attempting, to 
 try and predict the time from the current last post in the thread to the next.
 We have discussed the types of features we will be using,
-\begin{description}
-	\item[$\ctxvec$] time context features
-	\item[$\vocab$] content features, in particular, word counts
-	\item[$\dtvec$] $\dt$ of posts within the window
-\end{description}
+\begin{itemize}
+	\item $\ctxvec$: time context features
+	\item $\vocab$: content features, in particular, word counts
+	\item $\dtvec$: $\dt$ of posts within the window
+\end{itemize}
 We have also discussed the concept of a window, and how it could help to make 
 predictions better. The methods we will evaluate in the next chapter are 
 following:
-\begin{description}
-	\item[\texttt{BL}] Baseline method, using the average $\dt$ revisit 
+\begin{itemize}
+	\item \texttt{BL}: Baseline method, using the average $\dt$ revisit 
 strategy.
-	\item[\texttt{SVR}] Support vector regression, using feature vector 
+	\item \texttt{SVR}: Support vector regression, using feature vector 
 extracted from the current window.
-	\item[\texttt{DEC}] Uses the discounted sum of previous instances as the 
+	\item \texttt{DEC}: Uses the discounted sum of previous instances as the 
 current window.
-	\item[\texttt{SGD}] Uses the stochastic gradient descent method for 
+	\item \texttt{SGD}: Uses the stochastic gradient descent method for 
 prediction.
-\end{description}
+\end{itemize}
 We will perform some experiments, and look at how these methods stack up against 
 one another.

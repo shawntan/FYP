@@ -4,7 +4,8 @@ thread updates. First, we take a look at the literature dealing with incremental
 crawlers and their policies for revisiting a web page. Some work has been done 
 to try to predict how often page content is updated, with the aim of scheduling 
 download times in order to keep a local database fresh. We then also take a 
-brief look at some work dealing with content.
+brief look at some work dealing with content. We also review some work related 
+to evaluation metrics.
 
  
 
@@ -122,13 +123,14 @@ their work could be leveraged to make a more accurate prediction.
 %One also cannot ignore the fact that social factors play a role when users 
 %interact in an online discussion. Granovetter's threshold model for social 
 %behaviour may also be useful in describing how the users behave as a whole.
+
 \section{Evaluation metrics}
- 
-\outcite{Yang2009} proposed a metric for our particular problem of thread update prediction. Known as the $T$-score, it gives the average 
-time difference between when a post is made and when the post is retrieved by a crawler. The lower the $T$-score, the 
-better the model. However, the metric does not penalize for visits which retrieve 
-nothing new from the thread.  As such, a crawler that repeatedly crawls the site 
-at a frequent rate would do very well.
+\outcite{Yang2009} proposed a metric for our particular problem of thread update 
+prediction. Known as the $T$-score, it gives the average time difference between 
+when a post is made and when the post is retrieved by a crawler. The lower the 
+$T$-score, the better the model. However, the metric does not penalize for 
+visits which retrieve nothing new from the thread.  As such, a crawler that 
+repeatedly crawls the site at a frequent rate would do very well.
 
 Broadening our search for more relevant evaluation metrics that take such
 wasted bandwidth into account, we turn to related work in the evaluation of
@@ -144,7 +146,6 @@ segmentations given a window. As such, it does not account for the ``distance"
 between the ground truths and the segmentation. It also does not allow for the 
 predictions to appear after the ground truths, all requirements needed for a 
 metric to evaluate timeliness of a model.
-
 
 \section{Conclusion}
 % Jesse: this chapter feels a little lacking. What are the main arguments that

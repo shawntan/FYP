@@ -13,9 +13,9 @@
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces A series of events, posts (blue) and visits (orange). The diagram demonstrates the concept of a window of $w=2$. \relax }}{12}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Scaled sigmoid curve\relax }}{15}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces An example of a series of events used in our evaluation.\relax }}{19}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces An example of a series of events used in our evaluation.\relax }}{18}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces An example of calculating $T_\text  {max}$. A visit is assumed at the same time as the final post made, and the usual $T$-score metric is calculated\relax }}{20}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces An example of calculating the maximum number of visits given a thread. The ratio between the number of visits predicted and the number of visits to the thread, and is used as $Pr_{\text  {FA}}$\relax }}{21}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces An example of calculating the maximum number of visits given a thread. \relax }}{20}}
 \@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces Distribution of thread length\relax }}{23}}
 \@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Distribution of $\Delta _t$\relax }}{23}}
 \@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces Our experiment setup\relax }}{24}}
@@ -60,9 +60,8 @@
 \@writefile{toc}{\contentsline {section}{\numberline {3.2}Performing regression on windows (\texttt  {SVR})}{12}}
 \@writefile{toc}{\contentsline {section}{\numberline {3.3}Discounted sum of previous instances (\texttt  {DEC})}{13}}
 \@writefile{toc}{\contentsline {section}{\numberline {3.4}Stochastic Gradient Descent (\texttt  {SGD})}{14}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}Potential errors}{18}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}$T$-score, and the Visit/Post ratio}{19}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}Normalising the $T$-score and Visit/Post ratio}{19}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}$T$-score, and the Visit/Post ratio}{17}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Normalising the $T$-score and Visit/Post ratio}{19}}
 \@writefile{toc}{\contentsline {section}{\numberline {5.1}Experiment setup}{24}}
 \@writefile{toc}{\contentsline {section}{\numberline {5.2}Experiments}{28}}
 \@writefile{toc}{\contentsline {section}{\numberline {5.3}Recommendations}{30}}
@@ -92,6 +91,7 @@
 \citation{Cho2003,Garcia-molina2003}
 \citation{Coffman1997}
 \citation{Coffman1997}
+\citation{Georgescul2009}
 \citation{Georgescul2009}
 \citation{Gonzalez2005}
 \citation{Hsu2006}
@@ -221,7 +221,7 @@
 \setcounter{part}{0}
 \setcounter{section}{0}
 \setcounter{section}{2}
-\setcounter{section}{3}
+\setcounter{section}{2}
 \setcounter{section}{3}
 \setcounter{section}{4}
 \setcounter{section}{4}

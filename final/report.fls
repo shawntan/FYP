@@ -305,6 +305,8 @@ INPUT method.tex
 INPUT diagrams/eventsdemo.tex
 INPUT diagrams/eventsdemo.tex
 INPUT /usr/share/texmf-dist/fonts/tfm/public/cm/cmtt12.tfm
+INPUT /usr/share/texmf-dist/tex/latex/base/omscmr.fd
+INPUT /usr/share/texmf-dist/tex/latex/base/omscmr.fd
 OUTPUT metrics.aux
 INPUT metrics.tex
 INPUT metrics.tex

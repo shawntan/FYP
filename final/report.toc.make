@@ -15,9 +15,8 @@
 \contentsline {section}{\numberline {3.3}Discounted sum of previous instances (\texttt {DEC})}{13}
 \contentsline {section}{\numberline {3.4}Stochastic Gradient Descent (\texttt {SGD})}{14}
 \contentsline {chapter}{\numberline {4}Evaluation Metrics}{17}
-\contentsline {section}{\numberline {4.1}Potential errors}{18}
-\contentsline {section}{\numberline {4.2}$T$-score, and the Visit/Post ratio}{19}
-\contentsline {section}{\numberline {4.3}Normalising the $T$-score and Visit/Post ratio}{19}
+\contentsline {section}{\numberline {4.1}$T$-score, and the Visit/Post ratio}{17}
+\contentsline {section}{\numberline {4.2}Normalising the $T$-score and Visit/Post ratio}{19}
 \contentsline {chapter}{\numberline {5}Evaluation}{22}
 \contentsline {section}{\numberline {5.1}Experiment setup}{24}
 \contentsline {subsection}{\numberline {5.1.1}Parameter Tuning}{24}
