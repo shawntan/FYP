@@ -85,7 +85,8 @@ Visit/Post ratio is the highest, but also has a higher standard error.
 \hline
 \end{tabular}
 \end{center}
-\caption{Some results}\label{tbl:par_tune_dt}
+\caption{Results for tuning parameters using only 
+$\dtvec$}\label{tbl:par_tune_dt}
 \end{table}
 
 Using only the content, we perform the same experiment again. Since the size of 
@@ -106,7 +107,8 @@ $w=15$ results in the best $T$-score.
 \hline
 \end{tabular}
 \end{center}
-\caption{Some results}\label{tbl:par_tune_content}
+\caption{Results for tuning parameters using only 
+$\vocab$}\label{tbl:par_tune_content}
 \end{table}
 
 For our final experiment for tuning the window size, we combine the various 
@@ -129,7 +131,8 @@ following experiments, this will be our $w$ value.
 \hline
 \end{tabular}
 \end{center}
-\caption{Some results}\label{tbl:par_tune_comb}
+\caption{Results for tuning parameters using $\dtvec+ \vocab+ 
+\ctxvec$}\label{tbl:par_tune_comb}
 \end{table}
 
 
@@ -149,7 +152,7 @@ The results are shown in Table \ref{tbl:par_tune_decay}.
 \hline
 \end{tabular}
 \end{center}
-\caption{Some results}\label{tbl:par_tune_decay}
+\caption{Parameter tuning for Decay method.}\label{tbl:par_tune_decay}
 \end{table}
 
 $\alpha=0.9$ performs the best, but its improvement over the rest of the values 
@@ -175,7 +178,7 @@ the extremes, but large enough such that the model is adaptive enough to
 \hline
 \end{tabular}
 \end{center}
-\caption{Some results}\label{tbl:par_tune_learning}
+\caption{Tuning $\eta$ for the SGD method}\label{tbl:par_tune_learning}
 \end{table}
 
 In this experiment, we find that $\eta=5\cdot10^{-8}$ is the best value for the 
@@ -209,7 +212,7 @@ rate. The results are seen in Table \ref{tbl:full_eval}.
 \hline
 \end{tabular}
 \end{center}
-\caption{Some results}\label{tbl:full_eval}
+\caption{Full evaluation using 830 threads}\label{tbl:full_eval}
 \end{table}
 
 It is evident that the scores our methods attain are better than the baseline, 
@@ -233,7 +236,7 @@ $\prerror$. We only perform the statistical significance test on $\prerror$.
 \hline
 \end{tabular}
 \end{center}
-\caption{Some results}\label{tbl:diff_eval}
+\caption{Paired difference evaluation results}\label{tbl:diff_eval}
 \end{table}
 
 We can observe from Table \label{tbl:diff} that first two regression methods 
@@ -266,7 +269,7 @@ methods do on different sizes of training data.
 \hline
 \end{tabular}
 \end{center}
-\caption{Some results}\label{tbl:bin_eval}
+\caption{Breakdown of evaluation results}\label{tbl:bin_eval}
 \end{table}
 The results, displayed in Table \ref{tbl:bin_eval}, show that the two methods 
 using an offline trained model perform poorer on longer thread lengths. This 

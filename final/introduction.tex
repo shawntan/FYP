@@ -2,7 +2,7 @@ With the advent of Web 2.0, sites with forums, or similar thread-based
 discussion features are increasingly common.  Our goal in this thesis
 is to create an algorithm that can predict when updates in such
 threads will occur.
-\begin{table}\label{table:web20}
+\begin{table}
 	\makebox[\textwidth][c]{
 	{\footnotesize
 	\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|}
@@ -15,6 +15,7 @@ threads will occur.
 	}
 	{\footnotesize
 \caption{Features of popular Web 2.0 sites}
+\label{table:web20}
 	\begin{tabular}{l l}
 		T &= Twitter mentions\\
 	 FB L &= Facebook Likes \\
@@ -42,8 +43,8 @@ should turn to data mined from such sites.
 
 Web crawling is largely IO-bound, a large portion of the time spent crawling is 
 waiting for the server to supply a response to the request issued by the 
-crawler. However, for sites with a large number of pages ( as in popular forum 
-sites ), make this infeasible in practice. On top of the usual requests it has, 
+crawler. However, for sites with a large number of pages (like popular forum 
+sites), make this infeasible in practice. On top of the usual requests it has, 
 it then has to deal with repeated requests from such a crawler. Most sites do 
 not mind some additional bandwidth, but if it gets excessive, it may be 
 construed as a Denial-of-Service attack. At best, the site may deny any further 
