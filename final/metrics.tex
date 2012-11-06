@@ -51,6 +51,11 @@ $t(\post)$	&	Timestamp of the post.\\
 One of the contributions of this project was also to come up with a good metric 
 for measuring the performance of a model that performs predictions. 
 
+% Jesse: the text up to this point can be a subsection in your related work
+% chapter. If you choose to move the above into a subsection in the related
+% work chapter, it may be helpful in the introduction to mention that part of
+% the challenge in this problem is in using an appropraite metric.
+
 Our metric has to be different from traditional methods of measuring 
 performance. One example of such a measure is Mean Average Percentage Error 
 (MAPE), which we use to measure the performance of the learnt model. This value 
@@ -60,14 +65,19 @@ is given by
 \]
 where $A_i$ is the actual value, and $F_i$ is the forecasted value for the 
 instance $i$. Realistically, the model would not be able to come into contact 
-with every possible window, since chances are it will make an error that causes 
+with every possible window, 
+% Jesse: "come into contact with every possible window"?     
+since chances are it will make an error that causes 
  %explain error in a new section (before this one) ?
 it to visit a thread late, causing it to miss two posts or more. This value does 
 not reflect how well the model will do in a real-time setting, but gives an idea 
 of how far off the model is given a window.
 
 In such measures, the performance of the model is measured on an instance by 
-instance basis. To give a concrete example, say we are attempting to predict 
+instance basis. 
+% Jesse: what is an instance here? Also stock prices are not measured
+% day-to-day. So your example makes all this even more confusing.
+To give a concrete example, say we are attempting to predict 
 stock prices. Given the feature vector as input, we get an estimate of what the 
 stock prices will be for, say, the next day. We can then measure the absolute 
 difference between what was predicted and the actual amount, and evaluate the 
@@ -77,6 +87,23 @@ In our case, we want to know how long it takes before any post made will be
 retrieved by the crawler. We also want to ensure that the model does not choose 
 to make too many requests. The rest of the chapter explains in detail how we 
 came up with our metric, its advantages and limitations.
+
+% Jesse: Ok, i think you really jumped the gun in this chapter. The
+% intro paragraphs needs a lot of work. Imagine you are trying to explain to your
+% dad / little brother. Where do you begin? In the first place, this metric is
+% supposed to be your contribution in this thesis. So it deserves a coherent
+% introduction to its inception and some alotted discussion on its motivation
+% and why its different / better than other metrics.
+
+% Jesse: I recommend starting at the beginning: What is the task? Then discuss
+% about what are the important aspects to qualify the task? timeliness? Then
+% talk about how we would measure these aspects. Then you can talk about the
+% metrics. As you can see, by writing the prose this way, there will be a nice
+% logical flow from the task to the reasoning and motivation behind what is
+% a good / important metric for the task. I dont think you need to rewrite the
+% whole chapter, just think about what I said and see how you can tweak or
+% re-arrange the introduction. Given the deadline, only do this if you're
+% confident on what I mean and the time you will take to do it.
 
 \section{Potential errors}
 To be thorough, let us also enumerate the types of errors that a model making 
@@ -108,6 +135,8 @@ apart time-wise.
 	\caption{An example of a series of events used in our evaluation.}
 	\end{center}
 \end{figure}
+
+% Jesse: Did you mention what is blue and what is yellow in the figures?
 
 We also want to know the \emph{timeliness} of the model's visits.  
 \outcite{Yang2009} has a metric for measuring this. Taking $\Delta t_i$ as the 
@@ -226,6 +255,7 @@ frame.
 With this simplified version of our series of events, we can then imagine a 
 worst-case performing revisit policy that visits at every single time frame.  
 Here, we assume all quantities are measured in terms of minutes. This gives us
+% Jesse: dangling paragraph for "us"
 \[
 	\P_{\text{FA}} = \frac{|V|}{(\max_{\post}t(\post)) - |P|}
 \]
@@ -256,3 +286,6 @@ the various algorithms found in the previous chapter, and measure their
 effectiveness using their $T$-scores and Visit/Post ratio, and comparing them 
 using the  $\P_{\text{error}}$ metric.
 
+% Jesse: I think you need a concluding paragraph / section for this chapter.
+% Use an unordered / ordered list and say that you have 3 metrics. Summarize
+% for each with 1 / 2 sentences on what the metric means (semantically).
