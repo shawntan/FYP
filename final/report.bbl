@@ -1,0 +1,77 @@
+\begin{thebibliography}{}
+
+\bibitem[\protect\citename{Brewington}{}{Cybenko}{Brewington-Cybenko}{2000}{Brian2000}]{Brian2000}
+Brewington, B.~E., \& Cybenko, G. (2000).
+\newblock {Keeping up with the changing web}.
+\newblock {\em Computer}, , 2000, 52--58.
+
+\bibitem[\protect\citename{Cho}{}{}{Cho}{1999}{Cho1999}]{Cho1999}
+Cho, J. (1999).
+\newblock {The evolution of the web and implications for an incremental
+  crawler}.
+\newblock {\em Science}, , 1999, 1--18.
+
+\bibitem[\protect\citename{Cho}{}{Garcia-Molina}{Cho-Garcia-Molina}{2003}{Cho2003}]{Cho2003}
+Cho, J., \& Garcia-Molina, H. (2003).
+\newblock {Effective page refresh policies for Web crawlers}.
+\newblock {\em ACM Transactions on Database Systems}, {\em 28\/}(4), December,
+  2003, 390--426.
+
+\bibitem[\protect\citename{Cho}{}{Garcia-molina}{Cho-Garcia-molina}{2003}{Garcia-molina2003}]{Garcia-molina2003}
+Cho, J., \& Garcia-molina, H. (2003).
+\newblock {Estimating Frequency of Change}.
+\newblock (650), 2003.
+
+\bibitem[\protect\citename{Coffman}{}{Liu}{Coffman-Liu}{1997}{Coffman1997}]{Coffman1997}
+Coffman, E., \& Liu, Z. (1997).
+\newblock {Optimal robot scheduling for web search engines}.
+\newblock {\em Sophia}, , 1997.
+
+\bibitem[\protect\citename{Georgescul}{Clark}{Armstrong}{GeorgesculETAL}{2009}{Georgescul2009}]{Georgescul2009}
+Georgescul, M., Clark, A., \& Armstrong, S. (2009).
+\newblock {An analysis of quantitative aspects in the evaluation of thematic
+  segmentation algorithms}.
+\newblock {\em \ldots of the 7th SIGdial Workshop on \ldots}, (July), 2009,
+  144--151.
+
+\bibitem[\protect\citename{Gonz\'{a}lez}{Mu\~{n}oz,
+  Roque}{Garc\'{\i}a-gonz\'{a}lez}{Gonz\'{a}lezETAL}{2005}{Gonzalez2005}]{Gonzalez2005}
+Gonz\'{a}lez, A.~M., Mu\~{n}oz, A., Roque, S., \& Garc\'{\i}a-gonz\'{a}lez, J.
+  (2005).
+\newblock {Modeling and Forecasting Electricity Prices with Input / Output
+  Hidden Markov Models}.
+\newblock {\em 20\/}(1), 2005, 13--24.
+
+\bibitem[\protect\citename{Hsu}{}{Glass}{Hsu-Glass}{2006}{Hsu2006}]{Hsu2006}
+Hsu, B.-j.~P., \& Glass, J. (2006).
+\newblock {Style \& Topic Language Model Adaptation Using HMM-LDA}.
+\newblock (July), 2006, 373--381.
+
+\bibitem[\protect\citename{Tan}{Zhuang}{Mitra}{TanETAL}{2007}{Tan2007}]{Tan2007}
+Tan, Q., Zhuang, Z., \& Mitra, P. (2007).
+\newblock {Designing efficient sampling techniques to detect webpage updates}.
+\newblock {\em Proceedings of the 16th}, {\em 1\/}(3), 2007.
+
+\bibitem[\protect\citename{Wang}{Chen}{Kan}{WangETAL}{2012}{Wang}]{Wang}
+Wang, A., Chen, T., \& Kan, M. (2012).
+\newblock {Re-tweeting from a Linguistic Perspective}.
+\newblock {\em NAACL-HLT 2012}, , 2012.
+
+\bibitem[\protect\citename{Wang}{}{McCarthy}{Wang-McCarthy}{2011}{Wang2011}]{Wang2011}
+Wang, L., \& McCarthy, D. (2011).
+\newblock {Predicting Thread Linking Structure by Lexical Chaining}.
+\newblock {\em Proceedings of the}, , 2011, 76--85.
+
+\bibitem[\protect\citename{Wolf}{Squillante}{Yu}{WolfETAL}{2002}{Wolf2002}]{Wolf2002}
+Wolf, J., Squillante, M., \& Yu, P. (2002).
+\newblock {Optimal crawling strategies for web search engines}.
+\newblock {\em on World Wide Web}, , 2002.
+
+\bibitem[\protect\citename{Yang}{Cai,
+  Wang}{Huang}{YangETAL}{2009}{Yang2009}]{Yang2009}
+Yang, J., Cai, R., Wang, C., \& Huang, H. (2009).
+\newblock {Incorporating site-level knowledge for incremental crawling of web
+  forums: A list-wise strategy}.
+\newblock {\em on Knowledge}, , 2009, 1375--1383.
+
+\end{thebibliography}

@@ -2,7 +2,6 @@ With the advent of Web 2.0, sites with forums, or similar thread-based
 discussion features are increasingly common.  Our goal in this thesis
 is to create an algorithm that can predict when updates in such
 threads will occur.
-%Just recently, Google+ has just
 \begin{table}\label{table:web20}
 	\makebox[\textwidth][c]{
 	{\footnotesize
@@ -41,19 +40,25 @@ typically discuss purchased products bought online on forums,
 and companies that want to get timely feedback about their product
 should turn to data mined from such sites.
 
- A naive way of getting timely updates is to repeatedly poll the websites 
-to check for the presence of new posts. However, the large number of 
-pages in popular forum sites make this task infeasible in practice, 
-% Min: need to talk about DOS. Most sites don't mind occasional
+Web crawling is largely IO-bound, a large portion of the time spent crawling is 
+waiting for the server to supply a response to the request issued by the 
+crawler. However, for sites with a large number of pages ( as in popular forum 
+sites ), make this infeasible in practice. On top of the usual requests it has, 
+it then has to deal with repeated requests from such a crawler. Most sites do 
+not mind some additional bandwidth, but if it gets excessive, it may be 
+construed as a Denial-of-Service attack. At best, the site may deny any further 
+requests from the crawler, and at worst the large number of requests may bring 
+down the site.
 % bandwidth use but too much is not a good thing.  See white-hat rules
 % about spiders.
+
 A simple method to reduce the amount of polling needed is to use the
-previous time differences between previous posts to estimate the
+average time differences between previous posts to estimate the
 arrival of the next one, and to abstain from polling until the
 estimated time.
-% Min: you need to discuss how well this simple baseline does and whether it is actually adopted.
+% Min: you need to discuss how well this simple baseline does and whether it is 
+% actually adopted.
 
-% Min: this needs a new paragraph; it's about a different topic now.
 A key observation in our work is that the contents of the thread may
 also influence the discussion and hence the rate of commenting.  We
 believe that the content of the thread has information that can give a
@@ -64,7 +69,7 @@ one.
 % introduction needs to actually carry through to the final
 % implementation and experimentation where you use such features to
 % estimate properly.
- For example, a thread in a technical forum about a Linux distribution may start 
+For example, a thread in a technical forum about a Linux distribution may start 
 out as a question. Subsequent questions that attempt to either clarify or expand 
 on the original question may then be posted, resulting in a quick flurry of 
 messages. Eventually, a more technically savvy user of the forum may come up 
@@ -78,11 +83,18 @@ messages thanking the problem solver.
 % 3) A navigation paragraph that describes how the rest of the report
 % is going to be structured, especially if it deviates from ``normal''
 % structure.
-
 Let us define all such thread-based discussion styled sites as forums. Ideally, 
 an incremental crawler of such user-generated content should be able to maintain 
 a fresh and complete database of content of the forum that it is monitoring.  
 However, doing so with the previously mentioned naive method would (1) incur 
 excessive costs when downloading un-updated pages, and (2) raise the possibility 
 of the web master blocking the requester's IP address.
+
+Our high level goal: To come up with a suitable algorithm for revisiting user 
+discussion threads, based on the discussion content in the thread. In this 
+project, we focus on forum threads. We demonstrate three different methods for 
+achieving this using regression methods, and also propose a new metric for 
+measuring the timeliness of such a model that balances between the model's 
+timeliness and bandwidth consumption.
+
 
