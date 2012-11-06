@@ -1,20 +1,32 @@
-We aim to predict the amount of time between the arrival of the next post and 
-the time the last post in the thread was made. The information available to us 
-are the previously made posts that we observe when first visiting the thread.  
-The assumption made here is that the thread is not paginated in any way, and a 
-single visit to the thread gives us the latest posts without having to traverse 
-through the links to the latest page. This is because in practice, we would be 
-able to keep track of where the last visited page of the thread was, and reading 
-the new posts would incur a few more requests to the thread. This, in comparison 
-to constantly hitting the page for updates, would be negligible.
+\newcommand{\vocab}{\mathbf{v}}
+\newcommand{\dtvec}{\mathbf{t}_\Delta}
+\newcommand{\ctxvec}{\mathbf{t}_\text{ctx}}
+\newcommand{\dt}{\Delta_t}
+\newcommand{\prerror}{Pr_{error}}
+\newcommand{\weights}{\mathbf{w}}
+\newcommand{\X}{\mathbf{X}}
+\newcommand{\post}{\rho}
+\renewcommand{\t}{t}
+\newcommand{\w}{w}
+
+% Min: tip - Move newcommands to the report.tex file so that they can be globally available.
+
+% Min: still a bit verbose.  Try to make your prose exact.  
+We aim to predict the amount of time between the arrival of the next upcoming 
+post and the time the last post in the thread was made. The information 
+available to us are the previous posts observed in prior visits.  The assumption 
+made here is that the thread is not paginated in any way, and a single visit to 
+the thread gives us the latest posts without having to traverse through the 
+links to the latest page. This is because in practice, we would be able to keep 
+track of where the last visited page of the thread was, and reading the new 
+posts would incur a few more requests to the thread. This, in comparison to 
+constantly hitting the page for updates, would be negligible.
 
 More formally, what we are trying to do is to estimate a function $f$ such that 
 given a feature vector $\X$ representative of a window $\post_{t - w + 
 1},\post_{t - w + 2},\cdots ,\post_t$, where $\post_t$ represents the $t$-th 
 post in the thread, we can approximate $\dt$ with $f(\X)$.  In the following 
-sections, we will discuss various methods for estimating $f$.  Various notations 
-will be used, a quick reference is provided in Table \ref{table:notations}.
-
+sections, we will discuss various methods for estimating $f$, following the notation introduced in Table \ref{table:notations}.
 
 \begin{table}
 	\begin{center}
@@ -37,34 +49,40 @@ $K$			&	The $K$ best features selected from the vocabulary.\\
 	\hline
 	\end{tabular}
 \end{center}
-\caption{Notation reference} \label{table:notations}
+\caption{Common notation used throughout this thesis} \label{table:notations}
 \end{table}
 
-
-In the following sections, we describe the various methods we have to 
-approximate $f$.
+We now describe the methods we explored to approximate $f$.
 
 \section{Baselines}
-A simple way of estimating the revisit rate would be to use the average time 
-differences given the observed posts, or a training set. In previous work, we 
+A simple way of estimating the revisit rate is to use the average time 
+difference given past observed posts. In our review of the related work, we 
 have seen that if page updates follow a Poisson distribution, then revisiting at 
 the Poisson mean would be an optimal revisit policy. %cite paper
 
-In our baseline revisit policy, we took into account the last made post whenever 
+% Min: you should refer to your work consistently.  Is it a policy, an algorith, an approximation, or a strategy?  Use one and only one.
+% Min: Show a graphical illustration of this first baseline.
+In our baseline revisit policy, we account for the last made post whenever 
 we make a visit to the thread, and calculate our next revisit time based on the 
 average post intervals added to the timestamp of the previous post. This is in 
 contrast to an even simpler revisit policy that just revisits at a constant, 
 fixed rate, independent of the posts being made to the thread.
 
+% Min: give an enumeration or code for each type of method you try (e.g., B1 baseline 1, M1 my method 1.)
 One other way of predicting using average post intervals would be to use the 
-concept of a \emph{window}. Averaging out the time differences between the posts 
-would intuitively work, because it captures the context of the situation: A 
+concept of a \emph{window}. Averaging the time differences between the posts 
+intuitively works as it captures the thread's context: A 
 series of posts with short intervals should mean that the next post would come 
 at around the same interval as the few that came before.
 
+% Min: why are you discussing content here?  The baselines don't use content.  Please fix.
+% Min: you're introducing windows for the first time here, so perhaps you need to first explain what windows are.
 In terms of using content for prediction, windows also make sense: Forum users 
 view content as paginated posts, so time differences between posts do not affect 
-their decision to post. Rather, reading a number of posts together affect 
+% Min: why would pagination justify windows?  Be precise.
+their decision to post. 
+% Min: is this true?  Do you have any data or works to cite to back this assertion up?
+Rather, reading a number of posts together affect 
 whether or not the user chooses to reply.
 
 An example of a window ($w=2$) can be seen in Figure \ref{fig:event_series}.
@@ -73,6 +91,7 @@ An example of a window ($w=2$) can be seen in Figure \ref{fig:event_series}.
 	\begin{center}
 	\input{diagrams/eventsdemo.tex}
 	\caption{%
+% Min: also try to use textures in addition to color, for anyone viewing your report in B/W.  
 A series of events, posts (blue) and visits (orange).  The diagram demonstrates 
 the concept of a window of $w=2$.
 }\label{fig:event_series}
@@ -85,23 +104,22 @@ the concept of a window of $w=2$.
 % add to explaining your method, which up to this point, still has not been
 % explained.
 % Shawn: To explain why I didn't do simple linear regression.
-Previous work has used linear regression on a number of different features 
-extracted from forums \cite{Yang2009}. In their paper, the regressed function 
-was used as a scoring function rather than a predictive function. In site of 
-this, we attempted to implement the same model, but this resulted in evaluations 
-worse than that of the baseline.
+Previous work used linear regression on a set of features 
+extracted from forums \cite{Yang2009}. In this past work, the regressed function 
+% Min: show results or point forward to them.
+was used as a scoring function rather than a predictive function. We implemented their model, but the results proved to perform worse than the baselines.
 
-We did use some of the features mentioned in the paper: Window posts time 
+Informed by the past work, we use some features from the previous work: Window posts time 
 differences and time context features (bit-vector representations of the day of 
-the week and hour of the day). In our own statistics we took from the 
+the week and hour of the day). 
+% Min: this doesn't go here.  Dataset information goes in a separate part of the report, in the evaluation section.
+In our own statistics, we took from the 
 \url{avsforum.com} threads, we have also found that the time of the day the day 
 of the week matters when dealing with threads. An example of such a thread can 
-be seen in Figure \ref{fig:hr_freq} and Figure \ref{fig:week_freq}, where it can 
-be seen that activity on the board is highest at 2 PM, and drops slightly, 
-suggesting some type of lunch period, and then goes up again during the early 
-evening and at 9 PM, before dropping to its lowest at 3 AM. The weekly graph 
+be seen in Figure \ref{fig:hr_freq} and Figure \ref{fig:week_freq}, where we see that activity peaks at 2 PM, dropping slightly during (an assumed) lunch period, and then peaks again during the early 
+evening and at 9 PM.  Activity drops to its lowest at 3 AM. The weekly graph 
 also shows a pattern, showing lower posting frequencies during the weekends, and 
-its highest during Thursdays.
+its highest peak on Thursdays.
 \begin{figure}
 \begin{center}
 \begin{subfigure}[b]{0.45\textwidth}
@@ -117,29 +135,34 @@ its highest during Thursdays.
 \end{center}
 \end{figure}
 
-
+% Min: this paragraph can be compacted with the previous paragraph.  Says nothing new.
 This suggests that the \emph{time context} of which the posts were made are 
 important when trying to determine the rate of posts.  As such, we factor in the 
 day and hour information into our feature sets as well.
 
-However, this time in stead of linear regression, we used a regression method 
+% Min: you need to organize your methods so that you can introduce each method and its accompanying features properly as well as the (machine) learning method.  Right now, it's still a mess of a narrative, not properly organized into different sections.
+% Min: describe SVR and RBF, and why you chose them
+However, this time instead of linear regression, we used a regression method 
 known as Support Vector Regression (SVR), using a radial basis function kernel.  
 This method allows the using of different kernels, allowing for better 
 estimation of the target function.
 
+% Min: describe the features.  You need to introduce tf*idf, and POS tags.  
 The main focus of study in this report was to see if content helps with 
 predicting thread updates would produce an improvement. Some of the ways that 
 content data were extracted into feature vectors are the following: Word 
 frequency, the tf-idf of these words, and Part-of-Speech tags.
 
-We perform the standard preprocessing steps like removing stopwords and tokens 
-of length less than three. We also use Porter's stemming algorithm as another 
-preprocessing step, before performing a word frequency count. However, the use 
+We perform standard preprocessing steps of removing stopwords and tokens that are less than three characters in length. We also stem the words using the Porter stemmer.
+We then perform a word frequency count. However, the use 
 of the full vocabulary of the thread as a feature vector greatly increases the 
-time needed to train the model. As such, we used a simple univariate regression 
+time needed to train the model.
+% Min: give some evidence for the amount of time incurred and change of time incurred by this step.
+ As such, we used a simple univariate regression 
 technique for feature selection, and selected only the $K$ best tokens for 
 consideration. Table \ref{table:vocab_exp} shows the results of this experiment.  
 
+% Min: this says almost nothing except that things change.
 These feature sets are used in different combinations, with different window 
 sizes. The results will be seen in the next chapter.
 
@@ -154,8 +177,7 @@ latest posts arrive. The magnitude of this effect, however, may diminish over
 time.
 
 Instead of having a finite window for which all posts (in said window) are 
-treated equally, why not try to account for all previous posts, but weigh them 
-accordingly: the earlier they were made, the less weightage on the prediction 
+treated equally, we propose to accord different weights for the previous posts: the earlier the posts were made, the less effect they should have on prediction 
 the post should have.
 
 Following this intuition we used a discounted sum over previous posts' word 
@@ -166,7 +188,7 @@ frequency vector:
 where $\X_t$ is the feature vector at post $t$. $\alpha$ is the \emph{discount 
 factor} and satisfies $0 \leq \alpha < 1$.
 
-This new feature vector $\X'_t$ will be used in the same way as before, 
+This new feature vector $\X'_t$ will be used in the same way as before; 
 instances of $\X'$ will be regressed with their $\dt$ values. As before, we will 
 look at the results for this method in the next chapter.
 
@@ -175,22 +197,21 @@ trained, the model never gets updated during run time. However, this is
 unrealistic due to the fact that over time, different words are popular as a 
 direct result of different topics in the real world being popular. In this case, 
 these fluctuations may be due to new updates to firmware being released or newer 
-models of, say, a stereo set.
+models of a product.
 
 \section{Stochastic Gradient Descent}
-We also used stochastic gradient descent to estimate the function $f$.  However, 
-during runtime, instead of using a static function, we continue to allow $f$ to 
+To address this problem, we investigate the use of a stochastic gradient descent (SGD) to estimate the function $f$.  The SGD allows us to use a dynamic function instead of a static function for estimation 
+during runtime.  We continue to allow $f$ to 
 vary whenever new posts and their update times are observed.
 
+% Min: try to write a bit more formally here.
 Having already attempted using linear regression for this purpose, we have found 
 it unsuitable for $f$ to be estimated by a linear function. Such a linear 
-function has often resulted in making a negative prediction, and sometimes an 
+function often resulted in a negative prediction, and sometimes an 
 overly huge one, when given feature vectors that have previously never been 
 observed. The function has to be somehow constrained such that the value 
 returned never drops below 0, and never predicts something too huge such that 
 many posts are missed.
-
-
 
 Since $f(\X) > 0$, we used a scaled sigmoid function,
 \[
@@ -199,7 +220,7 @@ Since $f(\X) > 0$, we used a scaled sigmoid function,
 where $\Lambda$ and $\lambda$ are the scaling factors. This results in $f: 
 \mathbb{R}^{|\X|}  \rightarrow (\lambda,\Lambda)$. Bounding the estimation 
 function between $\lambda$ and $\Lambda$ allows us to restrict the prediction 
-from becoming negative, or, becoming exceedingly huge. For our purposes, we set 
+from becoming negative or exceedingly large. For our purposes, we set 
 $\lambda = Q_3 + 2.5(Q_{3} - Q_{1})$, where $Q_n$ is the value at the $n$-th 
 quartile. A visual interpretation of such a curve can be seen in Figure 
 \ref{fig:scaled_sigmoid}.

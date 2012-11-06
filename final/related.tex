@@ -87,6 +87,17 @@ feature to describe a thread in its current state,
 but incorporating this into 
 our model is non-trivial.
 
+There has been some work done recently in predicting events in social media, and 
+in particular, tweets.  \outcite{Wang} dealt with predicting the retweetability 
+of tweets using content. They applied two levels of classification, the first 
+level categorising tweets into 6 different types: Opinion, Update, Interaction, 
+Fact, Deals and Others. This was done using similar techniques as 
+\outcite{Sriram2010} and \outcite{Naaman2010}. The Opinion and Update categories 
+are then further categorised into another three and two sub-categories each. The 
+authors performed this categorisation using labeled Latent Dirichlet Allocation.
+
+
+
 %Kleinberg used Hidden Markov Models to predict ``bursts" in message arrival 
 %times \cite{Kleinberg2003}. In his running example, he used email messages, and 
 %used time between messages to estimate the states that produced the sequence.  
@@ -99,66 +110,14 @@ our model is non-trivial.
 %interact in an online discussion. Granovetter's threshold model for social 
 %behaviour may also be useful in describing how the users behave as a whole.
 
-% Min: this section is way too short.  You only examined one content related
-% work and not even particularly relevant.  I expect trouble from your
-% examiners.  Min: This description of your work is out of place.  You can't
-% talk about your work yet, not here.  You could have done an overview of your
-% work in the introduction but it doesn't make sense to have it in the related
-% work section.
-With these related work in mind, we next propose our modelling of a thread as a 
-Markov chain, and our approach to solving the problem.
+%% Min: You need a conclusion to this chapter.
+\section{Conclusion}
+The state of current work related to revisitation policies mainly use 
+estimations of previous update intervals to predict future update times.  
+Analysis of user-generated content also do not tackle the problem of predicting 
+when new content is created or published. These are the issues we will tackle 
+with our work.
 
-\section{Evaluation metrics}
- % Min: you need to preface this with a short paragraph to say why evaluation
- % metrics need to be discussed.  I'm not sure this needs to be here; this
- % whole section on related work for evaluation can go with the evaluation
- % section itself.
- 
-\outcite{Yang2009} proposed a metric for our particular problem of thread update prediction. Known as the $T$-score, it gives the average 
-time difference between when a post is made and when the post is retrieved by a crawler. The lower the $T$-score, the 
-better the model. However, the metric does not penalize for visits which retrieve 
-nothing new from the thread.  As such, a crawler that repeatedly crawls the site 
-at a frequent rate would do very well.
-
-Broadening our search for more relevant evaluation metrics that take such
-wasted bandwidth into account, we turn to related work in the evaluation of
-segmentation algorithms.  In \outcite{Georgescul2009}, the authors propose a
-new scheme for evaluating segmentation algorithms, $Pr_{error}$. 
-% Min: you need to describe how this measure can be applied to your scenario.
-This metric is the weighted sum of two 
-probability counts $Pr_{fa}$ which is the probability that a false alarm 
-segmentation is made, and $Pr_{miss}$ which is the probability that a 
-segmentation is not made when there should be one. Unfortunately for our 
-purposes, the metrics are calculated using the number of ground truths and 
-segmentations given a window. As such, it does not account for the ``distance" 
-between the ground truths and the segmentation. It also does not allow for the 
-predictions to appear after the ground truths, all requirements needed for a 
-metric to evaluate timeliness of a model.
-
-%\section{Predicting events in social media}
-%% Min: Aobo's work doesn't have much to do with your research.  I have no idea why you are including it here.  If relevant at all, it should go into your content analysis section.
-%There has been some work done recently in predicting events in social media, and 
-%in particular, tweets.  \outcite{Wang} dealt with predicting the retweetability 
-%of tweets using content. They applied two levels of classification, the first 
-%level categorising tweets into 6 different types: Opinion, Update, Interaction, 
-%Fact, Deals and Others. This was done using similar techniques as 
-%\outcite{Sriram2010} and \outcite{Naaman2010}. The Opinion and Update categories 
-%are then further categorised into another three and two sub-categories each. The 
-%authors performed this categorisation using labeled Latent Dirichlet Allocation.
-
-The task in this work, was to predict which of three predefined classes a tweet 
-will fall into: no retweets, a low number of retweets and a high number of retweets. 
-% Min: still unsure of its usefulness.  Strongly suggest moving this to the section on (thread) content analysis.
-Our task is slightly more challenging, 
-since we are trying to minimise the time from which a post is made to when the 
-page is revisited. However, the feature sets used in these works should prove 
-useful in our task.  
-
-%% Min: I would drop this.  This is like adding 2000+ relevant works and choosing Cao2003 as a representative.  A very bad idea.
-%\section{Forecasting and Machine Learning}
-%Since the purpose of our envisioned model would be to create a crawler that can estimate the best times to revisit a page, a proper approach to modeling this as a time-series model would be through machine learning techniques.
-%
-%An interesting approach to forecasting stock prices was presented in \outcite{Cao2003}. The technique involved tweaking conventional SVMs to weigh recent training instances more heavily than older instances. This is a particularly useful idea, since we face the same issue in our task: Recent posts are more descriptive of the current state of the thread, and hence should be more useful in predicting the next post.
-%
-
-% Min: You need a conclusion to this chapter.
+We aim to use the existing content available in the thread to train models for 
+predicting when future posts will arrive. In the next chapter, we take a look at 
+the various methods we propose for tackling this problem of revisitation.

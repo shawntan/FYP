@@ -1,5 +1,27 @@
 
 \renewcommand{\P}{Pr}
+ 
+\outcite{Yang2009} proposed a metric for our particular problem of thread update prediction. Known as the $T$-score, it gives the average 
+time difference between when a post is made and when the post is retrieved by a crawler. The lower the $T$-score, the 
+better the model. However, the metric does not penalize for visits which retrieve 
+nothing new from the thread.  As such, a crawler that repeatedly crawls the site 
+at a frequent rate would do very well.
+
+Broadening our search for more relevant evaluation metrics that take such
+wasted bandwidth into account, we turn to related work in the evaluation of
+segmentation algorithms.  In \outcite{Georgescul2009}, the authors propose a
+new scheme for evaluating segmentation algorithms, $Pr_{error}$. 
+% Min: you need to describe how this measure can be applied to your scenario.
+This metric is the weighted sum of two 
+probability counts $Pr_{fa}$ which is the probability that a false alarm 
+segmentation is made, and $Pr_{miss}$ which is the probability that a 
+segmentation is not made when there should be one. Unfortunately for our 
+purposes, the metrics are calculated using the number of ground truths and 
+segmentations given a window. As such, it does not account for the ``distance" 
+between the ground truths and the segmentation. It also does not allow for the 
+predictions to appear after the ground truths, all requirements needed for a 
+metric to evaluate timeliness of a model.
+
 
 %\begin{figure}
 %\begin{center}

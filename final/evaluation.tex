@@ -24,22 +24,30 @@ The first 75\% of the thread was used as training data, while the remaining 25\%
 was used as test data. We used Support Vector Regression for this regression 
 task, employing a Radial Basis Function kernel as our learning algorithm. 
 
+This setup is used in both the tuning of parameters and for the full evaluation 
+of the entire dataset.
 \begin{figure}
 	\input{diagrams/exp_setup}
-	\caption{Our experiment setup}\label{fig:exp_setup}
+	\caption{Our experiment setup}
+	\label{fig:exp_setup}
 \end{figure}
 
 \subsection{Parameter Tuning}
 Before we begin performing experiments on the full dataset, we first tuned the 
 machine learning algorithms using a sample of the forum threads. In the 
 following experiments, the threads chosen from our extracted dataset are those 
-with a 100 to 1000 posts. This amounted to 97 threads.
-%TODO: may need to change once results are out.
-In each of these experiments, we run the algorithm with different parameters, 
-and use the optimal one in our final evaluation. 
+with a 100 to 1000 posts. This amounted to 97 threads. In each of these 
+experiments, we run the algorithm with different parameters, and use the optimal 
+one in our final evaluation. 
 
 \subsubsection{Vocabulary size}
-%TODO in progress.
+Before we begin tuning the other parameters, we start with limiting the feature 
+vector when using the content information. This is important as having an 
+excessively large feature vector due to a large vocabulary size leads to 
+complications due to limited memory size. We restrict our search for a good size 
+of vocabulary from $10 \leq K \leq 60$, with increments of 10.  The results are 
+shown in Table \ref{table:vocab_exp}. While $K=60$ gives us the best $T$-score, 
+we select $K=50$ as this gives us the best $\Prerror$ score.  
 \begin{table}
 	\footnotesize
 \begin{center}
@@ -67,6 +75,7 @@ $w=15$ provide the best $T$-score. We must however, keep in mind that its
 Visit/Post ratio is the highest, but also has a higher standard error.
 
 \begin{table}
+	\footnotesize
 \begin{center}
 \begin{tabular}{| l | c | c | c |}
 \hline
@@ -87,12 +96,12 @@ in the previous experiment. However, it is interesting to note that, again,
 $w=15$ results in the best $T$-score.
 
 \begin{table}
+	\footnotesize
 \begin{center}
 \begin{tabular}{| l | c | c | c |}
 \hline
 & $T$-score			   &	Visit/Post & 	$\prerror$\\
 \hline
-
 	\input{tables/dt_vec_features}
 \hline
 \end{tabular}
@@ -110,6 +119,7 @@ In any case, this suggests that $w=15$ may be the best window size. In the
 following experiments, this will be our $w$ value.
 
 \begin{table}
+	\footnotesize
 \begin{center}
 \begin{tabular}{| l | c | c | c |}
 \hline
@@ -129,6 +139,7 @@ through 0.1 to 0.9 (inclusive) with 0.1 increments to find the best possible
 value for $\alpha$.  We used the combined set of features for this experiment.
 The results are shown in Table \ref{tbl:par_tune_decay}.
 \begin{table}
+	\footnotesize
 \begin{center}
 \begin{tabular}{| l | c | c | c |}
 \hline
@@ -154,6 +165,7 @@ the extremes, but large enough such that the model is adaptive enough to
 ``react" to changes.
 
 \begin{table}
+	\footnotesize
 \begin{center}
 \begin{tabular}{| l | c | c | c |}
 \hline
@@ -176,9 +188,18 @@ set of parameters: $K = 50, w = 15, \alpha = 0.9, \eta = 5\cdot10^{-8}$. Using
 these parameters, we run a full evaluation on our dataset.
 
 \section{Experiments}
+For our experiments, we selected threads larger than the window size, and have 
+enough posts such that we can split each thread into our 3:1 ratio for training 
+and testing. As such, the threads are at least 19 posts long, since the training 
+set also requires at least two posts in order for us to apply our $\prerror$ 
+metric.
 
-
+This reduces our dataset to a size of only 830 threads. We run all three of our 
+algorithms on the dataset, and determine if the performance based on the 
+$\prerror$ is an improvement over the baseline of revisiting at the average 
+rate. The results are seen in Table \ref{tbl:full_eval}.
 \begin{table}
+	\footnotesize
 \begin{center}
 \begin{tabular}{| l | c | c | c |}
 \hline
@@ -193,6 +214,7 @@ these parameters, we run a full evaluation on our dataset.
 
 
 \begin{table}
+	\footnotesize
 \begin{center}
 \begin{tabular}{| l | c | c | c | l |}
 \hline
@@ -205,15 +227,8 @@ these parameters, we run a full evaluation on our dataset.
 \caption{Some results}\label{tbl:diff_efal}
 \end{table}
 
-
-
-Results of running Stochastic Gradient Descent
-Results of running SVR
-Results of running Decay
-
-
-Analyses of the algo.
 \begin{table}
+	\footnotesize
 \begin{center}
 \begin{tabular}{| l | c | c | c|}
 \hline
@@ -231,7 +246,7 @@ Analyses of the algo.
 \hline
 \end{tabular}
 \end{center}
-\caption{Some results}\label{tbl:diff_efal}
+\caption{Some results}\label{tbl:bin_eval}
 \end{table}
 
 
