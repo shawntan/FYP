@@ -1,0 +1,130 @@
+\section{Introduction}
+This report details what has been completed since the proposal of the project.
+The hope is that by modeling the topics, we will be able to infer something 
+about the time which the post will arrive.
+
+We shall call the time differences between posts $\dt$. For the rest of this 
+report, $\W$ represents a document, in particular, the collection of words that 
+the document contains, and $\Z$ represents a topic that a document belongs to.
+
+In the next section, we discuss the details of the project that have been 
+completed and some of the complications. The last section will detail the 
+remaining tasks left to be done.
+\section{Completed Tasks}
+\subsection{Data: avsforum.com}
+%Window
+Our dataset was obtained from from \url{avsforum.com} and stored in a 
+tab-delimited format, with each line representing a new post. For each post, we 
+extracted the following:
+\begin{description}
+	\item[Timestamp] Time in seconds-from-epoch format.
+	\item[Author] Username of the author of the post.
+	\item[Main content] The main textual content of the post.
+\end{description}
+%TODO REwrite?
+For the our purposes, we pre-process the data such that each instance is 
+comprised of $k$ posts. We have found that Support Vector Regression gives the 
+best results when trying to infer the time of the next post arrival when $k=15$.
+
+
+\subsection{Latent Dirichlet Allocation}
+We used Gibbs sampling to perform LDA for 2 to 10 topics. For a small subset of 
+threads in the forum. Treating each window as a document, we attempted to find 
+topics that the words in the documents belonged to. The following are some 
+interesting results.
+
+Since it is a forum that deals largely with audio visual equipment, a large 
+portion of the posts tend to comprise of people seeking to troubleshoot faulty 
+equipment.  One of the topics LDA found had the following words:
+\begin{verbatim}
+player	dvd	get	one	would	use	play	audio	like	samsung	blu	hdmi	
+sound	work	problem	ray	also	tri	think	firmwar	set	disc	know	issu	
+new	see	updat	look	want	soni	good	better	time	connect	even	
+thankstill	need	say	buy	receiv	back	price	output	oppo	make	seem	
+video	unit	realli	support	well	soundbar	differcould	vizio	optic	
+format	movi	analog	come	cabl	via	got	anyon	much	sinc	denon	
+may	sure	display	decod	thing	doesnbest	way	bar	fix	pcm	post	first	
+watch	channel	hope	test	digit	said	far	take	panason	right	
+anoth	bitstream	return	abl	file
+\end{verbatim}
+
+These seem to be the keywords that are consistent with such posts -- when users 
+describe `issues' and `problems' with their `firmware', and decide if they 
+should `return' the goods.
+
+Another distinct topic that was revealed had to do with positive sentiment, and 
+contain words such as `thanks' or `nice'.
+\begin{verbatim}
+speaker	like	amp	sub	sound	one	####	use	###	would	get	listen	room	
+music	good	also	look	power	two	system	realli	set	think	much	
+know	post	channel	better	new	pair	audio	great	thank	bass	time	
+hear	heard	differ	even	make	see	high	want	say	well	center	
+come	level	surround	back	could	still	price	current	wire	need	
+home	jamo	dsp	first	play	tri	never	sure	nice	love	end	
+output	peopl	design	receiv	thread	focu	run	cabl	front	review	
+theater	test	#.#	may	anyon	year	thx	got	hsu	watt	legaci	compar	
+subwoof	setup	main	bit	work	right	klipsch	somethdual	impress	guy
+\end{verbatim}
+
+
+However, what we want to study is if these differences in content reflect a 
+difference in the arrival times of the next post.
+
+\subsection{Distribution of $\dt$}
+Since we have a way of obtaining $\P{\Z}{\W}$, we need $\P{\dt}{\Z}$ in order to 
+have a way to predict $\dt$. To have a sense of what this looks like, we have 
+binned the $\dt$ into bins of 20 minutes, and plotted their frequency based on 
+the topics we extracted. A document is said to be coming from topic $z$ if 
+$\max_{z'} \P{z'}{\W} = z$
+The idea was to see if there was a distinguishable $\dt$ distribution given 
+different topics. See Figure \ref{fig:time_dist}.
+\begin{figure}
+\centering
+\begin{subfigure}[b]{0.5\textwidth}
+	\centering
+	\includegraphics[width=\textwidth]{/home/shawn/Desktop/predict-forum-pgm/graphs/hist_4_topics/001.png}
+	\caption{Topic 1}
+\end{subfigure}%
+~ %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
+  %(or a blank line to force the subfigure onto a new line)
+\begin{subfigure}[b]{0.5\textwidth}
+	\centering
+	\includegraphics[width=\textwidth]{/home/shawn/Desktop/predict-forum-pgm/graphs/hist_4_topics/002.png}
+	\caption{Topic 2}
+\end{subfigure} \\
+\begin{subfigure}[b]{0.5\textwidth}
+	\centering
+	\includegraphics[width=\textwidth]{/home/shawn/Desktop/predict-forum-pgm/graphs/hist_4_topics/003.png}
+	\caption{Topic 3}
+\end{subfigure}%
+~%
+ %
+\begin{subfigure}[b]{0.5\textwidth}
+	\centering
+	\includegraphics[width=\textwidth]{/home/shawn/Desktop/predict-forum-pgm/graphs/hist_4_topics/004.png}
+	\caption{Topic 4}
+\end{subfigure}
+\caption{Time distributions for $k = 4$}\label{fig:time_dist}
+\end{figure}
+
+Unfortunately, the time distributions did not appear very distinct from each 
+other. More tests need to be performed to see if using the expected value from 
+this currently gathered data will reflect anything.
+\section{Work In Progress}
+Including the previous post topic, we can make a better estimate of the $\dt$ 
+distribution of the current post.
+\[
+	p(\Z_t|\Z_{t-1},\W)=
+	\frac{p(\Z_{t-1}|\Z_t) \cdot p(\Z_t|\W_t) \cdot p(\W_t)}{
+	p(\Z_{t-1})\cdot p(\W)}
+\]
+
+This essentially makes it similar to a Hidden Markov Chain, since the document 
+topic is dependent on the previous document's topic, and the observations 
+produced are the text. This is, however, dependent on whether the distribution 
+of $\dt$ is different for each topic.
+
+As seen in Figure \ref{fig:time_dist}, which shows one example of LDA produced 
+topics, the time distributions are not distinguishable. This may suggest that 
+this approach may not be feasible, and more work needs to be done.
+

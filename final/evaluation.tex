@@ -194,7 +194,7 @@ and testing. As such, the threads are at least 19 posts long, since the training
 set also requires at least two posts in order for us to apply our $\prerror$ 
 metric.
 
-This reduces our dataset to a size of only 830 threads. We run all three of our 
+This reduces our dataset to a size of 830 threads. We run all three of our 
 algorithms on the dataset, and determine if the performance based on the 
 $\prerror$ is an improvement over the baseline of revisiting at the average 
 rate. The results are seen in Table \ref{tbl:full_eval}.
@@ -212,6 +212,15 @@ rate. The results are seen in Table \ref{tbl:full_eval}.
 \caption{Some results}\label{tbl:full_eval}
 \end{table}
 
+It is evident that the scores our methods attain are better than the baseline, 
+but only on average. We performed a statistical significance test on our data, 
+using the Wilcoxon signed-rank test \cite{wilcoxon1945}. The reason a Student's 
+$t$-test could not be employed for this test was due to the non-normal 
+distribution of the $T$-score results. The Wilcoxon's signed-rank test, like 
+Student's $t$-test, also gives us a $p$-value for statistical significance. For 
+each of the three proposed methods, we pair the values with the same thread for 
+the baseline, and find the difference in $T$-score, Visit/Post ratio, and 
+$\prerror$. We only perform the statistical significance test on $\prerror$.
 
 \begin{table}
 	\footnotesize
@@ -224,8 +233,19 @@ rate. The results are seen in Table \ref{tbl:full_eval}.
 \hline
 \end{tabular}
 \end{center}
-\caption{Some results}\label{tbl:diff_efal}
+\caption{Some results}\label{tbl:diff_eval}
 \end{table}
+
+We can observe from Table \label{tbl:diff} that first two regression methods 
+using SVR perform significantly better than the baseline, while our SGD method 
+has a $p$-value of less than 10\%. This begs the question: Do the models perform 
+differently for different thread lengths?
+
+\subsubsection{Different thread lengths}
+We divide our evaluated threads into 5 different subsets: $0 \leq |P| < 50$,
+$50 \leq |P| < 100$, $100 \leq |P| < 150$, $150 \leq |P| < 200$ and $|P| \geq 
+200$. We then look at the same evaluation metrics, and see how well these 
+methods do on different sizes of training data.
 
 \begin{table}
 	\footnotesize
@@ -248,8 +268,26 @@ rate. The results are seen in Table \ref{tbl:full_eval}.
 \end{center}
 \caption{Some results}\label{tbl:bin_eval}
 \end{table}
+The results, displayed in Table \ref{tbl:bin_eval}, show that the two methods 
+using an offline trained model perform poorer on longer thread lengths. This 
+suggests that our method that adaptively adjusts its weights based on new 
+observations performs better in the long run, with longer threads. Since SGD 
+only uses content features, this also suggests that the words found in the 
+thread's content can affect the rate of posting on the thread.
 
+The limitations of this, however, are that a sufficient number of observations 
+of posts must be made before the model can make good enough predictions.
 
+\section{Recommendations}
+Based on our findings, we can make some suggestions as to how an incremental 
+crawler could use these techniques to predict when to revisit a site.
 
+The SVR regression method could be used to predict revisitation rates initially, 
+since they work better on shorter threads with $|P| < 50$. When the thread grows 
+sufficiently, the SGD method could then be used.
 
-
+This has several benefits. The SVR method requires the entire dataset to be 
+present in memory during training, and a new model has to be trained every time 
+modifications need to be made.  Using the SGD method, the weight vector could be 
+loaded into memory when a new observation is made, the weights updated 
+accordingly.
