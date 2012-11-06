@@ -1,3 +1,9 @@
+% Jesse: I think you could use several sentences to remind the reader that
+% this is 1) challenging and 2) important problem. A conclusion should provide
+% a concise message that you want your reader to remember about the entire
+% report. So, what is it that you really want your reader to remember? Notice how
+% this is different from merely summarizing your thesis or rephrasing your
+% introduction.
 With the increasing number of sites leveraging user-generated content, a method 
 for predicting the updates of such sites needs to be created in order for an 
 incremental web crawler to effectively crawl the site. Our high level goal: to 
@@ -17,6 +23,8 @@ which was to revisit the thread at the average time interval. These are
 promising results, and more can be done to improve upon them. 
 
 There are, however, limitations with the current methods, such as....
+% Jesse: Remember to transition into the contributions subsection and make
+% sure you dont downplay the significance of your contributions
 
 
 \section{Contributions}
@@ -25,11 +33,23 @@ We have made the following contributions with our work:
 \item Provided evaluation metrics that can be parameterised, depending on the 
 	evaluators' priority: freshness or bandwidth. The metric allows for an easy 
 	way to compare the performance of two models.
+% Jesse: You've spent quite a significant amount of time on metrics. If this
+% is one of your significant contributions (and it is!), you can consider
+% adding a subsection on metrics in the related work if there is time. I
+% haven't read your metrics chapter yet so be careful of duplicating content
+% if you do so.
 \item Proposed 3 different methods that can be employed for making revisit time 
 	estimations and made recommendations on how they can be used in a web 
 	crawler.
+% Jesse: no comment on the performance of these methods? What is the
+% contribution? That you proposed THREE, that you proposed three that has
+% great PERFORMANCE, or that you proposed three that can be used to MAKE
+% REVISIT TIME ESTIMATIONS? The way the sentence sounds now, your
+% contribution is that you made 3 methods instead of 1 or 2.
 \item Showed that using content as part of the feature set contributes to a 
 	better model for estimating posting times.
+% Jesse: again, is the results statistically significant. If so, mention it
+% here.
 \end{enumerate}
 
 \section{Future Work}
