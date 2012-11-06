@@ -61,6 +61,17 @@ Naaman, M., Boase, J., \& Lai, C.-h. (2010).
 \newblock {\em Proceedings of the 2010 ACM conference \ldots}, , 2010,
   189--192.
 
+\bibitem[\protect\citename{Pedregosa}{Varoquaux, Gramfort, Michel, Thirion,
+  Grisel, Blondel, Prettenhofer, Weiss, Dubourg, Vanderplas, Passos,
+  Cournapeau, Brucher,
+  Perrot}{Duchesnay}{PedregosaETAL}{2011}{scikit-learn}]{scikit-learn}
+Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel,
+  O., Blondel, M., Prettenhofer, P., Weiss, R., Dubourg, V., Vanderplas, J.,
+  Passos, A., Cournapeau, D., Brucher, M., Perrot, M., \& Duchesnay, E. (2011).
+\newblock {Scikit-learn: Machine Learning in Python }.
+\newblock {\em Journal of Machine Learning Research}, {\em 12\/}, 2011,
+  2825--2830.
+
 \bibitem[\protect\citename{Sriram}{}{Fuhry}{Sriram-Fuhry}{2010}{Sriram2010}]{Sriram2010}
 Sriram, B., \& Fuhry, D. (2010).
 \newblock {Short text classification in twitter to improve information
@@ -86,11 +97,6 @@ Wang, L., \& McCarthy, D. (2011).
 Wilcoxon, F. (1945).
 \newblock Individual comparisons by ranking methods.
 \newblock {\em Biometrics Bulletin}, {\em 1\/}(6), 1945, 80--83.
-
-\bibitem[\protect\citename{Wolf}{Squillante}{Yu}{WolfETAL}{2002}{Wolf2002}]{Wolf2002}
-Wolf, J., Squillante, M., \& Yu, P. (2002).
-\newblock {Optimal crawling strategies for web search engines}.
-\newblock {\em on World Wide Web}, , 2002.
 
 \bibitem[\protect\citename{Yang}{Cai,
   Wang}{Huang}{YangETAL}{2009}{Yang2009}]{Yang2009}

@@ -1,3 +1,5 @@
+\chapter{Conclusion}
+
 % Jesse: I think you could use several sentences to remind the reader that
 % this is 1) challenging and 2) important problem. A conclusion should provide
 % a concise message that you want your reader to remember about the entire
@@ -12,7 +14,10 @@ predict the posting behaviour of users to such sites.
 While this primary goal has many challenges, in this report, we have chosen to 
 address challenges specific to forum threads. We want to predict, given content 
 of the current thread, the time at which a user would post to the thread. We 
-evaluate three different machine learning approaches: Two offline algorithms, 
+also need to ensure that bandwidth consumption is not excessive in the process 
+maintaining the freshness of the crawled data.
+
+We evaluate three different machine learning approaches: Two offline algorithms, 
 one that only takes into account only the latest window, and another that 
 accounts for past windows, with decreasing weightage. And an online algorithm, 
 that uses gradient descent to update its weights every time a new post is 
@@ -22,43 +27,25 @@ Overall, our evaluation shows that our methods work better than the baseline,
 which was to revisit the thread at the average time interval. These are 
 promising results, and more can be done to improve upon them. 
 
-There are, however, limitations with the current methods, such as....
-% Jesse: Remember to transition into the contributions subsection and make
-% sure you dont downplay the significance of your contributions
-
-
 \section{Contributions}
 We have made the following contributions with our work:
 \begin{enumerate}
 \item Provided evaluation metrics that can be parameterised, depending on the 
 	evaluators' priority: freshness or bandwidth. The metric allows for an easy 
 	way to compare the performance of two models.
-% Jesse: You've spent quite a significant amount of time on metrics. If this
-% is one of your significant contributions (and it is!), you can consider
-% adding a subsection on metrics in the related work if there is time. I
-% haven't read your metrics chapter yet so be careful of duplicating content
-% if you do so.
-\item Proposed 3 different methods that can be employed for making revisit time 
-	estimations and made recommendations on how they can be used in a web 
-	crawler.
-% Jesse: no comment on the performance of these methods? What is the
-% contribution? That you proposed THREE, that you proposed three that has
-% great PERFORMANCE, or that you proposed three that can be used to MAKE
-% REVISIT TIME ESTIMATIONS? The way the sentence sounds now, your
-% contribution is that you made 3 methods instead of 1 or 2.
+
+\item Proposed three different methods that can be employed for making revisit 
+time estimations. These methods perform significantly better than the baseline.  
+We also made recommendations on how they can be used in a web crawler.  
+
 \item Showed that using content as part of the feature set contributes to a 
-	better model for estimating posting times.
-% Jesse: again, is the results statistically significant. If so, mention it
-% here.
+better model for estimating posting times.
 \end{enumerate}
 
 \section{Future Work}
-
 With the proposed methods still having some shortcomings when predicting new 
 posts, or providing insight into what causes post arrival times, it leaves much 
 room for future work to be done.
-
-
 
 \subsection{Topic modelling}
 One approach we initially considered involved using topic modelling did not pan 
@@ -69,7 +56,7 @@ differences. Some work already exists that use HMMs for prediction of data like
 stock price predictions \cite{Gonzalez2005} and using HMMs together with LDA for 
 making better predictions of language models \cite{Hsu2006}.
 
-\subsubsection{Using Natural Language Processing (NLP) techniques}
+\subsection{Using Natural Language Processing (NLP) techniques}
 An improvement could be made to the feature set used in our project. A source 
 for features that could be useful may be found in \outcite{Wang}. Since their 
 work aims to predict retweetability of tweets, the same features being 

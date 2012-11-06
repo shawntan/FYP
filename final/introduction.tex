@@ -1,12 +1,12 @@
+\chapter{Introduction}
+
 With the advent of Web 2.0, sites with forums, or similar thread-based
-discussion features are increasingly common.  
-% Jesse: You just made a claim but its not immediately backed-up with any
-% supporting statements. Mention of Table 1.1 should probably go here.
-Our goal in this thesis
-is to create an algorithm that can predict when updates in such
-% Jesse: At this juncture, its still unclear what you mean by "updates in such
-% threads".
-threads will occur.
+discussion features are increasingly common.  Table \ref{table:web20} shows us 
+that many of the popular Web 2.0 sites have comment features. This suggests that 
+content on the web is increasingly being created by users alongside content 
+providers. Our goal in this thesis is to create an algorithm that can predict 
+when updates in such discussion threads will occur.
+
 \begin{table}
 	\makebox[\textwidth][c]{
 	{\footnotesize
@@ -35,66 +35,38 @@ threads will occur.
 }
 \end{table}
 
-Table \ref{table:web20} shows us that many of the popular Web 2.0
-sites have comment features. This suggests that content on the web is
-increasingly being created by users alongside content providers.
-
-%we are predicting web 2.0 updates
-In an increasing number of cases, news travels more quickly through
-online community discussions than through traditional media. Users also
-typically discuss purchased products bought online on forums,
-and companies that want to get timely feedback about their product
-should turn to data mined from such sites.
-
-Web crawling is largely IO-bound, a large portion of the time spent crawling is 
-% Jesse: awkard phrasing: "a large portion of X is waiting for the server".
-% You may want to rephrase "is" to something else.
+A naive way of getting timely updates would be to aggressively hit the pages 
+repeatedly (polling), downloading pages at a frequent rate. Since web crawling 
+is largely IO-bound, a large portion of the time spent crawling would be spent 
 waiting for the server to supply a response to the request issued by the 
-crawler. However, for sites with a large number of pages (like popular forum 
-sites), make this infeasible in practice. 
-% Jesse: Makes what infeasible? What is the noun you are referring to?
-On top of the usual requests it has, 
-% Jesse: Another problem with anaphor resolution of "it". You used "sites" not
-% "site" earlier.
-it then has to deal with repeated requests from such a crawler. Most sites do 
-% Jesse: Another anaphor resolution problem for "it". Please check this throughout
-% the thesis.
-not mind some additional bandwidth, but if it gets excessive, it may be 
-% Jesse: here "it" refers to crawling. When was that last mentioned?
-construed as a Denial-of-Service attack. At best, the site may deny any further 
-% Jesse: "site" or "sites". Use one or the other. Do not mix.
-requests from the crawler, and at worst the large number of requests may bring 
-% Jesse: I'm not sure if one crawler can bring down an entire site. It takes a
-% significant number of requests per second to bring down a site, one that you
-% say "is popular", so we can assume that they will have alotted a non-trivial
-% amount of bandwidth in the first place. I'm just saying that this assertion
-% sounds unrealistic. The crawler doesnt need to bring down the site for this
-% situation to be a problem for the site and/or crawler. 
-down the site.
-% bandwidth use but too much is not a good thing.  See white-hat rules
-% about spiders.
+crawler. However, sites with a large number of pages (like popular forum sites), 
+makes this infeasible in practice. On top of the usual requests the server may 
+have, it then has to deal with repeated requests from such a crawler. Most sites 
+do not mind some additional bandwidth, but if it gets excessive, it may be 
+construed as a Denial-of-Service attack. These sites may then deny any further 
+requests from the crawler.
 
-A simple method to reduce the amount of polling needed is to use the
-% Jesse: "amount of polling needed". I dont believe you have established what
-% you mean by "needed". 
-average time differences between previous posts to estimate the
-% Jesse: "between previous posts" is ambiguous. Between which ones of the
-% previous posts?
-arrival of the next one, and to abstain from polling until the
+A simple method to reduce the amount of polling done is to use the
+average time differences between all of the previous page updates to estimate 
+the arrival of the next update, and to abstain from polling until the
 estimated time.
-% Min: you need to discuss how well this simple baseline does and whether it is 
-% actually adopted.
+%This is a metric that performs reasonably well according to 
+
+%Min: you need to discuss how well this simple baseline does and whether it is 
+%actually adopted.
 % Jesse: agreed. please remember to include the results for this baseline in
 % the experiment section.
 
 A key observation in our work is that the contents of the thread may
-also influence the discussion and hence the rate of commenting.  
-% Jesse: Can you give a sneak peak (like one enlightening example) for this
-% observation?
-We
-believe that the content of the thread has information that can give a
-better estimate of the time interval between the last post and a new
-one.
+also influence the discussion and hence the rate of commenting. For example, a 
+thread in a technical forum about a Linux distribution may start out as a 
+question. Subsequent questions that attempt to either clarify or expand on the 
+original question may then be posted, resulting in a quick flurry of messages.  
+Eventually, a more technically savvy user of the forum may come up with a 
+solution, and the thread may eventually slow down after a series of messages 
+thanking the problem solver. We believe that the content of the thread has 
+information that can give a better estimate of the time interval between the 
+last post and a new one.
 
 % Min: tie the ``hypothetical'' example with actual posts.  Also, your
 % introduction needs to actually carry through to the final
@@ -105,58 +77,46 @@ one.
 % mention this example one paragraph later. If you follow Min's suggestion and
 % use actual posts, you can refer make label those posts with figure numbers
 % and refer to the posts in the text.
-For example, a thread in a technical forum about a Linux distribution may start 
-out as a question. Subsequent questions that attempt to either clarify or expand 
-on the original question may then be posted, resulting in a quick flurry of 
-messages. Eventually, a more technically savvy user of the forum may come up 
-with a solution, and the thread may eventually slow down after a series of 
-messages thanking the problem solver. 
 
-% Min: your introduction needs some work.
-% Towards the end you need.  Please restructure the below.
-% 1) a clear problem statement
-% 2) statements of the contribution of your work
-% 3) A navigation paragraph that describes how the rest of the report
-% is going to be structured, especially if it deviates from ``normal''
-% structure.
+
+
+
 Let us define all such thread-based discussion styled sites as forums. Ideally, 
 an incremental crawler of such user-generated content should be able to maintain 
 a fresh and complete database of content of the forum that it is monitoring.  
-However, doing so with the previously mentioned naive method would (1) incur 
-excessive costs when downloading un-updated pages, and (2) raise the possibility 
-of the web master blocking the requester's IP address.
-% Jesse: You need to make a better transition to the next paragraph. How does
-% this situation lead you to have the following goal? Why is this goal the
-% logical step (or one of the logical steps) to solve the situation. Note that
-% Im not asking you to write the answers to these questions as text in the
-% report. These questions are meant to make you think about what to actually
-% write. Same goes with all of my other questions.
+However, doing so with the previously mentioned naive method would, incur 
+excessive costs when downloading un-updated pages, and raise the possibility of 
+the web master blocking the requester's IP address.
 
-Our high level goal: To come up with a suitable algorithm for revisiting user 
-% Jesse: "To come up" is not good English
-% Jesse: "for revisiting"? Please use a consistent terminology
-discussion threads, based on the discussion content in the thread. In this 
-project, we focus on forum threads. We demonstrate three different methods for 
-achieving this using regression methods, and also propose a new metric for 
-measuring the timeliness of such a model that balances between the model's 
-timeliness and bandwidth consumption.
+% Jesse: You need to make a better transition to the next paragraph. How does
+% this situation lead you to have the following goal? 
+As such, we need to have a way to achieve a balance between two things: (1) 
+Reduce the requests made, and (2), still be able to retrieve updates in a timely 
+fashion. There has been work done (see Chapter 2) in this respect, but we argue 
+that existing content should be included into any model that attempts to predict 
+updates to user-generated content.
+
+Our high level goal: To devise a suitable algorithm for predicting new posts in 
+user discussion threads, based on the discussion content in the thread. In this 
+project, we focus on forum threads, and make the following contributions:
+\begin{enumerate}
+	\item We demonstrate three different methods for achieving this using 
+regression methods.
+	\item We propose a novel metric for measuring the timeliness of such a model 
+that balances between the model's timeliness and bandwidth consumption.
+\end{enumerate}
 % Jesse: You are burying the lead. It seems to me that you have major
 % contributions in this thesis, but you are hiding them inside this tiny
 % little paragraph. Make them stand-out. Use a numbered list. Make it clear
 % that these are your contributions, especially if they are novel. And if they
 % are, you should mention that they're novel whenever appropriate.
 
-In Chapter 2, we explore the related work dealing with predicting web page 
-updates and metrics to measure the performance of such algorithms. 
-% Jesse: awkward super long noun above "dealing with [noun phrase]"
-In Chapter 3, 
-we discuss the methods that we have come up with to tackle the problem, while 
-% Jesse: "we have come up with" rephrase
-Chapter 4 describes the metrics we propose for measuring the performance of 
-revisitation algorithms. 
-% Jesse: "Revisitation algorithms"? 
-In Chapter 5, we perform experiments on a dataset 
-extracted from \url{avsforum.com}, 
+In Chapter 2, we explore the related work dealing with refresh policiesand 
+metrics to measure the performance of such algorithms. In Chapter 3, we discuss 
+the methods that we have created with to tackle the problem, while Chapter 4 
+describes the metrics we propose for measuring the performance of these 
+algorithms.  In Chapter 5, we perform experiments on a dataset extracted from 
+\url{avsforum.com}, 
 % Jesse: you could mention a little more about the significance of the results
 % and the size of the data set here.
 and show that our models perform better than 

@@ -1,3 +1,5 @@
+\chapter{Evaluation}
+
 In our project, the dataset we used was crawled from 
 \url{http://www.avsforum.com/f/}. The forum dealt mainly with Audio-Visual 
 equipment, with discussions mainly about technical details, offers and people 
@@ -18,6 +20,31 @@ The distribution of the time differences are shown in Figure
 \putgraphic{diagrams/len_dist.png}{Distribution of thread 
 length}{len_dist}{0.75}
 \putgraphic{diagrams/time_dist.png}{Distribution of $\dt$}{time_dist}{0.75}
+
+We have also found that the time of the day the day of the week matters when 
+dealing with threads. An example of such a thread can be seen in Figure 
+\ref{fig:hr_freq} and Figure \ref{fig:week_freq}, where we see that activity 
+peaks at 2 PM, dropping slightly during (an assumed) lunch period, and then 
+peaks again during the early evening and at 9 PM.  Activity drops to its lowest 
+at 3 AM. The weekly graph also shows a pattern, showing lower posting 
+frequencies during the weekends, and its highest peak on Thursdays.
+\begin{figure}
+\begin{center}
+\begin{subfigure}[b]{0.45\textwidth}
+\includegraphics[width=\textwidth]{diagrams/hoursofday.png}
+\caption{The hourly post frequency.}
+\label{fig:hr_freq}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+\includegraphics[width=\textwidth]{diagrams/daysofweek.png}
+\caption{The daily post frequency.}
+\label{fig:week_freq}
+	\end{subfigure}
+\end{center}
+\end{figure}
+
+
+
 
 \section{Experiment setup}
 The first 75\% of the thread was used as training data, while the remaining 25\% 
@@ -152,7 +179,8 @@ The results are shown in Table \ref{tbl:par_tune_decay}.
 \hline
 \end{tabular}
 \end{center}
-\caption{Parameter tuning for Decay method.}\label{tbl:par_tune_decay}
+\caption{Results for tuning $\alpha$ for the \texttt{DEC} 
+method}\label{tbl:par_tune_decay}
 \end{table}
 
 $\alpha=0.9$ performs the best, but its improvement over the rest of the values 
@@ -178,7 +206,8 @@ the extremes, but large enough such that the model is adaptive enough to
 \hline
 \end{tabular}
 \end{center}
-\caption{Tuning $\eta$ for the SGD method}\label{tbl:par_tune_learning}
+\caption{Results for tuning $\eta$ for the \texttt{SGD}
+method}\label{tbl:par_tune_learning}
 \end{table}
 
 In this experiment, we find that $\eta=5\cdot10^{-8}$ is the best value for the 
@@ -257,13 +286,23 @@ methods do on different sizes of training data.
 \hline
 & $T$-score			   &	Visit/Post & 	$\prerror$ \\
 \hline
+	\multicolumn{4}{|c|}{$|P| < 50$}\\
+\hline
 	\input{tables/summaries/bin_00025_00049}
+\hline
+	\multicolumn{4}{|c|}{$50 \leq |P| < 100$}\\
 \hline
 	\input{tables/summaries/bin_00050_00099}
 \hline
+	\multicolumn{4}{|c|}{$100 \leq |P| < 150$}\\
+\hline
 	\input{tables/summaries/bin_00101_00146}
 \hline
+	\multicolumn{4}{|c|}{$150 \leq |P| < 200$}\\
+\hline
 	\input{tables/summaries/bin_00152_00197}
+\hline
+	\multicolumn{4}{|c|}{$|P| \geq 200$}\\
 \hline
 	\input{tables/summaries/bin_00202_19378}
 \hline

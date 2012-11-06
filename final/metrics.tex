@@ -1,27 +1,5 @@
-
 \renewcommand{\P}{Pr}
- 
-\outcite{Yang2009} proposed a metric for our particular problem of thread update prediction. Known as the $T$-score, it gives the average 
-time difference between when a post is made and when the post is retrieved by a crawler. The lower the $T$-score, the 
-better the model. However, the metric does not penalize for visits which retrieve 
-nothing new from the thread.  As such, a crawler that repeatedly crawls the site 
-at a frequent rate would do very well.
-
-Broadening our search for more relevant evaluation metrics that take such
-wasted bandwidth into account, we turn to related work in the evaluation of
-segmentation algorithms.  In \outcite{Georgescul2009}, the authors propose a
-new scheme for evaluating segmentation algorithms, $Pr_{error}$. 
-% Min: you need to describe how this measure can be applied to your scenario.
-This metric is the weighted sum of two 
-probability counts $Pr_{fa}$ which is the probability that a false alarm 
-segmentation is made, and $Pr_{miss}$ which is the probability that a 
-segmentation is not made when there should be one. Unfortunately for our 
-purposes, the metrics are calculated using the number of ground truths and 
-segmentations given a window. As such, it does not account for the ``distance" 
-between the ground truths and the segmentation. It also does not allow for the 
-predictions to appear after the ground truths, all requirements needed for a 
-metric to evaluate timeliness of a model.
-
+\chapter{Evaluation Metrics}
 
 %\begin{figure}
 %\begin{center}
@@ -64,36 +42,16 @@ is given by
 	\frac{1}{|P|}\sum^{|P|}_{t=1}\left|\frac{f(\X_t) - \dt}{\dt}\right|
 \]
 where $A_i$ is the actual value, and $F_i$ is the forecasted value for the 
-instance $i$. Realistically, the model would not be able to come into contact 
-with every possible window, 
-% Jesse: "come into contact with every possible window"?     
-since chances are it will make an error that causes 
- %explain error in a new section (before this one) ?
-it to visit a thread late, causing it to miss two posts or more. This value does 
-not reflect how well the model will do in a real-time setting, but gives an idea 
-of how far off the model is given a window.
-
-In such measures, the performance of the model is measured on an instance by 
-instance basis. 
-% Jesse: what is an instance here? Also stock prices are not measured
-% day-to-day. So your example makes all this even more confusing.
-To give a concrete example, say we are attempting to predict 
-stock prices. Given the feature vector as input, we get an estimate of what the 
-stock prices will be for, say, the next day. We can then measure the absolute 
-difference between what was predicted and the actual amount, and evaluate the 
-model based on that.
+instance $i$. Realistically, the model would not be able to observe every 
+possible window, making the MAPE measure not descriptive of the performance of 
+the approximated function. This value does not reflect how well the model will 
+do in a real-time setting, but gives an idea of how far off the model is given a 
+window.
 
 In our case, we want to know how long it takes before any post made will be 
 retrieved by the crawler. We also want to ensure that the model does not choose 
 to make too many requests. The rest of the chapter explains in detail how we 
 came up with our metric, its advantages and limitations.
-
-% Jesse: Ok, i think you really jumped the gun in this chapter. The
-% intro paragraphs needs a lot of work. Imagine you are trying to explain to your
-% dad / little brother. Where do you begin? In the first place, this metric is
-% supposed to be your contribution in this thesis. So it deserves a coherent
-% introduction to its inception and some alotted discussion on its motivation
-% and why its different / better than other metrics.
 
 % Jesse: I recommend starting at the beginning: What is the task? Then discuss
 % about what are the important aspects to qualify the task? timeliness? Then
@@ -127,6 +85,8 @@ data, more so than the after one post, especially if the multiple posts are far
 apart time-wise.
 %include diagrams
 
+
+
 \section{$T$-score, and the Visit/Post ratio}
 
 \begin{figure}
@@ -136,7 +96,6 @@ apart time-wise.
 	\end{center}
 \end{figure}
 
-% Jesse: Did you mention what is blue and what is yellow in the figures?
 
 We also want to know the \emph{timeliness} of the model's visits.  
 \outcite{Yang2009} has a metric for measuring this. Taking $\Delta t_i$ as the 

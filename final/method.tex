@@ -1,3 +1,5 @@
+\chapter{Method}
+
 % Min: still a bit verbose.  Try to make your prose exact.  
 We aim to predict the amount of time between the arrival of the next upcoming 
 post and the time the last post in the thread was made. The information 
@@ -45,9 +47,7 @@ We now describe the methods we explored to approximate $f$.
 A simple way of estimating the revisit rate is to use the average time 
 difference given past observed posts. In our review of the related work, we 
 have seen that if page updates follow a Poisson distribution, then revisiting at 
-the Poisson mean would be an optimal revisit policy. %cite paper
-
-% Min: you should refer to your work consistently.  Is it a policy, an algorith, an approximation, or a strategy?  Use one and only one.
+the Poisson mean would be an optimal approximation \cite{Coffman1997}.
 % Min: Show a graphical illustration of this first baseline.
 In our baseline revisit policy, we account for the last made post whenever 
 we make a visit to the thread, and calculate our next revisit time based on the 
@@ -58,19 +58,9 @@ fixed rate, independent of the posts being made to the thread.
 % Min: give an enumeration or code for each type of method you try (e.g., B1 baseline 1, M1 my method 1.)
 One other way of predicting using average post intervals would be to use the 
 concept of a \emph{window}. Averaging the time differences between the posts 
-intuitively works as it captures the thread's context: A 
-series of posts with short intervals should mean that the next post would come 
-at around the same interval as the few that came before.
-
-% Min: why are you discussing content here?  The baselines don't use content.  Please fix.
-% Min: you're introducing windows for the first time here, so perhaps you need to first explain what windows are.
-In terms of using content for prediction, windows also make sense: Forum users 
-view content as paginated posts, so time differences between posts do not affect 
-% Min: why would pagination justify windows?  Be precise.
-their decision to post. 
-% Min: is this true?  Do you have any data or works to cite to back this assertion up?
-Rather, reading a number of posts together affect 
-whether or not the user chooses to reply.
+intuitively works as it captures the thread's context: A series of posts with 
+short intervals should mean that the next post would come at around the same 
+interval as the few that came before.
 
 An example of a window ($w=2$) can be seen in Figure \ref{fig:event_series}.
 
@@ -85,62 +75,39 @@ the concept of a window of $w=2$.
 	\end{center}
 \end{figure}
 
+% Min: why are you discussing content here?  The baselines don't use content.  Please fix.
+% Min: you're introducing windows for the first time here, so perhaps you need to first explain what windows are.
+In terms of using content for prediction, windows also makes intuitive sense: 
+Forum users view content as paginated posts, so whether or not they make a reply 
+depends on the content they view when viewing the thread.  
 
-\section{Performing regression on windows}
-% Jesse: I dont understand what role this paragraph plays. It doesnt seem to
-% add to explaining your method, which up to this point, still has not been
-% explained.
-% Shawn: To explain why I didn't do simple linear regression.
-Previous work used linear regression on a set of features 
-extracted from forums \cite{Yang2009}. In this past work, the regressed function 
+
+\section{Performing regression on windows (\texttt{SVR})}
+Previous work used linear regression on a set of features extracted from forums 
+\cite{Yang2009}. In this past work, the regressed function 
 % Min: show results or point forward to them.
-was used as a scoring function rather than a predictive function. We implemented their model, but the results proved to perform worse than the baselines.
+was used as a scoring function rather than a predictive function. We implemented 
+their model, but the results proved to perform worse than the baselines.
 
-Informed by the past work, we use some features from the previous work: Window posts time 
-differences and time context features (bit-vector representations of the day of 
-the week and hour of the day). 
-% Min: this doesn't go here.  Dataset information goes in a separate part of the report, in the evaluation section.
-In our own statistics, we took from the 
-\url{avsforum.com} threads, we have also found that the time of the day the day 
-of the week matters when dealing with threads. An example of such a thread can 
-be seen in Figure \ref{fig:hr_freq} and Figure \ref{fig:week_freq}, where we see that activity peaks at 2 PM, dropping slightly during (an assumed) lunch period, and then peaks again during the early 
-evening and at 9 PM.  Activity drops to its lowest at 3 AM. The weekly graph 
-also shows a pattern, showing lower posting frequencies during the weekends, and 
-its highest peak on Thursdays.
-\begin{figure}
-\begin{center}
-\begin{subfigure}[b]{0.45\textwidth}
-\includegraphics[width=\textwidth]{diagrams/hoursofday.png}
-\caption{The hourly post frequency.}
-\label{fig:hr_freq}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.45\textwidth}
-\includegraphics[width=\textwidth]{diagrams/daysofweek.png}
-\caption{The daily post frequency. (Monday is 0)}
-\label{fig:week_freq}
-	\end{subfigure}
-\end{center}
-\end{figure}
+Informed by the past work, we use some features from the previous work: Window 
+posts time differences and time context features (bit-vector representations of 
+the day of the week and hour of the day).
 
-% Min: this paragraph can be compacted with the previous paragraph.  Says nothing new.
-This suggests that the \emph{time context} of which the posts were made are 
-important when trying to determine the rate of posts.  As such, we factor in the 
-day and hour information into our feature sets as well.
-
-% Min: you need to organize your methods so that you can introduce each method and its accompanying features properly as well as the (machine) learning method.  Right now, it's still a mess of a narrative, not properly organized into different sections.
+% Min: you need to organize your methods so that you can introduce each method 
+% and its accompanying features properly as well as the (machine) learning 
+% method.  Right now, it's still a mess of a narrative, not properly organized 
+% into different sections.
 % Min: describe SVR and RBF, and why you chose them
 However, this time instead of linear regression, we used a regression method 
 known as Support Vector Regression (SVR), using a radial basis function kernel.  
 This method allows the using of different kernels, allowing for better 
 estimation of the target function.
 
-% Min: describe the features.  You need to introduce tf*idf, and POS tags.  
 The main focus of study in this report was to see if content helps with 
-predicting thread updates would produce an improvement. Some of the ways that 
-content data were extracted into feature vectors are the following: Word 
-frequency, the tf-idf of these words, and Part-of-Speech tags.
-
-We perform standard preprocessing steps of removing stopwords and tokens that are less than three characters in length. We also stem the words using the Porter stemmer.
+predicting thread updates would produce an improvement. In this project we used 
+word counts. We performed standard preprocessing steps of removing stopwords and 
+tokens that are less than three characters in length. We also stem the words 
+using the Porter stemmer.
 We then perform a word frequency count. However, the use 
 of the full vocabulary of the thread as a feature vector greatly increases the 
 time needed to train the model.
@@ -148,16 +115,11 @@ time needed to train the model.
  As such, we used a simple univariate regression 
 technique for feature selection, and selected only the $K$ best tokens for 
 consideration. Table \ref{table:vocab_exp} shows the results of this experiment.  
-
-% Min: this says almost nothing except that things change.
-These feature sets are used in different combinations, with different window 
-sizes. The results will be seen in the next chapter.
-
 The methods in this section use features extracted from the current window. A 
 model is then trained using these extracted features in order to make a 
 prediction. We take a look now at a two other novel methods that we developed.
 
-\section{Discounted sum of previous instances}
+\section{Discounted sum of previous instances (\texttt{DEC})}
  
 Posts made further in the history of the thread may have an effect on when the 
 latest posts arrive. The magnitude of this effect, however, may diminish over 
@@ -186,10 +148,11 @@ direct result of different topics in the real world being popular. In this case,
 these fluctuations may be due to new updates to firmware being released or newer 
 models of a product.
 
-\section{Stochastic Gradient Descent}
-To address this problem, we investigate the use of a stochastic gradient descent (SGD) to estimate the function $f$.  The SGD allows us to use a dynamic function instead of a static function for estimation 
-during runtime.  We continue to allow $f$ to 
-vary whenever new posts and their update times are observed.
+\section{Stochastic Gradient Descent (\texttt{SGD})}
+To address this problem, we investigate the use of a stochastic gradient descent 
+(SGD) to estimate the function $f$.  The SGD allows us to use a dynamic function 
+instead of a static function for estimation during runtime.  We continue to 
+allow $f$ to vary whenever new posts and their update times are observed.
 
 % Min: try to write a bit more formally here.
 Having already attempted using linear regression for this purpose, we have found 
@@ -239,9 +202,24 @@ experiment with various values of $\eta$, the learning rate.
 
 In this chapter, we have outlined the specific task we will be attempting, to 
 try and predict the time from the current last post in the thread to the next.
-We have discussed the types of features we will be using, time context features, 
-with a focus on content features that consists mainly of the tokens present. We 
-have also discussed the concept of a window, and how it could help to make 
-predictions better. Also, two novel methods were discussed, and, in the next 
-chapter, we will look at how these methods stack up against one another.
-
+We have discussed the types of features we will be using,
+\begin{description}
+	\item[$\ctxvec$] time context features
+	\item[$\vocab$] content features, in particular, word counts
+	\item[$\dtvec$] $\dt$ of posts within the window
+\end{description}
+We have also discussed the concept of a window, and how it could help to make 
+predictions better. The methods we will evaluate in the next chapter are 
+following:
+\begin{description}
+	\item[\texttt{BL}] Baseline method, using the average $\dt$ revisit 
+strategy.
+	\item[\texttt{SVR}] Support vector regression, using feature vector 
+extracted from the current window.
+	\item[\texttt{DEC}] Uses the discounted sum of previous instances as the 
+current window.
+	\item[\texttt{SGD}] Uses the stochastic gradient descent method for 
+prediction.
+\end{description}
+We will perform some experiments, and look at how these methods stack up against 
+one another.

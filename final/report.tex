@@ -1,6 +1,5 @@
-\documentclass[hyp]{socreport}
+\documentclass[hyp,12pt]{socreport}
 \usepackage{color, colortbl}
-
 \usepackage{fullpage}
 \usepackage{url}
 \usepackage{amsmath}
@@ -29,47 +28,67 @@
 }
 \maketitle
 \begin{abstract}
-% Min: not done yet.
-% Jesse: just a reminder that the abstract is not done yet. The template (by
-% Min?) however, looks good. Please replace the placeholder nouns phrases and
-% work your way from there.
-In this report, we study a problem and design an efficient algorithm
-to solve the problem.  We implemented the algorithm and evaluated
-its performance againts previous proposed algorithms that solves the
-same problem.  Our results show that our algorithm runs faster.
+With the advent of Web 2.0, sites with forums, or similar thread-based
+discussion features are increasingly common. An incremental web crawler aiming 
+to maintain a database of up-to-date, extracted information from sites with such 
+discussion features must strike a balance between bandwidth usage and freshness 
+of data. Our objective: To estimate the arrival times of the next update to such 
+threads. We demonstrate three different methods for achieving this using 
+regression methods, and make recommendations as to how they can be used in a 
+crawling system. We also propose a novel metric for measuring the timeliness of 
+such a model that balances between the model's timeliness and bandwidth 
+consumption. Our methods outperform the baseline, which revisits the thread 
+using its average update rate.
 
-%TODO
 \begin{descriptors}
-    \item C5 Computer System Implementation
-	\item G2.2 Graph Algorithms
+\item World Wide Web
+	\begin{itemize}
+	\item[] Web searching and information discovery
+		\begin{itemize}
+		\item[] Web search engines
+			\begin{itemize}
+			\item[] Web crawling
+			\end{itemize}
+		\end{itemize}
+	\end{itemize}
+	\item[] Information Retrieval
+		\begin{itemize}
+		\item[] Evaluation of retrieval results
+			\begin{itemize}
+			\item[] Retrieval effectiveness
+			\end{itemize}
+		\end{itemize}
 \end{descriptors}
 \begin{keywords}
-	Problem, algorithm, implementation
+	web crawlers, revisitation, discussion threads, evaluation metrics
 \end{keywords}
 \begin{implement}
-	python, bash
+	python, bash, scikit-learn\nocite{scikit-learn}
 \end{implement}
 \end{abstract}
 
 \begin{acknowledgement}
+I would like to express my gratitude to my parents, for supporting me throughout 
+my final year of university. I would also like to thank the following friends: 
+Low Wee, Yipeng, Cedric, Davin, Chris and Lan Guan.  Without them, I would not 
+have had the moral support during times of stress, nor would I have been able to 
+have discussions while fleshing out ideas.
+
+Most of all, I would really like to thank Jesse and A/P Min-Yen Kan, for their 
+patient guidance, support, and for putting up with my stubbornness and tardiness 
+during the course of this project.
 \end{acknowledgement}
 
 \listoffigures 
 \listoftables
 \tableofcontents 
 
-\chapter{Introduction}
-	\input{introduction}
-\chapter{Related Work}
-	\input{related}
-\chapter{Method}
-	\input{method}
-\chapter{Evaluation Metrics}
-	\input{metrics}
-\chapter{Evaluation}
-	\input{evaluation}
-\chapter{Conclusion}
-	\input{conclusion}
+\include{introduction}
+\include{related}
+\include{method}
+\include{metrics}
+\include{evaluation}
+\include{conclusion}
 
 \bibliographystyle{socreport}
 \bibliography{report}
