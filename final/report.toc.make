@@ -28,14 +28,14 @@
 \contentsline {section}{\numberline {5.2}Experiments}{28}
 \contentsline {subsubsection}{Different thread lengths}{30}
 \contentsline {section}{\numberline {5.3}Recommendations}{30}
-\contentsline {chapter}{\numberline {6}Conclusion}{32}
-\contentsline {section}{\numberline {6.1}Contributions}{33}
-\contentsline {section}{\numberline {6.2}Future Work}{33}
-\contentsline {subsection}{\numberline {6.2.1}Topic modelling}{33}
-\contentsline {subsection}{\numberline {6.2.2}Using Natural Language Processing (NLP) techniques}{34}
-\contentsline {subsection}{\numberline {6.2.3}Leveraging context}{34}
-\contentsline {subsection}{\numberline {6.2.4}Using adaptive learning techniques}{34}
-\contentsline {chapter}{References}{35}
+\contentsline {chapter}{\numberline {6}Conclusion}{33}
+\contentsline {section}{\numberline {6.1}Contributions}{34}
+\contentsline {section}{\numberline {6.2}Future Work}{34}
+\contentsline {subsection}{\numberline {6.2.1}Topic modelling}{34}
+\contentsline {subsection}{\numberline {6.2.2}Using Natural Language Processing (NLP) techniques}{35}
+\contentsline {subsection}{\numberline {6.2.3}Leveraging context}{35}
+\contentsline {subsection}{\numberline {6.2.4}Using adaptive learning techniques}{35}
+\contentsline {chapter}{References}{36}
 \contentsline {chapter}{\numberline {A}Topic Modelling}{A-1}
 \contentsline {section}{\numberline {A.1}Introduction}{A-1}
 \contentsline {section}{\numberline {A.2}Completed Tasks}{A-1}

@@ -43,14 +43,14 @@
 \@writefile{toc}{\contentsline {chapter}{Acknowledgement}{iii}}
 \@writefile{toc}{\contentsline {chapter}{List of Figures}{iv}}
 \@writefile{toc}{\contentsline {chapter}{List of Tables}{v}}
-\@writefile{toc}{\contentsline {chapter}{References}{35}}
+\@writefile{toc}{\contentsline {chapter}{References}{36}}
 \@writefile{toc}{\contentsline {chapter}{Title}{i}}
 \@writefile{toc}{\contentsline {chapter}{\numberline {1}Introduction}{1}}
 \@writefile{toc}{\contentsline {chapter}{\numberline {2}Related Work}{5}}
 \@writefile{toc}{\contentsline {chapter}{\numberline {3}Method}{10}}
 \@writefile{toc}{\contentsline {chapter}{\numberline {4}Evaluation Metrics}{17}}
 \@writefile{toc}{\contentsline {chapter}{\numberline {5}Evaluation}{22}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}Conclusion}{32}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Conclusion}{33}}
 \@writefile{toc}{\contentsline {chapter}{\numberline {A}Topic Modelling}{A-1}}
 \@writefile{toc}{\contentsline {section}{\numberline {2.1}Refresh policies for incremental crawlers}{5}}
 \@writefile{toc}{\contentsline {section}{\numberline {2.2}Thread content analysis}{7}}
@@ -66,16 +66,16 @@
 \@writefile{toc}{\contentsline {section}{\numberline {5.1}Experiment setup}{24}}
 \@writefile{toc}{\contentsline {section}{\numberline {5.2}Experiments}{28}}
 \@writefile{toc}{\contentsline {section}{\numberline {5.3}Recommendations}{30}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.1}Contributions}{33}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.2}Future Work}{33}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.1}Contributions}{34}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.2}Future Work}{34}}
 \@writefile{toc}{\contentsline {section}{\numberline {A.1}Introduction}{A-1}}
 \@writefile{toc}{\contentsline {section}{\numberline {A.2}Completed Tasks}{A-1}}
 \@writefile{toc}{\contentsline {section}{\numberline {A.3}Work In Progress}{A-5}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.1.1}Parameter Tuning}{24}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.2.1}Topic modelling}{33}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.2.2}Using Natural Language Processing (NLP) techniques}{34}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.2.3}Leveraging context}{34}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.2.4}Using adaptive learning techniques}{34}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2.1}Topic modelling}{34}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2.2}Using Natural Language Processing (NLP) techniques}{35}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2.3}Leveraging context}{35}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2.4}Using adaptive learning techniques}{35}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {A.2.1}Data: avsforum.com}{A-1}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {A.2.2}Latent Dirichlet Allocation}{A-2}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {A.2.3}Distribution of $\Delta _t$}{A-3}}
@@ -109,6 +109,7 @@
 \citation{Yang2009}
 \citation{scikit-learn}
 \citation{wilcoxon1945}
+\newlabel{fig:dt_dist}
 \newlabel{fig:event_series}
 \newlabel{fig:exp_setup}
 \newlabel{fig:hr_freq}
@@ -116,7 +117,6 @@
 \newlabel{fig:norm_fa_score}
 \newlabel{fig:norm_t_score}
 \newlabel{fig:scaled_sigmoid}
-\newlabel{fig:time_dist}
 \newlabel{fig:time_dist}
 \newlabel{fig:week_freq}
 \newlabel{sub@fig:hr_freq}
@@ -126,7 +126,7 @@
 \newlabel{table:web20}
 \newlabel{tbl:bin_eval}
 \newlabel{tbl:diff_eval}
-\newlabel{tbl:diff}
+\newlabel{tbl:diff_eval}
 \newlabel{tbl:full_eval}
 \newlabel{tbl:par_tune_comb}
 \newlabel{tbl:par_tune_content}
@@ -198,8 +198,8 @@
 \setcounter{page}{10}
 \setcounter{page}{17}
 \setcounter{page}{22}
-\setcounter{page}{32}
-\setcounter{page}{35}
+\setcounter{page}{33}
+\setcounter{page}{36}
 \setcounter{page}{5}
 \setcounter{paragraph}{0}
 \setcounter{paragraph}{0}

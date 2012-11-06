@@ -1,3 +1,4 @@
+\newlabel{fig:dt_dist}
 \newlabel{fig:event_series}
 \newlabel{fig:exp_setup}
 \newlabel{fig:hr_freq}
@@ -5,7 +6,6 @@
 \newlabel{fig:norm_fa_score}
 \newlabel{fig:norm_t_score}
 \newlabel{fig:scaled_sigmoid}
-\newlabel{fig:time_dist}
 \newlabel{fig:time_dist}
 \newlabel{fig:week_freq}
 \newlabel{sub@fig:hr_freq}
@@ -15,7 +15,7 @@
 \newlabel{table:web20}
 \newlabel{tbl:bin_eval}
 \newlabel{tbl:diff_eval}
-\newlabel{tbl:diff}
+\newlabel{tbl:diff_eval}
 \newlabel{tbl:full_eval}
 \newlabel{tbl:par_tune_comb}
 \newlabel{tbl:par_tune_content}

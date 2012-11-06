@@ -322,8 +322,21 @@ The SVR regression method could be used to predict revisitation rates initially,
 since they work better on shorter threads with $|P| < 50$. When the thread grows 
 sufficiently, the SGD method could then be used.
 
-This has several benefits. The SVR method requires the entire dataset to be 
-present in memory during training, and a new model has to be trained every time 
-modifications need to be made.  Using the SGD method, the weight vector could be 
-loaded into memory when a new observation is made, the weights updated 
-accordingly.
+This has several benefits.
+%The SVR method requires the entire dataset to be present in memory during 
+%training, and a new model has to be trained every time modifications need to be 
+%made.
+Using the SGD method, the weight vector could be loaded into memory when a new 
+observation is made, the weights updated accordingly. In this way, all that 
+needs to be persisted would be the set of weights for every thread.
+
+In this chapter, we have seen that the methods that we propose perform 
+significantly better the baseline, and we have also performed a more 
+fine-grained analysis based on the thread length, and found that the 
+\texttt{SGD} method performs slightly better than the other offline learning 
+methods in longer threads.
+
+We must, however, note that the experiment results are based only on one 
+dataset. The results found here may not be general enough to be applied for all 
+forums. Also, \texttt{SGD} method is notoriously slow to run, which may be a 
+problem for large feature vectors.
