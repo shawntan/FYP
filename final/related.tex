@@ -30,14 +30,13 @@ mainly on timeliness in this project, as we believe that timely updates of
 active threads are more important than complete archival of all threads in the 
 forum site.
 
-Many such works have used the Poisson distribution to model page updates.  
-% Min: why?  Why is it a good fit for the model?
-This is because the Poisson process is often used to model a sequence of events 
-that happen independently, with an average rate, over time.  
-\outcite{Coffman1997} analysed the theoretical aspects of doing this, as well as 
-formalised the problem. Their work showed that if the page change process is 
-governed by a Poisson process with a rate of $\mu$, then accessing the page at 
-intervals proportional to $\mu$ is optimal.
+Many such works have used the Poisson distribution to model page updates.  This 
+is because the Poisson process is often used to model a sequence of events that 
+happen independently, with an average rate, over time.  \outcite{Coffman1997} 
+analysed the theoretical aspects of doing this, as well as formalised the 
+problem. Their work showed that if the page change process is governed by a 
+Poisson process with a rate of $\mu$, then accessing the page at intervals 
+proportional to $\mu$ is optimal.
 
 Cho and Garcia-Molina trace the change history of 720,000 web pages collected 
 over four months, and showed empirically that the Poisson process model closely 
@@ -89,12 +88,6 @@ chaining.  They proposed a method to link posts using the tokens in the posts
 called $Chainer_{SV}$. While they analyse the contents of individual posts, the 
 paper does not make any prediction with regards to newer posts.
 
-% The methods used to produce a numeric similarities between posts may be used 
-% as a feature to describe a thread in its current state,  Min: this isn't 
-% clear.  You haven't even described what your current model is, so to say it's 
-% non-trivial doesn't seem justified.
-% Jesse: agree with Min
-
 There has also been some work done recently in predicting events in social 
 media, and in particular, tweets.  \outcite{Wang} dealt with predicting the 
 retweetability of tweets using content. They applied two levels of 
@@ -135,17 +128,19 @@ repeatedly crawls the site at a frequent rate would do very well.
 Broadening our search for more relevant evaluation metrics that take such
 wasted bandwidth into account, we turn to related work in the evaluation of
 segmentation algorithms.  In \outcite{Georgescul2009}, the authors propose a
-new scheme for evaluating segmentation algorithms, $Pr_{error}$. 
-% Min: you need to describe how this measure can be applied to your scenario.
-This metric is the weighted sum of two 
-probability counts $Pr_{fa}$ which is the probability that a false alarm 
-segmentation is made, and $Pr_{miss}$ which is the probability that a 
-segmentation is not made when there should be one. Unfortunately for our 
-purposes, the metrics are calculated using the number of ground truths and 
-segmentations given a window. As such, it does not account for the ``distance" 
-between the ground truths and the segmentation. It also does not allow for the 
-predictions to appear after the ground truths, all requirements needed for a 
-metric to evaluate timeliness of a model.
+new scheme for evaluating segmentation algorithms, $Pr_{error}$. This metric is 
+the weighted sum of two probability counts $Pr_{fa}$ which is the probability 
+that a false alarm segmentation is made, and $Pr_{miss}$ which is the 
+probability that a segmentation is not made when there should be one.  
+Unfortunately for our purposes, the metrics are calculated using the number of 
+ground truths and segmentations given a window. As such, it does not account for 
+the ``distance" between the ground truths and the segmentation. It also does not 
+allow for the predictions to appear after the ground truths, all requirements 
+needed for a metric to evaluate timeliness of a model.
+
+The metric proposed here, do not penalise segmentations that come before the 
+ground truths. However, we build on similar ideas to create a metric for 
+evaluating our methods (See Chapter 4).
 
 \section{Conclusion}
 % Jesse: this chapter feels a little lacking. What are the main arguments that

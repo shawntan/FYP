@@ -49,11 +49,11 @@ frequencies during the weekends, and its highest peak on Thursdays.
 The first 75\% of the thread was used as training data, while the remaining 25\% 
 was used as test data. This setup is used in both the tuning of parameters and 
 for the full evaluation of the entire dataset.
-\begin{figure}
-	\input{diagrams/exp_setup}
-	\caption{Our experiment setup}
-	\label{fig:exp_setup}
-\end{figure}
+%\begin{figure}
+%	\input{diagrams/exp_setup}
+%	\caption{Our experiment setup}
+%	\label{fig:exp_setup}
+%\end{figure}
 
 \subsection{Parameter Tuning}
 Before we begin performing experiments on the full dataset, we first tuned the 
@@ -124,7 +124,7 @@ that, again, $w=15$ results in the best $T$-score.
 \hline
 & $T$-score			   &	Visit/Post & 	$\prerror$\\
 \hline
-	\input{tables/dt_vec_features}
+	\input{tables/word_vec_features}
 \hline
 \end{tabular}
 \end{center}
@@ -263,9 +263,9 @@ $\prerror$. We only perform the statistical significance test on $\prerror$.
 \end{table}
 
 We can observe from Table \label{tbl:diff_eval} that first two regression 
-methods using SVR perform significantly better than the baseline, while our SGD 
-method has a $p$-value of less than 10\%. However, do the models perform 
-differently for different thread lengths?
+methods using SVR perform significantly better than the baseline, while 
+\texttt{SGD} method has a $p$-value of less than 10\%. However, do the models 
+perform differently for different thread lengths?
 
 \subsubsection{Different thread lengths}
 We divide our evaluated threads into 5 different subsets: $0 \leq |P| < 50$,
@@ -318,15 +318,15 @@ of posts must be made before the model can make good enough predictions.
 Based on our findings, we can make some suggestions as to how an incremental 
 crawler could use these techniques to predict when to revisit a site.
 
-The SVR regression method could be used to predict revisitation rates initially, 
-since they work better on shorter threads with $|P| < 50$. When the thread grows 
-sufficiently, the SGD method could then be used.
+\texttt{SVR} could be used to predict revisitation rates initially, since they 
+work better on shorter threads with $|P| < 50$. When the thread grows 
+sufficiently, \texttt{SGD} could then be used.
 
 This has several benefits.
 %The SVR method requires the entire dataset to be present in memory during 
 %training, and a new model has to be trained every time modifications need to be 
 %made.
-Using the SGD method, the weight vector could be loaded into memory when a new 
+Using \texttt{SGD}, the weight vector could be loaded into memory when a new 
 observation is made, the weights updated accordingly. In this way, all that 
 needs to be persisted would be the set of weights for every thread.
 

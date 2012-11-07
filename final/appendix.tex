@@ -1,7 +1,13 @@
 \section{Introduction}
-This report details what has been completed since the proposal of the project.
-The hope is that by modeling the topics, we will be able to infer something 
-about the time which the post will arrive.
+In this project, we plan to use topic modelling to predict the arrival times of 
+new posts.
+
+Using Latent Dirichlet Allocation, we want to find a set of topics with 
+different time interval distributions. These topics also have a probability from 
+transitioning to other topics as the thread continues. What we want to do is, 
+based on the current post content, to be able to get a distribution of which 
+state/topic the thread is currently in, and using the time interval 
+distribution, predict the arrival time of the next post
 
 We shall call the time differences between posts $\dt$. For the rest of this 
 report, $\W$ represents a document, in particular, the collection of words that 

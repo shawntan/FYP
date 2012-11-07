@@ -39,7 +39,7 @@ normalised, and then combined to form our final $\prerror$ metric.
 \begin{figure}
 	\begin{center}
 	\input{diagrams/t_score_diag}
-	\caption{An example of a series of events used in our evaluation.}
+	\caption{Demonstrating how $T$-score is measured.}
 	\end{center}
 \end{figure}
 
@@ -79,7 +79,7 @@ get a value $T_{\max}$ and $P_{\text{miss}}$ such that
 		\sum_\post (\max_{\post'}t(\post') - t(\post))}
 \end{align*}
 
-
+\pagebreak
 An example can be viewed in Figure \ref{fig:norm_t_score}. Assuming that there 
 are no posts before $\post_1$ here, we simply take the usual $T$-score value to 
 get $T_\text{max}$
@@ -98,11 +98,11 @@ time frames in which a visit can occur. Since for this dataset, our time
 granularity is in terms of minutes, we shall use minutes as our discrete time 
 frame.
 
-With this simplified version of our series of events, we can then imagine a 
+\pagebreak
+Using this simplified version of our series of events, we can then imagine a 
 worst-case performing revisit policy that visits at every single time frame.  
 Here, we assume all quantities are measured in terms of minutes. This gives us 
 the following expression
-% Jesse: dangling paragraph for "us"
 \[
 	\P_{\text{FA}} = \frac{|V|}{(\max_{\post}t(\post)) - |P|}
 \]

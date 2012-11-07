@@ -34,6 +34,13 @@ Coffman, E., \& Liu, Z. (1997).
 \newblock {Optimal robot scheduling for web search engines}.
 \newblock {\em Sophia}, , 1997.
 
+\bibitem[\protect\citename{Drucker}{Burges, Kaufman,
+  Smola}{Vapnik}{DruckerETAL}{1997}{drucker1997}]{drucker1997}
+Drucker, H., Burges, C., Kaufman, L., Smola, A., \& Vapnik, V. (1997).
+\newblock Support vector regression machines.
+\newblock {\em Advances in neural information processing systems}, , 1997,
+  155--161.
+
 \bibitem[\protect\citename{Georgescul}{Clark}{Armstrong}{GeorgesculETAL}{2009}{Georgescul2009}]{Georgescul2009}
 Georgescul, M., Clark, A., \& Armstrong, S. (2009).
 \newblock {An analysis of quantitative aspects in the evaluation of thematic

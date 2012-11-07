@@ -337,15 +337,13 @@ INPUT /usr/share/texmf-dist/fonts/tfm/public/cm/cmr10.tfm
 INPUT diagrams/daysofweek.png
 INPUT ./diagrams/daysofweek.png
 INPUT ./diagrams/daysofweek.png
-INPUT diagrams/exp_setup
-INPUT diagrams/exp_setup
 INPUT /usr/share/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
 INPUT tables/vocab_exp
 INPUT tables/vocab_exp
 INPUT tables/dt_vec_features
 INPUT tables/dt_vec_features
-INPUT tables/dt_vec_features
-INPUT tables/dt_vec_features
+INPUT tables/word_vec_features
+INPUT tables/word_vec_features
 INPUT tables/comb_vec_features
 INPUT tables/comb_vec_features
 INPUT tables/alpha_decay

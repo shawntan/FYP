@@ -1,6 +1,5 @@
 \newlabel{fig:dt_dist}
 \newlabel{fig:event_series}
-\newlabel{fig:exp_setup}
 \newlabel{fig:hr_freq}
 \newlabel{fig:len_dist}
 \newlabel{fig:norm_fa_score}
