@@ -42,7 +42,6 @@ $K$			&	The $K$ best features selected from the vocabulary.\\
 \end{table}
 
 We now describe the methods we explored to approximate $f$.
-
 \section{Baselines}
 A simple way of estimating the revisit rate is to use the average time 
 difference given past observed posts. In our review of the related work, we 
@@ -78,7 +77,7 @@ the concept of a window of $w=2$.
 % Min: why are you discussing content here?  The baselines don't use content.  Please fix.
 % Min: you're introducing windows for the first time here, so perhaps you need to first explain what windows are.
 In terms of using content for prediction, windows also makes intuitive sense: 
-Forum users view content as paginated posts, so whether or not they make a reply 
+forum users view content as paginated posts, so whether or not they make a reply 
 depends on the content they view when viewing the thread.  
 
 
@@ -89,7 +88,7 @@ Previous work used linear regression on a set of features extracted from forums
 was used as a scoring function rather than a predictive function. We implemented 
 their model, but the results proved to perform worse than the baselines.
 
-Informed by the past work, we use some features from the previous work: Window 
+Informed by the past work, we use some features from the previous work: window 
 posts time differences and time context features (bit-vector representations of 
 the day of the week and hour of the day).
 
@@ -97,12 +96,12 @@ the day of the week and hour of the day).
 % and its accompanying features properly as well as the (machine) learning 
 % method.  Right now, it's still a mess of a narrative, not properly organized 
 % into different sections.
-However, this time instead of linear regression, we used a regression method 
-known as Support Vector Regression (SVR). SVR is an extension of using Support 
-Vector Machines for classification. Since support vector optimisation does not 
-depend on the dimension of the input space, SVR will have advantages in high 
-dimension feature vectors \cite{drucker1997}. We are also using a radial basis 
-function kernel.
+However, instead of linear regression, we used a regression method known as 
+Support Vector Regression (SVR). SVR is an extension of using Support Vector 
+Machines for classification. Since support vector optimisation does not depend 
+on the dimension of the input space, SVR will have advantages in high dimension 
+feature vectors \cite{drucker1997}. We are also using a radial basis function 
+kernel.
 
 The main focus of study in this report was to see if content helps with 
 predicting thread updates would produce an improvement. In this project we used 
@@ -118,7 +117,7 @@ technique for feature selection, and selected only the $K$ best tokens for
 consideration. Table \ref{table:vocab_exp} shows the results of this experiment.  
 The methods in this section use features extracted from the current window. A 
 model is then trained using these extracted features in order to make a 
-prediction. We take a look now at a two other novel methods that we developed.
+prediction. We take a look now at two other novel methods that we developed.
 
 \section{Discounted sum of previous instances (\texttt{DEC})}
  
@@ -145,9 +144,9 @@ look at the results for this method in the next chapter.
 Up till now, we have looked at methods that treat the model as static -- once 
 trained, the model never gets updated during run time. However, this is 
 unrealistic due to the fact that over time, different words are popular as a 
-direct result of different topics in the real world being popular. In this case, 
-these fluctuations may be due to new updates to firmware being released or newer 
-models of a product.
+direct result of different topics in the real world being popular. In our case 
+of an Audio-Visual equipment forum, these fluctuations may be due to new updates 
+to firmware being released or newer models of a product.
 
 \section{Stochastic Gradient Descent (\texttt{SGD})}
 To address this problem, we investigate the use of a stochastic gradient descent 

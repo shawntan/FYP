@@ -40,11 +40,11 @@ repeatedly (polling), downloading pages at a frequent rate. Since web crawling
 is largely IO-bound, a large portion of the time spent crawling would be spent 
 waiting for the server to supply a response to the request issued by the 
 crawler. However, sites with a large number of pages (like popular forum sites), 
-makes this infeasible in practice. On top of the usual requests the server may 
+make this infeasible in practice. On top of the usual requests the server may 
 have, it then has to deal with repeated requests from such a crawler. Most sites 
-do not mind some additional bandwidth, but if it gets excessive, it may be 
-construed as a Denial-of-Service attack. These sites may then deny any further 
-requests from the crawler.
+do not mind some additional bandwidth usage, but if it gets excessive, the 
+requests may be construed as a Denial-of-Service attack. These sites may then 
+deny any further requests from the crawler.
 
 A simple method to reduce the amount of polling done is to use the
 average time differences between all of the previous page updates to estimate 
@@ -84,7 +84,7 @@ last post and a new one.
 Let us define all such thread-based discussion styled sites as forums. Ideally, 
 an incremental crawler of such user-generated content should be able to maintain 
 a fresh and complete database of content of the forum that it is monitoring.  
-However, doing so with the previously mentioned naive method would, incur 
+However, doing so with the previously mentioned naive method would incur 
 excessive costs when downloading un-updated pages, and raise the possibility of 
 the web master blocking the requester's IP address.
 
@@ -111,7 +111,7 @@ that balances between the model's timeliness and bandwidth consumption.
 % that these are your contributions, especially if they are novel. And if they
 % are, you should mention that they're novel whenever appropriate.
 
-In Chapter 2, we explore the related work dealing with refresh policiesand 
+In Chapter 2, we explore the related work dealing with refresh policies and 
 metrics to measure the performance of such algorithms. In Chapter 3, we discuss 
 the methods that we have created with to tackle the problem, while Chapter 4 
 describes the metrics we propose for measuring the performance of these 

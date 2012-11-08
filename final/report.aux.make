@@ -59,7 +59,7 @@
 \@writefile{toc}{\contentsline {section}{\numberline {3.2}Performing regression on windows (\texttt  {SVR})}{12}}
 \@writefile{toc}{\contentsline {section}{\numberline {3.3}Discounted sum of previous instances (\texttt  {DEC})}{13}}
 \@writefile{toc}{\contentsline {section}{\numberline {3.4}Stochastic Gradient Descent (\texttt  {SGD})}{14}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}$T$-score, and the Visit/Post ratio}{17}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}$T$-score and the Visit/Post ratio}{18}}
 \@writefile{toc}{\contentsline {section}{\numberline {4.2}Normalising the $T$-score and Visit/Post ratio}{19}}
 \@writefile{toc}{\contentsline {section}{\numberline {5.1}Experiment setup}{24}}
 \@writefile{toc}{\contentsline {section}{\numberline {5.2}Experiments}{28}}

@@ -14,14 +14,14 @@ predict the posting behaviour of users to such sites.
 While this primary goal has many challenges, in this report, we have chosen to 
 address challenges specific to forum threads. We want to predict, given content 
 of the current thread, the time at which a user would post to the thread. We 
-also need to ensure that bandwidth consumption is not excessive in the process 
-maintaining the freshness of the crawled data.
+also need to ensure that bandwidth consumption is not excessive while in the 
+process of maintaining the freshness of the crawled data.
 
-We evaluate three different machine learning approaches: Two offline algorithms, 
-one that only takes into account only the latest window, and another that 
-accounts for past windows, with decreasing weightage. And an online algorithm, 
-that uses gradient descent to update its weights every time a new post is 
-observed.
+We have evaluated three different machine learning approaches: Two offline 
+algorithms, one that only takes into account only the latest window, and another 
+that accounts for past windows, with decreasing weightage. And an online 
+algorithm, that uses gradient descent to update its weights every time a new 
+post is observed.
 
 Overall, our evaluation shows that our methods work better than the baseline, 
 which was to revisit the thread at the average time interval. These are 
@@ -42,8 +42,8 @@ crawler.
 
 \section{Future Work}
 With the proposed methods still having some shortcomings when predicting new 
-posts, or providing insight into what causes post arrival times, it leaves much 
-room for future work to be done.
+posts, it leaves some room for future work to be done. The following are some 
+avenues of future research that could be explored.
 
 \subsection{Topic modelling}
 One approach we initially considered involved using topic modelling did not pan 

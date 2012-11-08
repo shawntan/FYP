@@ -1,9 +1,9 @@
 \chapter{Evaluation}
 
 In our project, the dataset we used was crawled from 
-\url{http://www.avsforum.com/f/}. The forum dealt mainly with Audio-Visual 
-equipment, with discussions mainly about technical details, offers and people 
-showing off their DIY projects.
+\url{http://www.avsforum.com/f/}. The forum deals mainly with Audio-Visual 
+equipment, with discussions about technical details, offers and people showing 
+off their DIY projects.
 
 The forum was chosen from the list which \outcite{Yang2009} provided in their 
 paper. The forum users use mainly proper English, which made removing stopwords 
@@ -59,7 +59,7 @@ for the full evaluation of the entire dataset.
 Before we begin performing experiments on the full dataset, we first tuned the 
 machine learning algorithms using a sample of the forum threads. In the 
 following experiments, the threads chosen from our extracted dataset are those 
-with a 100 to 1000 posts. This amounted to 97 threads. In each of these 
+with a 100 to 200 posts. This amounted to 97 threads. In each of these 
 experiments, we run the algorithm with different parameters, and use the optimal 
 one in our final evaluation. 
 
@@ -319,8 +319,9 @@ Based on our findings, we can make some suggestions as to how an incremental
 crawler could use these techniques to predict when to revisit a site.
 
 \texttt{SVR} could be used to predict revisitation rates initially, since they 
-work better on shorter threads with $|P| < 50$. When the thread grows 
-sufficiently, \texttt{SGD} could then be used.
+work better on shorter threads with $|P| < 100$. This is by observing the 
+$\prerror$ scores for the different bins. When the thread grows sufficiently, 
+\texttt{SGD} could then be used.
 
 This has several benefits.
 %The SVR method requires the entire dataset to be present in memory during 
@@ -330,13 +331,12 @@ Using \texttt{SGD}, the weight vector could be loaded into memory when a new
 observation is made, the weights updated accordingly. In this way, all that 
 needs to be persisted would be the set of weights for every thread.
 
-In this chapter, we have seen that the methods that we propose perform 
-significantly better the baseline, and we have also performed a more 
-fine-grained analysis based on the thread length, and found that the 
-\texttt{SGD} method performs slightly better than the other offline learning 
-methods in longer threads.
+We have seen that the methods that we propose perform significantly better the 
+baseline, and we have also performed a more fine-grained analysis based on the 
+thread length, and found that the \texttt{SGD} method performs slightly better 
+than the other offline learning methods in longer threads.
 
-We must, however, note that the experiment results are based only on one 
-dataset. The results found here may not be general enough to be applied for all 
-forums. Also, \texttt{SGD} method is notoriously slow to run, which may be a 
+We must, however, note that the experiment results are based on only one 
+dataset.  The results found here may not be general enough to be applied for all 
+forums.  Also, \texttt{SGD} method is notoriously slow to run, which may be a 
 problem for large feature vectors.
