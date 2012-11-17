@@ -45,7 +45,7 @@ version		:= 2.2.1-alpha9
 #
 # This can be pdflatex or latex - you can change this by adding the following line to your Makefile.ini:
 # BUILD_STRATEGY := latex
-BUILD_STRATEGY		?= pdflatex
+BUILD_STRATEGY		?= xelatex
 # This can be used to pass extra options to latex.
 LATEX_OPTS		?=
 #
